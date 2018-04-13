@@ -5,12 +5,14 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { LayoutComponent } from './layout/layout.component';
 import { ProductsComponent } from './products/products.component';
 import { ClarityModule } from '@clr/angular';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     AdminRoutingModule,
-    ClarityModule
+    ClarityModule,
+    FormsModule
   ],
   declarations: [LayoutComponent, ProductsComponent]
 })
