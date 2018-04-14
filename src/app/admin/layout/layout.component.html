@@ -1,5 +1,5 @@
 <clr-main-container>
-  <clr-header class="header-6">
+  <clr-header class="header-4">
     <div class="branding" style="padding-left: 0px;">
       <a class="nav-link">
         <img src="./assets/images/logo-mmis.png" style="width: 100px; height: 70px; padding-right: 5px;" alt="logo">
@@ -48,10 +48,10 @@
     </div>
 
     <clr-vertical-nav class="is-collapsed" [clrVerticalNavCollapsible]="collapsible" [(clrVerticalNavCollapsed)]="collapse">
-      <a clrVerticalNavLink routerLink="/admin/borrow-notes" title="บันทึกช่วยจำการยืมยา" routerLinkActive="active">
+      <!-- <a clrVerticalNavLink routerLink="/admin/borrow-notes" title="บันทึกช่วยจำการยืมยา" routerLinkActive="active">
         <clr-icon clrVerticalNavIcon shape="note" class="has-badge is-solid"></clr-icon>
         บันทึกช่วยจำการยืมยา
-      </a>
+      </a> -->
       <a clrVerticalNavLink routerLink="/admin/transfer-dashboard" title="เวชภัณฑ์ที่ถึงจุดเบิก" routerLinkActive="active">
         <clr-icon clrVerticalNavIcon shape="alarm-clock" class="has-badge is-solid"></clr-icon>
         เวชภัณฑ์ที่ถึงจุดเบิก
@@ -68,10 +68,10 @@
         <clr-icon clrVerticalNavIcon shape="scissors"></clr-icon>
         ตัดจ่ายสินค้า
       </a>
-      <a clrVerticalNavLink routerLink="/admin/transfer" title="โอนสินค้า" routerLinkActive="active">
+      <!-- <a clrVerticalNavLink routerLink="/admin/transfer" title="โอนสินค้า" routerLinkActive="active">
         <clr-icon clrVerticalNavIcon shape="two-way-arrows"></clr-icon>
         โอนสินค้า
-      </a>
+      </a> -->
       <a clrVerticalNavLink routerLink="/admin/requisition" title="เบิกสินค้า" routerLinkActive="active">
         <clr-icon clrVerticalNavIcon shape="tools"></clr-icon>
         เบิกสินค้า
@@ -80,18 +80,18 @@
         <clr-icon clrVerticalNavIcon shape="alarm-clock"></clr-icon>
         แจ้งเตือนยาหมดอายุ
       </a>
-      <a clrVerticalNavLink routerLink="/admin/period" title="ปิดรอบบัญชี" routerLinkActive="active">
+      <!-- <a clrVerticalNavLink routerLink="/admin/period" title="ปิดรอบบัญชี" routerLinkActive="active">
         <clr-icon clrVerticalNavIcon shape="shield-check"></clr-icon>
         ปิดรอบบัญชี
-      </a>
+      </a> -->
       <!-- <a clrVerticalNavLink routerLink="/admin/counting" title="นับสินค้าคงเหลือ" routerLinkActive="active">
         <clr-icon clrVerticalNavIcon shape="clipboard"></clr-icon>
         นับสินค้าคงเหลือ
       </a> -->
-      <a clrVerticalNavLink routerLink="/admin/his-issue-transaction" title="ตัดจ่ายจาก HIS" routerLinkActive="active">
+      <!-- <a clrVerticalNavLink routerLink="/admin/his-issue-transaction" title="ตัดจ่ายจาก HIS" routerLinkActive="active">
         <clr-icon clrVerticalNavIcon shape="sync"></clr-icon>
         ตัดจ่ายจาก HIS
-      </a>
+      </a> -->
       <!-- <a clrVerticalNavLink routerLink="/admin/abc-ven" title="กำหนดรายการ ABC/VEN" routerLinkActive="active">
         <clr-icon clrVerticalNavIcon shape="organization"></clr-icon>
         กำหนดรายการ ABC/VEN
@@ -167,10 +167,10 @@
           ระบบรายงาน
         </a>
         <clr-vertical-nav-group-children *clrIfExpanded="false">
-          <a clrVerticalNavLink routerLink="/admin/reports/stock-card" routerLinkActive="active">
+          <!-- <a clrVerticalNavLink routerLink="/admin/reports/stock-card" routerLinkActive="active">
             <clr-icon shape="printer"></clr-icon>
             รายงานคุมคลังเวชภัณฑ์
-          </a>
+          </a> -->
           <a clrVerticalNavLink routerLink="/admin/reports/product-remain" routerLinkActive="active">
             <clr-icon shape="printer"></clr-icon>
             สินค้าคงเหลือ
@@ -187,26 +187,26 @@
             <clr-icon shape="printer"></clr-icon>
             รายงานการจัดซื้อ
           </a>
-          <a clrVerticalNavLink routerLink="/admin/reports/product-receive" routerLinkActive="active">
+          <!-- <a clrVerticalNavLink routerLink="/admin/reports/product-receive" routerLinkActive="active">
             <clr-icon shape="printer"></clr-icon>
             รายงานเวชภัณฑ์ที่รับจากการสั่งซื้อ
-          </a>
+          </a> -->
           <!-- <a clrVerticalNavLink routerLink="/admin/reports/receives" routerLinkActive="active">
             <clr-icon shape="printer"></clr-icon>
             ประวัติการตรวจรับสินค้า
           </a> -->
-          <a clrVerticalNavLink routerLink="/admin/reports/value-products" routerLinkActive="active">
+          <!-- <a clrVerticalNavLink routerLink="/admin/reports/value-products" routerLinkActive="active">
             <clr-icon shape="printer"></clr-icon>
             รายงานมูลค่ายาและเวชภัณฑ์คงคลัง
-          </a>
-          <a clrVerticalNavLink routerLink="/admin/reports/inventory-status" routerLinkActive="active">
+          </a> -->
+          <!-- <a clrVerticalNavLink routerLink="/admin/reports/inventory-status" routerLinkActive="active">
             <clr-icon shape="printer"></clr-icon>
             รายงานสถานะเวชภัณฑ์คงคลัง
-          </a>
-          <a clrVerticalNavLink routerLink="/admin/reports/product-summary" routerLinkActive="active">
+          </a> -->
+          <!-- <a clrVerticalNavLink routerLink="/admin/reports/product-summary" routerLinkActive="active">
             <clr-icon shape="printer"></clr-icon>
             สรุปงานคลังเวชภัณฑ์
-          </a>
+          </a> -->
         </clr-vertical-nav-group-children>
       </clr-vertical-nav-group>
       <!-- <a clrVerticalNavLink routerLinkActive="active" routerLink="./credit">

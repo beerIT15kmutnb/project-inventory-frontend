@@ -11,6 +11,7 @@ import { AlertService } from './alert.service';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdminModule } from './admin/admin.module';
+import { HelperModule } from './helper/helper.module';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { AdminModule } from './admin/admin.module';
     BrowserModule,
     LoginModule,
     AdminModule,
+    HelperModule,
     FormsModule,
     ClarityModule.forRoot(),
     BrowserAnimationsModule,

@@ -7,12 +7,14 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { FormsModule } from '@angular/forms';
 import { ClarityModule } from '@clr/angular';
 import { LoginService } from './login.service';
+import { HelperModule } from '../helper/helper.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     ClarityModule,
+    HelperModule,
     LoginRoutingModule
   ],
   declarations: [LoginPageComponent],

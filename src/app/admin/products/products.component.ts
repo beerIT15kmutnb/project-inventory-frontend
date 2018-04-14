@@ -22,7 +22,7 @@ export class ProductsComponent implements OnInit {
   currentPage = 1;
   jwtHelper: JwtHelper = new JwtHelper();
   // @ViewChild('htmlPreview') public htmlPreview: any;
-  // @ViewChild('modalLoading') public modalLoading: any;
+  @ViewChild('modalLoading') public modalLoading: any;
   // @ViewChild('pagination') pagination: any;
   constructor(
     private alertService: AlertService,

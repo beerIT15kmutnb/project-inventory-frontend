@@ -64,8 +64,8 @@
   <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
   <clr-dg-row *ngFor="let p of products">
     <!-- <wm-product-stock-remain *clrIfExpanded ngProjectAs="clr-dg-row-detail" [productId]="p.product_id"></wm-product-stock-remain> -->
-    <!-- <clr-dg-cell></clr-dg-cell>
-    <clr-dg-cell></clr-dg-cell> -->
+    <clr-dg-cell></clr-dg-cell>
+    <clr-dg-cell></clr-dg-cell>
     <clr-dg-cell>
       <span class="p4">{{p.generic_working_code}} - {{p.generic_name}}</span>
       <br>
@@ -89,5 +89,5 @@
   </clr-dg-footer>
 </clr-datagrid>
 
-<!-- <wm-html-preview #htmlPreview></wm-html-preview>
-<wm-loading-modal #modalLoading></wm-loading-modal> -->
+<!-- <wm-html-preview #htmlPreview></wm-html-preview> -->
+<app-loading-modal #modalLoading></app-loading-modal>
