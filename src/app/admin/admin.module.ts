@@ -28,8 +28,8 @@ import { TransferDashboardComponent } from './transfer-dashboard/transfer-dashbo
     LayoutComponent, 
     ProductsComponent, 
     ReceiveComponent, 
-    ReceivePurchaseComponent, TransferDashboardComponent,
-    
+    ReceivePurchaseComponent,
+    TransferDashboardComponent
   ],
   providers:[
     ToThaiDatePipe,

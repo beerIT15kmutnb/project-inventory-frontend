@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
-  selector: 'wm-html-preview',
+  selector: 'app-html-preview',
   templateUrl: './html-preview.component.html',
   styleUrls: ['./html-preview.component.css']
 })
