@@ -7,8 +7,8 @@ import { ConvertTimestampPipe } from './convert-timestamp.pipe';
 import { RoundPipe } from './round.pipe';
 
 import { HtmlPreviewComponent } from './html-preview/html-preview.component';
-import { NumberWithoutDotDirective } from './number-without-dot.directive';
-import { ToEngDatePipe } from './to-eng-date.pipe';
+import { NumberWithoutDotDirective } from '../helper/number-without-dot.directive';
+import { ToEngDatePipe } from '../helper/to-eng-date.pipe';
 import { MonthDateperiodPipe } from './month-dateperiod.pipe';
 import { YearThaiPipe } from './year-thai.pipe';
 import { ExpiredDatePipe } from './expired-date.pipe';

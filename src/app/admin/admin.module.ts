@@ -13,6 +13,7 @@ import { MyDatePickerTHModule } from 'mydatepicker-th';
 import { ReceivePurchaseComponent } from './receive-purchase/receive-purchase.component';
 import { ToThaiDatePipe } from '../helper/to-thai-date.pipe';
 import { TransferDashboardComponent } from './transfer-dashboard/transfer-dashboard.component';
+import { IssuesComponent } from './issues/issues.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -29,7 +30,8 @@ import { TransferDashboardComponent } from './transfer-dashboard/transfer-dashbo
     ProductsComponent, 
     ReceiveComponent, 
     ReceivePurchaseComponent,
-    TransferDashboardComponent
+    TransferDashboardComponent,
+    IssuesComponent
   ],
   providers:[
     ToThaiDatePipe,
