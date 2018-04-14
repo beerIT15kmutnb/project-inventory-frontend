@@ -14,6 +14,7 @@ import { ReceivePurchaseComponent } from './receive-purchase/receive-purchase.co
 import { ToThaiDatePipe } from '../helper/to-thai-date.pipe';
 import { TransferDashboardComponent } from './transfer-dashboard/transfer-dashboard.component';
 import { IssuesComponent } from './issues/issues.component';
+import { RequisitionComponent } from './requisition/requisition.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -31,7 +32,8 @@ import { IssuesComponent } from './issues/issues.component';
     ReceiveComponent, 
     ReceivePurchaseComponent,
     TransferDashboardComponent,
-    IssuesComponent
+    IssuesComponent,
+    RequisitionComponent
   ],
   providers:[
     ToThaiDatePipe,

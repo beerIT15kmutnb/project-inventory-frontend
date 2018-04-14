@@ -6,6 +6,7 @@ import { ReceiveComponent } from './receive/receive.component';
 import { ReceivePurchaseComponent } from './receive-purchase/receive-purchase.component';
 import { TransferDashboardComponent } from './transfer-dashboard/transfer-dashboard.component';
 import { IssuesComponent } from './issues/issues.component';
+import { RequisitionComponent } from './requisition/requisition.component';
 
 const routes: Routes = [
   {
@@ -18,7 +19,8 @@ const routes: Routes = [
       { path: 'receives', component: ReceiveComponent },
       { path: 'receives/purchase', component: ReceivePurchaseComponent },
       { path: 'transfer-dashboard', component: TransferDashboardComponent },
-      { path: 'issues', component: IssuesComponent}
+      { path: 'issues', component: IssuesComponent },
+      { path: 'requisition', component: RequisitionComponent }
     ]
   }
 ];
