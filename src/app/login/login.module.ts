@@ -18,9 +18,6 @@ import { HelperModule } from '../helper/helper.module';
     LoginRoutingModule
   ],
   declarations: [LoginPageComponent],
-  providers: [
-    LoginService,
-    { provide: LocationStrategy, useClass: HashLocationStrategy }
-  ]
+  providers: [LoginService]
 })
 export class LoginModule { }

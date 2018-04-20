@@ -1,67 +1,27 @@
-import { Injectable } from '@angular/core';
-
-import { default as swal, SweetAlertType, SweetAlertOptions } from 'sweetalert2';
+import { Injectable, Inject } from '@angular/core';
+import { Http } from '@angular/http';
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class LoginService {
+  constructor( 
+    @Inject('LOGIN_URL') private url: string,
+     private http: Http
+    ) { }
 
-  constructor() { }
-
-  error(text: any = 'เกิดข้อผิดพลาด', title: any = '') {
-
-    const option: SweetAlertOptions = {
-      title: title,
-      text: text,
-      type: 'error',
-      confirmButtonText: 'ตกลง'
-    };
-    swal(option);
-
+  doLogin(username: string, password: string) {
+    return new Promise((resolve, reject) => {
+      this.http.post(`${this.url}/login`, { username: username, password: password})
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
   }
 
-  success(title = 'ดำเนินการเสร็จเรียบร้อย', text = '') {
-
-    const option: SweetAlertOptions = {
-      title: title,
-      text: text,
-      timer: 1000,
-      type: 'success',
-      confirmButtonText: 'ตกลง'
-    };
-    swal(option)
-      .then(
-      function () { },
-      // handling the promise rejection
-      function (dismiss) {
-        if (dismiss === 'timer') {}
-      }
-      )
-
-  }
-
-  serverError() {
-
-    const option: SweetAlertOptions = {
-      title: 'เกิดข้อผิดพลาด',
-      text: 'เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์',
-      type: 'error',
-      confirmButtonText: 'ตกลง'
-    };
-    swal(option);
-
-  }
-
-  confirm(text = 'คุณต้องการดำเนินการนี้ ใช่หรือไม่?', ) {
-    const option: SweetAlertOptions = {
-      title: '',
-      text: text,
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'ใช่, ดำเนินการ!',
-      cancelButtonText: 'ยกเลิก'
-    };
-    return swal(option);
+  async doLogin1(username: string, password: string) {
+    // return await this.http.post(`${this.url}/login`, { username: username, password: password });
   }
 }

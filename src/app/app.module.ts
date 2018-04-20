@@ -12,6 +12,8 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdminModule } from './admin/admin.module';
 import { HelperModule } from './helper/helper.module';
+import { environment } from '../environments/environment';
+import { HttpModule } from '@angular/http';
 
 
 @NgModule({
@@ -22,6 +24,7 @@ import { HelperModule } from './helper/helper.module';
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     LoginModule,
     AdminModule,
     HelperModule,
@@ -32,6 +35,10 @@ import { HelperModule } from './helper/helper.module';
   ],
   providers: [
     AlertService,
+    { provide: 'API_URL', useValue: environment.apiUrl },
+    { provide: 'DOC_URL', useValue: environment.docUrl },
+    { provide: 'HOME_URL', useValue: environment.homeUrl },
+    { provide: 'LOGIN_URL', useValue: environment.loginUrl },
     { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   bootstrap: [AppComponent]

@@ -14,7 +14,10 @@ export class PageNotFoundComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  goLogin() {
+    sessionStorage.removeItem('token');
+    this.router.navigate(['/']);
+  }
   goHome() {
     this.router.navigate(['/']);
   }

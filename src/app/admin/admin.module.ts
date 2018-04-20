@@ -15,6 +15,7 @@ import { ToThaiDatePipe } from '../helper/to-thai-date.pipe';
 import { TransferDashboardComponent } from './transfer-dashboard/transfer-dashboard.component';
 import { IssuesComponent } from './issues/issues.component';
 import { RequisitionComponent } from './requisition/requisition.component';
+import { AlertExpiredComponent } from './alert-expired/alert-expired.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -33,7 +34,8 @@ import { RequisitionComponent } from './requisition/requisition.component';
     ReceivePurchaseComponent,
     TransferDashboardComponent,
     IssuesComponent,
-    RequisitionComponent
+    RequisitionComponent,
+    AlertExpiredComponent
   ],
   providers:[
     ToThaiDatePipe,

@@ -21,15 +21,15 @@ export class ProductsComponent implements OnInit {
   query: any;
   currentPage = 1;
   jwtHelper: JwtHelper = new JwtHelper();
-  // @ViewChild('htmlPreview') public htmlPreview: any;
+  @ViewChild('htmlPreview') public htmlPreview: any;
   @ViewChild('modalLoading') public modalLoading: any;
   // @ViewChild('pagination') pagination: any;
   constructor(
     private alertService: AlertService,
     // private productService: ProductsService,
-    // @Inject('API_URL') private apiUrl: string,
+    @Inject('API_URL') private apiUrl: string,
   ) {
-    // this.token = sessionStorage.getItem('token');
+    this.token = sessionStorage.getItem('token');
     // const decoded = this.jwtHelper.decodeToken(this.token);
     // this.genericTypeIds = decoded.generic_type_id ? decoded.generic_type_id.split(',') : [];
   }

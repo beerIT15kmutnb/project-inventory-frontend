@@ -33,15 +33,15 @@ export class LayoutComponent implements OnInit {
 
   constructor(
     private router: Router,
-    // @Inject('HOME_URL') private homeUrl: string,
-    // @Inject('API_URL') private apiUrl: string,
+    @Inject('HOME_URL') private homeUrl: string,
+    @Inject('API_URL') private apiUrl: string,
     // @Inject('API_PORTAL_URL') private apiPortal: string
   ) {
-    // this.token = sessionStorage.getItem('token');
+    this.token = sessionStorage.getItem('token');
     // const token = sessionStorage.getItem('token');
     // const decodedToken = this.jwtHelper.decodeToken(token);
     // const accessRight = decodedToken.accessRight;
-    // // this.rights = accessRight.split(',');
+    // this.rights = accessRight.split(',');
   }
 
   logout() {
@@ -51,24 +51,24 @@ export class LayoutComponent implements OnInit {
   }
 
   goHome() {
-    // location.href = this.homeUrl;
+    location.href = this.homeUrl;
   }
 
   ngOnInit() {
-    // const decoded = this.jwtHelper.decodeToken(this.token);
-    // this.fullname = decoded.fullname;
-    // this.warehouseId = decoded.warehouseId;
+    const decoded = this.jwtHelper.decodeToken(this.token);
+    this.fullname = decoded.fullname;
+    this.warehouseId = decoded.warehouseId;
     // this.warehouseCode = decoded.warehouseCode;
-    // this.warehouseName = decoded.warehouseName;
+    this.warehouseName = decoded.warehouseName;
     // this.env = {
-    //   homeUrl: environment.homeUrl,
-    //   purchasingUrl: environment.purchasingUrl,
-    //   planningUrl: environment.planningUrl,
-    //   inventoryUrl: environment.inventoryUrl,
-    //   materialsUrl: environment.materialsUrl,
-    //   reportUrl: environment.reportUrl,
-    //   umUrl: environment.umUrl,
-    //   contractsUrl: environment.contractsUrl
+    //   homeUrl: environment.homeUrl
+      // purchasingUrl: environment.purchasingUrl,
+      // planningUrl: environment.planningUrl,
+      // inventoryUrl: environment.inventoryUrl,
+      // materialsUrl: environment.materialsUrl,
+      // reportUrl: environment.reportUrl,
+      // umUrl: environment.umUrl,
+      // contractsUrl: environment.contractsUrl
     // };
     // this.Purchasing = _.indexOf(this.rights, 'PO_ADMIN') === -1 ? false : true;
     // this.Planning = _.indexOf(this.rights, 'BM_ADMIN') === -1 ? false : true;
