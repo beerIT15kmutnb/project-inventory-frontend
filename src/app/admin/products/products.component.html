@@ -5,15 +5,17 @@
 <div class="progress loop" *ngIf="loading">
   <progress></progress>
 </div>
-<div class="row" style="padding-top: 25px;">
-  <div class="col-md-1">
-    <label for="">ค้นหา</label>
-  </div>
-  <div class="col-md-6">
-    <input type="text" (keyup)="search($event)" placeholder="พิมพ์แล้วกด Enter" name="query" style="width: 90%;" id="query" [(ngModel)]="query">
-    <!-- <input type="text"  placeholder="พิมพ์แล้วกด Enter" name="query" style="width: 90%;" id="query" > -->
-  </div>
-  <!-- <div class="col-md-2 push-md-6" style="text-align: right;">
+<div class="card">
+  <div class="card-block" style="padding: 0px 5px 5px 5px;">
+    <div class="row" style="padding-top: 5px;">
+      <div class="col-md-1" >
+        <label for="">ค้นหา</label>
+      </div>
+      <div class="col-md-6">
+        <input type="text" (keyup)="search($event)" placeholder="พิมพ์แล้วกด Enter" name="query" style="width: 90%;" id="query" [(ngModel)]="query">
+        <!-- <input type="text"  placeholder="พิมพ์แล้วกด Enter" name="query" style="width: 90%;" id="query" > -->
+      </div>
+      <!-- <div class="col-md-2 push-md-6" style="text-align: right;">
     <div class="select">
       <select [(ngModel)]="genericType" name="genericType" (change)="changeGenericType()">
         <option value="">ทั้งหมด</option>
@@ -21,6 +23,8 @@
       </select>
     </div>
   </div> -->
+    </div>
+  </div>
 </div>
 <clr-datagrid (clrDgRefresh)="refresh($event)">
   <clr-dg-column>

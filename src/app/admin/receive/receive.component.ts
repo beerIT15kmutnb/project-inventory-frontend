@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 
 // import { UploadingService } from './../../uploading.service';
-// import { ReceiveService } from '../receive.service';
+import { ReceiveService } from '../receive.service';
 import { AlertService } from '../../alert.service';
 import { IMyOptions } from 'mydatepicker-th';
 
@@ -92,74 +92,51 @@ export class ReceiveComponent implements OnInit {
   jwtHelper: JwtHelper = new JwtHelper();
 
   constructor(
-    // private receiveService: ReceiveService,
+    private receiveService: ReceiveService,
     private alertService: AlertService,
     private router: Router,
     // private accessCheck: AccessCheck,
     // @Inject('REV_PREFIX') private documentPrefix: string,
-    // @Inject('API_URL') private apiUrl: string
+    @Inject('API_URL') private apiUrl: string
   ) {
     this.token = sessionStorage.getItem('token')
   }
 
   ngOnInit() {
     // this.getPurchaseList();
-    this.getApprove();
-    // this.tab = sessionStorage.getItem('tabReceive');
-    // this.currentPage = +sessionStorage.getItem('currentPageReceive') ? +sessionStorage.getItem('currentPageReceive') : 1;
-    // this.offset = +sessionStorage.getItem('offsetReceive') ? +sessionStorage.getItem('offsetReceive') : 0;
+    // this.getApprove();
+    this.tab = sessionStorage.getItem('tabReceive');
+    this.currentPage = +sessionStorage.getItem('currentPageReceive') ? +sessionStorage.getItem('currentPageReceive') : 1;
+    this.offset = +sessionStorage.getItem('offsetReceive') ? +sessionStorage.getItem('offsetReceive') : 0;
   }
 
-  async refreshPo(state: State) {
-    // this.offset = +state.page.from;
-    // const limit = +state.page.size;
-    // sessionStorage.setItem('currentPageReceive', this.currentPage.toString());
-    // sessionStorage.setItem('offsetReceive', this.offset.toString());
-
-    // this.modalLoading.show();
-    // try {
-    //   if (this.queryPo) {
-    //     const rs: any = await this.receiveService.getPurchasesListSearch(this.perPage, this.offset, this.queryPo);
-    //     this.purchases = rs.rows;
-    //     this.totalPurchases = rs.total;
-    //   } else {
-    //     const rs: any = await this.receiveService.getPurchasesList(limit, this.offset);
-    //     this.purchases = rs.rows;
-    //     this.totalPurchases = rs.total;
-    //   }
-    // } catch (error) {
-    //   this.modalLoading.hide();
-    //   this.alertService.error(JSON.stringify(error));
-    // }
-    // this.modalLoading.hide();
-  }
 
   async refresh(state: State) {
-    // this.offset = +state.page.from;
-    // const limit = +state.page.size;
-    // sessionStorage.setItem('currentPageReceive', this.currentPage.toString());
-    // sessionStorage.setItem('offsetReceive', this.offset.toString());
+    this.offset = +state.page.from;
+    const limit = +state.page.size;
+    sessionStorage.setItem('currentPageReceive', this.currentPage.toString());
+    sessionStorage.setItem('offsetReceive', this.offset.toString());
 
-    // this.modalLoading.show();
-    // if (!this.query) {
-    //   try {
-    //     const rs = await this.receiveService.getReceiveStatus(limit, this.offset, this.fillterApprove);
-    //     this.waitings = rs.rows;
-    //     this.totalReceive = rs.total;
-    //     // await this.getReceiveExpired();
-    //     this.modalLoading.hide();
-    //   } catch (error) {
-    //     this.modalLoading.hide();
-    //     this.alertService.error(error.message);
-    //   }
-    // } else {
-    //   const rs = await this.receiveService.getReceiveStatusSearch(limit, this.offset, this.query, this.fillterApprove);
-    //   this.waitings = rs.rows;
-    //   this.totalReceive = rs.total;
-    //   // await this.getReceiveExpiredSearch(this.query);
-    //   this.isSearching = true;
-    //   this.modalLoading.hide();
-    // }
+    this.modalLoading.show();
+    if (!this.query) {
+      try {
+        const rs = await this.receiveService.getReceiveStatus(limit, this.offset);
+        this.waitings = rs.rows;
+        this.totalReceive = rs.total;
+        // await this.getReceiveExpired();
+        this.modalLoading.hide();
+      } catch (error) {
+        this.modalLoading.hide();
+        this.alertService.error(error.message);
+      }
+    } else {
+      const rs = await this.receiveService.getReceiveStatusSearch(limit, this.offset, this.query);
+      this.waitings = rs.rows;
+      this.totalReceive = rs.total;
+      // await this.getReceiveExpiredSearch(this.query);
+      this.isSearching = true;
+      this.modalLoading.hide();
+    }
   }
 
   searchReceive(event: any) {

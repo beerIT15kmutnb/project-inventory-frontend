@@ -18,6 +18,8 @@ import { RequisitionComponent } from './requisition/requisition.component';
 import { AlertExpiredComponent } from './alert-expired/alert-expired.component';
 import { ProductsService } from './products.service';
 import { AuthModule } from '../auth/auth.module';
+import { ReceiveService } from './receive.service';
+import { GridDetailModule } from '../grid-detail/grid-detail.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -27,7 +29,8 @@ import { AuthModule } from '../auth/auth.module';
     ModalsModule,
     MyDatePickerTHModule,
     AdminRoutingModule,
-    AuthModule
+    AuthModule,
+    GridDetailModule
   ],
   declarations: [
     LayoutComponent, 
@@ -41,7 +44,8 @@ import { AuthModule } from '../auth/auth.module';
   ],
   providers:[
     ToThaiDatePipe,
-    ProductsService
+    ProductsService,
+    ReceiveService
   ]
 })
 export class AdminModule { }
