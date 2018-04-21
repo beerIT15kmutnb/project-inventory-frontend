@@ -16,6 +16,8 @@ import { TransferDashboardComponent } from './transfer-dashboard/transfer-dashbo
 import { IssuesComponent } from './issues/issues.component';
 import { RequisitionComponent } from './requisition/requisition.component';
 import { AlertExpiredComponent } from './alert-expired/alert-expired.component';
+import { ProductsService } from './products.service';
+import { AuthModule } from '../auth/auth.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -24,8 +26,8 @@ import { AlertExpiredComponent } from './alert-expired/alert-expired.component';
     FormsModule,
     ModalsModule,
     MyDatePickerTHModule,
-    AdminRoutingModule
-    
+    AdminRoutingModule,
+    AuthModule
   ],
   declarations: [
     LayoutComponent, 
@@ -39,6 +41,7 @@ import { AlertExpiredComponent } from './alert-expired/alert-expired.component';
   ],
   providers:[
     ToThaiDatePipe,
+    ProductsService
   ]
 })
 export class AdminModule { }

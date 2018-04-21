@@ -3,6 +3,7 @@ import { AlertService } from './../../alert.service';
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { State } from '@clr/angular';
 import { JwtHelper } from 'angular2-jwt';
+import { ProductsService } from '../products.service';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -23,10 +24,10 @@ export class ProductsComponent implements OnInit {
   jwtHelper: JwtHelper = new JwtHelper();
   @ViewChild('htmlPreview') public htmlPreview: any;
   @ViewChild('modalLoading') public modalLoading: any;
-  // @ViewChild('pagination') pagination: any;
+  @ViewChild('pagination') pagination: any;
   constructor(
     private alertService: AlertService,
-    // private productService: ProductsService,
+    private productService: ProductsService,
     @Inject('API_URL') private apiUrl: string,
   ) {
     this.token = sessionStorage.getItem('token');
@@ -35,88 +36,93 @@ export class ProductsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getGenericType();
+    // this.getGenericType();
   }
 
   search(event) {
-    // if (event.keyCode === 13) {
-    //   if (this.query) {
-    //     this.doSearch();
-    //   } else {
-    //     this.getAllProducts();
-    //   }
-    // }
+    if (event.keyCode === 13) {
+      
+      if (this.query) {
+        console.log(this.query);
+        this.doSearch();
+        
+      } else {
+        this.getAllProducts();
+      }
+    }
   }
 
   async doSearch() {
-    // try {
-      // this.modalLoading.show();
-    //   const rs = await this.productService.search(this.query, this.genericType, this.perPage, 0);
-    //   if (rs.ok) {
-    //     this.products = rs.rows;
-    //     this.totalProducts = rs.total;
-    //   } else {
-    //     this.alertService.error(rs.error);
-    //   }
-    //   this.modalLoading.hide();
-    // } catch (error) {
-    //   this.modalLoading.hide();
-    //   this.alertService.serverError();
-    // }
+    try {
+      this.modalLoading.show();
+      const rs = await this.productService.search(this.query, this.genericType, this.perPage, 0);
+      if (rs.ok) {
+        this.products = rs.rows;
+        this.totalProducts = rs.total;
+      } else {
+        this.alertService.error(rs.error);
+      }
+      this.modalLoading.hide();
+    } catch (error) {
+      this.modalLoading.hide();
+      this.alertService.serverError();
+    }
   }
 
   async getAllProducts() {
-    // this.modalLoading.show();
-    // try {
-    //   const rs = await this.productService.all(this.genericType, this.perPage, 0);
+    this.modalLoading.show();
+    try {
+      const rs = await this.productService.all(this.perPage, 0);
 
-    //   if (rs.ok) {
-    //     this.products = rs.rows;
-    //     this.totalProducts = rs.total;
-    //   } else {
-    //     this.alertService.error(rs.error);
-    //   }
+      if (rs.ok) {
+        
+        this.products = rs.rows[0];
+        this.totalProducts = rs.total;
+      } else {
+        this.alertService.error(rs.error);
+      }
 
-    //   this.modalLoading.hide();
-    // } catch (error) {
-    //   this.modalLoading.hide();
-    //   console.log(error);
-    //   this.alertService.serverError();
-    // }
+      this.modalLoading.hide();
+    } catch (error) {
+      this.modalLoading.hide();
+      console.log(error);
+      this.alertService.serverError();
+    }
   }
 
   async refresh(state: State) {
-    // this.modalLoading.show();
-    // const offset = +state.page.from;
-    // const limit = +state.page.size;
+    this.modalLoading.show();
+    const offset = +state.page.from;
+    const limit = +state.page.size;
 
-    // if (!this.currentPage) {
-    //   this.currentPage = this.pagination.currentPage;
-    // } else {
-    //   this.currentPage = this.currentPage > this.pagination.lastPage ? this.pagination.currentPage : this.pagination.currentPage;
-    // }
+    if (!this.currentPage) {
+      this.currentPage = this.pagination.currentPage;
+    } else {
+      this.currentPage = this.currentPage > this.pagination.lastPage ? this.pagination.currentPage : this.pagination.currentPage;
+    }
 
-    // try {
-    //   let rs: any;
-    //   const _genericType = this.genericType === '' ? this.genericTypeIds : this.genericType;
-    //   if (this.query) {
-    //     rs = await this.productService.search(this.query, _genericType, limit, offset);
-    //   } else {
-    //     rs = await this.productService.all(_genericType, limit, offset);
-    //   }
-    //   this.modalLoading.hide();
-    //   if (rs.ok) {
-    //     this.products = rs.rows;
-    //     this.totalProducts = rs.total;
-    //   } else {
-    //     this.alertService.error(rs.error);
-    //   }
+    try {
+      let rs: any
+      if (this.query) {
+        rs = await this.productService.search(this.query, limit, offset);
+      } else {
+        rs = await this.productService.all( limit, offset);
+      }
+      this.modalLoading.hide();
+      if (rs.ok) {
+        this.products = rs.rows[0];
+        console.log(this.products);
+        
+        this.totalProducts = rs.total;
+      } else {
+        this.alertService.error(rs.error);
+      }
 
-    // } catch (error) {
-    //   this.modalLoading.hide();
-    //   this.alertService.serverError();
-    //   console.log(error.message);
-    // }
+    } catch (error) {
+      this.modalLoading.hide();
+      this.alertService.serverError();
+      console.log(error.message);
+    }
   }
 
   showStockCard(p: any) {

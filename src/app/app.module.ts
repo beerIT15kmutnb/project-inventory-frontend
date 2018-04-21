@@ -14,6 +14,8 @@ import { AdminModule } from './admin/admin.module';
 import { HelperModule } from './helper/helper.module';
 import { environment } from '../environments/environment';
 import { HttpModule } from '@angular/http';
+import { GridDetailModule } from './grid-detail/grid-detail.module';
+import { AuthModule } from 'angular2-jwt';
 
 
 @NgModule({
@@ -31,7 +33,8 @@ import { HttpModule } from '@angular/http';
     FormsModule,
     ClarityModule.forRoot(),
     BrowserAnimationsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    GridDetailModule
   ],
   providers: [
     AlertService,
