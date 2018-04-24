@@ -127,37 +127,46 @@ export class ReceiveService {
     const res = await this.authHttp.get(`${this.url}/receives/po/${id}`).toPromise();
     return res.json();
   }
-
   async saveReceive(summary: any, products: Array<any>) {
     const res = await this.authHttp.post(`${this.url}/receives`, {
       summary: summary,
       products: products
     }).toPromise();
-
+    console.log(res.json());
+     
     return res.json();
   }
+  // async updateReceive(summary: any, products: Array<any>) {
+  //   const res = await this.authHttp.post(`${this.url}/receives/update`, {
+  //     summary: summary,
+  //     products: products
+  //   }).toPromise();
+  //   console.log(res.json());
+     
+  //   return res.json();
+  // }
 
   async saveReceiveOther(summary: any, products: Array<any>) {
-    const res = await this.authHttp.post(`${this.url}/receives/other`, {
-      summary: summary,
-      products: products
-    }).toPromise();
+    // const res = await this.authHttp.post(`${this.url}/receives/other`, {
+    //   summary: summary,
+    //   products: products
+    // }).toPromise();
 
-    return res.json();
+    // return res.json();
   }
 
   async getPurchaseInfo(purchaseOrderId: any) {
-    const res = await this.authHttp.get(`${this.url}/receives/purchases/info/${purchaseOrderId}`).toPromise();
-    return res.json();
+    // const res = await this.authHttp.get(`${this.url}/receives/purchases/info/${purchaseOrderId}`).toPromise();
+    // return res.json();
   }
 
   async updateReceiveOther(receiveOtherId: any, summary: any, products: Array<any>) {
-    const res = await this.authHttp.put(`${this.url}/receives/other/${receiveOtherId}`, {
-      summary: summary,
-      products: products
-    }).toPromise();
+    // const res = await this.authHttp.put(`${this.url}/receives/other/${receiveOtherId}`, {
+    //   summary: summary,
+    //   products: products
+    // }).toPromise();
 
-    return res.json();
+    // return res.json();
   }
 
   // async getReceiveOther(limit: number = 0, offset: number = 0) {
@@ -169,28 +178,28 @@ export class ReceiveService {
   //   return res.json();
   // }
   async getExpired(limit = 15, offset = 0) {
-    const res = await this.authHttp.get(`${this.url}/receives/expired/list?limit=${limit}&offset=${offset}`, {
-    }).toPromise();
+    // const res = await this.authHttp.get(`${this.url}/receives/expired/list?limit=${limit}&offset=${offset}`, {
+    // }).toPromise();
 
-    return res.json();
+    // return res.json();
   }
   async getExpiredSearch(q) {
-    const res = await this.authHttp.get(`${this.url}/receives/expired/search?q=${q}`, {
-    }).toPromise();
+    // const res = await this.authHttp.get(`${this.url}/receives/expired/search?q=${q}`, {
+    // }).toPromise();
 
-    return res.json();
+    // return res.json();
   }
   async getOtherExpired(limit = 15, offset = 0) {
-    const res = await this.authHttp.get(`${this.url}/receives/other/expired/list?limit=${limit}&offset=${offset}`, {
-    }).toPromise();
+    // const res = await this.authHttp.get(`${this.url}/receives/other/expired/list?limit=${limit}&offset=${offset}`, {
+    // }).toPromise();
 
-    return res.json();
+    // return res.json();
   }
   async getOtherExpiredSearch(q) {
-    const res = await this.authHttp.get(`${this.url}/receives/other/expired/search?q=${q}`, {
-    }).toPromise();
+    // const res = await this.authHttp.get(`${this.url}/receives/other/expired/search?q=${q}`, {
+    // }).toPromise();
 
-    return res.json();
+    // return res.json();
   }
 
   async getReceiveOtherDetail(receiveOtherId: any) {
@@ -323,11 +332,9 @@ export class ReceiveService {
   // }
 
 
-  async saveApprove(receiveIds: any[], approveDate: any, comment: any) {
+  async saveApprove(receiveIds: any[]) {
     const res = await this.authHttp.post(`${this.url}/receives/approve`, {
-      receiveIds: receiveIds,
-      approveDate: approveDate,
-      comment: comment
+      receiveIds: receiveIds
     }).toPromise();
     return res.json();
   }
@@ -446,6 +453,7 @@ export class ReceiveService {
     }).toPromise();
     return res.json();
   }
+  //use
   async getReceiveStatus(limit: number = 15, offset: number = 0) {
     const res = await this.authHttp.post(`${this.url}/receives/status`, {
       limit: limit,

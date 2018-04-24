@@ -9,7 +9,7 @@ import { ToThaiDatePipe } from './../../helper/to-thai-date.pipe';
 import { Component, OnInit, ChangeDetectorRef, ViewChild, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 // import { WarehouseService } from "../warehouse.service";
-// import { ReceiveService } from "../receive.service";
+import { ReceiveService } from "../receive.service";
 // import { LabelerService } from "../labeler.service";
 import { AlertService } from "../../alert.service";
 import { IMyOptions } from 'mydatepicker-th';
@@ -28,7 +28,7 @@ export class ReceivePurchaseComponent implements OnInit {
   // @ViewChild('warehouseList') public warehouseList: any;
   // @ViewChild('locationList') public locationList: any;
 
-  // @ViewChild('productSearch') public productSearch: any;
+  @ViewChild('productSearch') public productSearch: any;
   // @ViewChild('unitList') public unitList: any;
   // @ViewChild('modalPurchases') public modalPurchases: any;
   // @ViewChild('wmSearchLabeler') public wmSearchLabeler: any;
@@ -135,17 +135,22 @@ export class ReceivePurchaseComponent implements OnInit {
   isReceiveHoliday = false; // false = รับได้ true = เป็นวันหยุด
   isReceivePeriod = false; // false = รับได้ true = ปิดรอบ
 
+  searchProduct: any = {
+    small_qty: null,
+    small_unit_name: null,
+    large_unit_name: null
+  }
 
   constructor(
     // private wareHouseService: WarehouseService,
-    // private receiveService: ReceiveService,
+    private receiveService: ReceiveService,
     // private labelerService: LabelerService,
     private alertService: AlertService,
     private router: Router,
     // private ref: ChangeDetectorRef,
     private toThaiDate: ToThaiDatePipe,
     // private alertExpireService: AlertExpiredService,
-    // @Inject('API_URL') private apiUrl: string,
+    @Inject('API_URL') private apiUrl: string,
     // private daetService: DateService,
     // private periodService: PeriodService,
     private route: ActivatedRoute
@@ -352,39 +357,40 @@ export class ReceivePurchaseComponent implements OnInit {
   }
 
   setSelectedProduct(event: any) {
-    // try {
-    //   console.log(event);
-    //   this.selectedProductId = event ? event.product_id : null;
-    //   this.selectedGenericId = event ? event.generic_id : null;
-    //   this.selectedProductName = event ? `${event.product_name}` : null;
-    //   this.selectedGenericName = event ? `${event.generic_name}` : null;
-    //   this.selectedExpireNumDays = event ? event.expire_num_days : 0;
+    try {
+      console.log(event);
+      this.searchProduct = event
+      this.selectedProductId = event ? event.product_id : null;
+      //   this.selectedGenericId = event ? event.generic_id : null;
+      this.selectedProductName = event ? `${event.product_name}` : null;
+      //   this.selectedGenericName = event ? `${event.generic_name}` : null;
+      // this.selectedExpireNumDays = event ? event.expire_num_days : 0;
 
-    //   this.manufactureList.getManufacture(this.selectedGenericId);
-    //   this.warehouseList.getWarehouses(this.selectedGenericId);
+      //   this.manufactureList.getManufacture(this.selectedGenericId);
+      //   this.warehouseList.getWarehouses(this.selectedGenericId);
 
-    //   this.primaryUnitId = event ? event.primary_unit_id : null;
-    //   // this.primaryUnitName = event ? event.primary_unit_name : null;
-    //   this.unitList.setGenericId(this.selectedGenericId);
+      // this.primaryUnitId = event ? event.primary_unit_id : null;
+      // this.primaryUnitName = event ? event.primary_unit_name : null;
+      //   this.unitList.setGenericId(this.selectedGenericId);
 
-    //   // lot control
-    //   this.isLotControl = event ? event.is_lot_control : null;
+      //   // lot control
+      //   this.isLotControl = event ? event.is_lot_control : null;
 
-    // } catch (error) {
-    //   console.log(error.message);
-    // }
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 
   addProduct() {
-    // const product: any = {};
-    // product.product_id = this.selectedProductId;
-    // product.product_name = this.selectedProductName;
+    const product: any = {};
+    product.product_id = this.selectedProductId;
+    product.product_name = this.selectedProductName;
     // product.generic_name = this.selectedGenericName;
-    // product.receive_qty = this.selectedReceiveQty;
+    product.receive_qty = this.selectedReceiveQty;
     // product.canReceive = this.selectedReceiveQty;
     // // product.primary_unit_id = this.primaryUnitId;
     // // product.primary_unit_name = this.primaryUnitName;
-    // product.lot_no = this.selectedLotNo ? this.selectedLotNo.toUpperCase() : null;
+    product.lot_no = this.selectedLotNo ? this.selectedLotNo.toUpperCase() : null;
     // product.generic_id = this.selectedGenericId;
     // product.discount = +this.selectedDiscount;
     // product.expire_num_days = this.selectedExpireNumDays;
@@ -401,8 +407,11 @@ export class ReceivePurchaseComponent implements OnInit {
     // product.location_name = this.selectedLocationName;
 
     // product.unit_generic_id = this.selectedUnitGenericId;
-    // // product.unit_name = this.selectedUnitName;
-    // // product.unit_id = this.selectedUnitId;
+    product.large_unit_name = this.searchProduct.large_unit_name;
+    product.small_qty = this.searchProduct.small_qty;
+    product.small_unit_name = this.searchProduct.small_unit_name;
+    // product.unit_name = this.selectedUnitName;
+    // product.unit_name = this.selectedUnitName;
     // product.conversion_qty = +this.conversionQty;
 
     // // lot control
@@ -412,17 +421,19 @@ export class ReceivePurchaseComponent implements OnInit {
 
     // // ของแถม
     // product.is_free = this.isFree ? 'Y' : 'N';
-    // product.expired_date = this.selectedExpiredDate;
+    product.expired_date = this.selectedExpiredDate;
 
-    // let idx = _.findIndex(this.products, { product_id: this.selectedProductId, lot_no: this.selectedLotNo, expired_date: this.selectedExpiredDate, is_free: product.is_free })
-    // if (idx > -1) {
-    //   this.alertService.error('รายการนี้มีอยู่แล้ว กรุณาตรวจสอบ');
-    // } else {
-    //   this.products.push(product);
-    //   // cal total price
-    //   this.countTotalCost();
-    //   this.clearForm();
-    // }
+    console.log(product);
+
+    let idx = _.findIndex(this.products, { product_id: this.selectedProductId, lot_no: this.selectedLotNo, expired_date: this.selectedExpiredDate})
+    if (idx > -1) {
+      this.alertService.error('รายการนี้มีอยู่แล้ว กรุณาตรวจสอบ');
+    } else {
+      this.products.push(product);
+      //   // cal total price
+      // this.countTotalCost();
+      this.clearForm();
+    }
 
   }
 
@@ -436,47 +447,53 @@ export class ReceivePurchaseComponent implements OnInit {
   }
 
   clearForm() {
-  //   this.selectedProductId = null;
-  //   this.selectedProductName = null;
-  //   this.selectedGenericName = null;
-  //   this.selectedExpiredDate = null;
-  //   this.selectedExpireNumDays = 0;
-  //   // this.selectedLotId = null;
-  //   this.selectedLotNo = null;
-  //   this.selectedCost = 0;
-  //   this.selectedReceiveQty = '';
-  //   this.selectedUnitId = null;
-  //   this.selectedUnitName = null;
-  //   this.selectedUnitGenericId = null;
-  //   this.primaryUnitId = null;
-  //   this.primaryUnitName = null;
-  //   this.conversionQty = 0;
-  //   this.selectedDiscount = 0;
+    this.searchProduct = {
+      product_name: null,
+      small_qty: null,
+      small_unit_name: null,
+      large_unit_name: null
+    }
+    this.selectedProductId = null;
+    this.selectedProductName = null;
+    //   this.selectedGenericName = null;
+    this.selectedExpiredDate = null;
+    //   this.selectedExpireNumDays = 0;
+    // // this.selectedLotId = null;
+    this.selectedLotNo = null;
+    //   this.selectedCost = 0;
+    this.selectedReceiveQty = '';
+    //   this.selectedUnitId = null;
+    //   this.selectedUnitName = null;
+    //   this.selectedUnitGenericId = null;
+    //   this.primaryUnitId = null;
+    //   this.primaryUnitName = null;
+    //   this.conversionQty = 0;
+    //   this.selectedDiscount = 0;
 
-  //   // ของแถม
-  //   this.isFree = false;
-  //   this.isLotControl = null;
+    //   // ของแถม
+    //   this.isFree = false;
+    //   this.isLotControl = null;
 
-  //   this.selectedManufactureId = null;
-  //   this.selectedManufactureName = null;
+    //   this.selectedManufactureId = null;
+    //   this.selectedManufactureName = null;
 
-  //   this.manufactureList.clearVendor();
-  //   this.warehouseList.clearWarehousList();
-  //   this.locationList.clearLocation();
-  //   // this.lotList.clearLots();
-  //   this.productSearch.clearProductSearch();
-  //   this.unitList.clearUnits();
+    //   this.manufactureList.clearVendor();
+    //   this.warehouseList.clearWarehousList();
+    //   this.locationList.clearLocation();
+    //   // this.lotList.clearLots();
+    this.productSearch.clearProductSearch();
+    //   this.unitList.clearUnits();
   }
 
   removeSelectedProduct(idx: any) {
-    // this.alertService.confirm('ต้องการลบรายการนี้ ใช่หรือไม่?')
-    //   .then(() => {
-    //     this.products.splice(idx, 1);
-    //     this.countTotalCost();
-    //   })
-    //   .catch(() => {
-    //     //
-    //   });
+    this.alertService.confirm('ต้องการลบรายการนี้ ใช่หรือไม่?')
+      .then(() => {
+        this.products.splice(idx, 1);
+        // this.countTotalCost();
+      })
+      .catch(() => {
+        //
+      });
   }
 
   // edit data
@@ -519,15 +536,15 @@ export class ReceivePurchaseComponent implements OnInit {
   }
 
   editChangeLot(idx: any, lot: any) {
-    // try {
-    //   this.products[idx].lot_no = lot;
-    // } catch (error) {
-    //   //
-    // }
+    try {
+      this.products[idx].lot_no = lot;
+    } catch (error) {
+      //
+    }
   }
 
   editChangeExpired(idx: any, expired: any) {
-    // this.products[idx].expired_date = expired;
+    this.products[idx].expired_date = expired;
   }
 
   editChangeFree(idx: any, value: any) {
@@ -539,40 +556,42 @@ export class ReceivePurchaseComponent implements OnInit {
     // }
   }
   async saveReceive() {
-    // if (this.receiveDate) {
-    //   const _receiveDate = this.receiveDate ?
-    //     `${this.receiveDate.date.year}-${this.receiveDate.date.month}-${this.receiveDate.date.day}` : null;
-    //   const rsP = await this.periodService.getStatus(_receiveDate)
-    //   if (rsP.rows[0].status_close === 'Y') {
-    //     this.alertService.error('ปิดรอบบัญชีแล้ว ไม่สามารถรับได้');
-    //     console.log('err ปิดรอบบัญชี');
-    //     this.isReceivePeriod = true;
-    //   } else {
-    //     const rs = await this.receiveService.getPurchaseCheckHoliday(_receiveDate);
-    //     console.log(rs);
-    //     if (rs.ok) {
-    //       this.isReceiveHoliday = false;
-    //       await this.checkExpired();
-    //     } else {
-    //       this.isReceiveHoliday = true; // วันหยุด
-    //       console.log('err วันที่คุณเลือกเป็นวันหยุดราชการ จะรับสินค้าหรือไม่');
-    //       this.alertService.confirm(rs.error)
-    //         .then(async () => {
-    //           this.isReceiveHoliday = false; // วันหยุด
-    //           await this.checkExpired();
-    //         })
-    //         .catch(() => {
-    //           this.isReceiveHoliday = true;
-    //         })
-    //       if (!this.isExpired && !this.isItemExpired && !this.isReceiveHoliday && !this.isReceivePeriod) {
-    //         this.saveReceiveTo();
-    //       }
-    //     }
+    if (this.receiveDate) {
+      const _receiveDate = this.receiveDate ?
+        `${this.receiveDate.date.year}-${this.receiveDate.date.month}-${this.receiveDate.date.day}` : null;
+      console.log(_receiveDate);
 
-    //   }
-    // } else {
-    //   this.alertService.error('กรุณาระบุวันที่รับ');
-    // }
+      //   const rsP = await this.periodService.getStatus(_receiveDate)
+      //   if (rsP.rows[0].status_close === 'Y') {
+      //     this.alertService.error('ปิดรอบบัญชีแล้ว ไม่สามารถรับได้');
+      //     console.log('err ปิดรอบบัญชี');
+      //     this.isReceivePeriod = true;
+      //   } else {
+      //     const rs = await this.receiveService.getPurchaseCheckHoliday(_receiveDate);
+      //     console.log(rs);
+      //     if (rs.ok) {
+      //       this.isReceiveHoliday = false;
+      // await this.checkExpired();
+      //     } else {
+      //       this.isReceiveHoliday = true; // วันหยุด
+      //       console.log('err วันที่คุณเลือกเป็นวันหยุดราชการ จะรับสินค้าหรือไม่');
+      //       this.alertService.confirm(rs.error)
+      //         .then(async () => {
+      //           this.isReceiveHoliday = false; // วันหยุด
+      //           await this.checkExpired();
+      //         })
+      //         .catch(() => {
+      //           this.isReceiveHoliday = true;
+      //         })
+      // if (!this.isExpired && !this.isItemExpired && !this.isReceiveHoliday && !this.isReceivePeriod) {
+      this.saveReceiveTo();
+      // }
+      //     }
+
+      //   }
+    } else {
+      this.alertService.error('กรุณาระบุวันที่รับ');
+    }
   }
 
   saveComment() {
@@ -589,168 +608,84 @@ export class ReceivePurchaseComponent implements OnInit {
   }
 
   saveReceiveTo() {
-    // if (!this.receiveDate ||
-    //   !this.deliveryDate || !this.deliveryCode) {
-    //   this.alertService.error('กรุณากรอกข้อมูลให้ครบถ้วน');
-    //   this.isSaving = false;
-    //   this.modalLoading.hide();
-    // } else {
+    if (!this.receiveDate ||
+      !this.deliveryDate || !this.deliveryCode) {
+      this.alertService.error('กรุณากรอกข้อมูลให้ครบถ้วน');
+      this.isSaving = false;
+      this.modalLoading.hide();
+    } else {
 
-    //   const _receiveDate = this.receiveDate ?
-    //     `${this.receiveDate.date.year}-${this.receiveDate.date.month}-${this.receiveDate.date.day}` : null;
-    //   const _deliveryDate = this.deliveryDate ?
-    //     `${this.deliveryDate.date.year}-${this.deliveryDate.date.month}-${this.deliveryDate.date.day}` : null;
-    //   const _purchaseDate = this.purchaseDate ?
-    //     `${this.purchaseDate.date.year}-${this.purchaseDate.date.month}-${this.purchaseDate.date.day}` : null;
+      const _receiveDate = this.receiveDate ?
+        `${this.receiveDate.date.year}-${this.receiveDate.date.month}-${this.receiveDate.date.day}` : null;
+      const _deliveryDate = this.deliveryDate ?
+        `${this.deliveryDate.date.year}-${this.deliveryDate.date.month}-${this.deliveryDate.date.day}` : null;
+      const _purchaseDate = this.purchaseDate ?
+        `${this.purchaseDate.date.year}-${this.purchaseDate.date.month}-${this.purchaseDate.date.day}` : null;
 
-    //   const isValidReceiveDate = moment(_receiveDate, 'YYYY-MM-DD').isSameOrAfter(_purchaseDate);
-    //   const isValidDeliveryDate = moment(_deliveryDate, 'YYYY-MM-DD').isSameOrAfter(_purchaseDate);
+      this.modalLoading.show();
+      this.alertService.confirm('ต้องการบันทึกข้อมูลการรับสินค้า ใช่หรือไม่?')
+        .then(() => {
+          try {
+            const summary = {
+              receiveDate: _receiveDate,
+              receiveCode: this.receiveCode,
+              deliveryCode: this.deliveryCode,
+              deliveryDate: _deliveryDate,
+              // purchaseOrderId: this.purchaseOrderId,
+            }
+            //           // remove qty = 0
+            const _products = [];
+            //           // check warehouse
+            let isErrorWarehouse = false;
+            this.products.forEach((v: any) => {
+              if (v.receive_qty > 0) {
+                _products.push(v);
+              }
+            });
+            console.log(_products, summary);
 
-    //   if (_purchaseDate) {
-    //     if (isValidReceiveDate && isValidDeliveryDate) {
-    //       this.alertService.confirm('ต้องการบันทึกข้อมูลการรับสินค้า ใช่หรือไม่?')
-    //         .then(async () => {
-    //           this.modalLoading.show();
-    //           this.isSaving = true;
-    //           try {
-    //             const summary = {
-    //               receiveDate: _receiveDate,
-    //               receiveCode: this.receiveCode,
-    //               deliveryCode: this.deliveryCode,
-    //               deliveryDate: _deliveryDate,
-    //               receiveStatusId: this.receiveStatusId,
-    //               supplierId: this.selectedSupplierId,
-    //               purchaseOrderId: this.purchaseOrderId,
-    //               comment: this.comment,
-    //               committee_id: this.committee_id,
-    //               is_expired: this.is_expired
-    //             };
-    //             // remove qty = 0
-    //             const _products = [];
-    //             // check warehouse
-    //             let isError = false;
-    //             this.products.forEach((v: any) => {
-    //               if (v.receive_qty > 0) {
-    //                 _products.push(v);
-    //                 if (v.warehouse_id && v.receive_qty > 0 && v.product_id && v.unit_generic_id && v.cost >= 0) {
-    //                   if (v.expired_date) {
-    //                     const validDate = this.daetService.isValidDateExpire(v.expired_date);
-    //                     if (!validDate) {
-    //                       isError = true;
-    //                     }
-    //                   }
+            //           if (isErrorWarehouse) {
+            //             this.isSaving = false;
+            //             this.modalLoading.hide();
+            //             this.alertService.error('ข้อมูลรายการสินค้าไม่ครบถ้วน [คลังสินค้า, หน่วยรับ]');
+            //           } else {
+            //             // save product receive
+            this.receiveService.saveReceive(summary, _products)
+              .then((res: any) => {
+                this.modalLoading.hide();
+                this.isSaving = false;
+                if (res.ok) {
+                  this.router.navigate(['/admin/receives']);
+                } else {
+                  this.alertService.error(res.error);
+                }
+              }).catch(error => {
+                this.isSaving = false;
+                this.alertService.error(error.message);
+                this.modalLoading.hide();
+              });
+            //           }
+          } catch (error) {
+            this.isSaving = false;
+            this.modalLoading.hide();
+            this.alertService.error(error.message);
+          }
+        }).catch(() => {
+          this.isSaving = false;
+          this.modalLoading.hide();
+        });
+      //   }
 
-    //                   // check lot control
-    //                   if (v.is_lot_control === 'Y') {
-    //                     isError = v.lot_no ? false : true;
-    //                   }
-    //                 } else {
-    //                   isError = true;
-    //                 }
-    //               }
-    //             });
-
-    //             if (isError) {
-    //               this.modalLoading.hide();
-    //               this.isSaving = false;
-    //               this.alertService.error('ข้อมูลรายการสินค้าบางรายการไม่ครบถ้วน [คลังสินค้า, หน่วยรับ, lot, วันหมดอายุ]');
-    //             } else {
-    //               // save product receive
-    //               const rs: any = await this.receiveService.saveReceive(summary, _products);
-    //               this.modalLoading.hide();
-    //               this.isSaving = false;
-
-    //               if (rs.ok) {
-    //                 sessionStorage.setItem('tabReceive', 'receive');
-    //                 this.router.navigate(['/admin/receives']);
-    //               } else {
-    //                 this.alertService.error(rs.error);
-    //               }
-    //             }
-    //           } catch (error) {
-    //             this.isSaving = false;
-    //             this.modalLoading.hide();
-    //             this.alertService.error(error.message);
-    //           }
-    //         }).catch(() => {
-    //           this.modalLoading.hide();
-    //           this.isSaving = false;
-    //         });
-    //     } else {
-    //       this.isSaving = false;
-    //       this.modalLoading.hide();
-    //       this.alertService.error('ไม่สามารถบันทึกรับสินค้าก่อนวันออกใบสั่งซื้อได้!');
-    //     }
-    //   } else {
-    //     this.modalLoading.show();
-    //     this.alertService.confirm('ต้องการบันทึกข้อมูลการรับสินค้า ใช่หรือไม่?')
-    //       .then(() => {
-    //         try {
-    //           const summary = {
-    //             receiveDate: _receiveDate,
-    //             receiveCode: this.receiveCode,
-    //             deliveryCode: this.deliveryCode,
-    //             deliveryDate: _deliveryDate,
-    //             receiveStatusId: this.receiveStatusId,
-    //             supplierId: this.selectedSupplierId,
-    //             purchaseOrderId: this.purchaseOrderId,
-    //             comment: this.comment
-    //           }
-
-    //           // remove qty = 0
-    //           const _products = [];
-    //           // check warehouse
-    //           let isErrorWarehouse = false;
-    //           this.products.forEach((v: any) => {
-    //             if (v.receive_qty > 0) {
-    //               if (v.warehouse_id && v.unit_generic_id) {
-    //                 _products.push(v);
-    //               } else {
-    //                 isErrorWarehouse = true;
-    //               }
-    //             }
-    //           });
-
-    //           if (isErrorWarehouse) {
-    //             this.isSaving = false;
-    //             this.modalLoading.hide();
-    //             this.alertService.error('ข้อมูลรายการสินค้าไม่ครบถ้วน [คลังสินค้า, หน่วยรับ]');
-    //           } else {
-    //             // save product receive
-    //             this.receiveService.saveReceive(summary, _products)
-    //               .then((res: any) => {
-    //                 this.modalLoading.hide();
-    //                 this.isSaving = false;
-    //                 if (res.ok) {
-    //                   this.router.navigate(['/admin/receives']);
-    //                 } else {
-    //                   this.alertService.error(res.error);
-    //                 }
-    //               }).catch(error => {
-    //                 this.isSaving = false;
-    //                 this.alertService.error(error.message);
-    //                 this.modalLoading.hide();
-    //               });
-    //           }
-    //         } catch (error) {
-    //           this.isSaving = false;
-    //           this.modalLoading.hide();
-    //           this.alertService.error(error.message);
-    //         }
-    //       }).catch(() => {
-    //         this.isSaving = false;
-    //         this.modalLoading.hide();
-    //       });
-    //   }
-
-    // }
+    }
   }
 
   changeSearchProduct(event) {
-    // if (event) {
-    //   this.productSearch.clearProductSearch();
-    //   this.clearForm();
-    // }
+    if (event) {
+      this.productSearch.clearProductSearch();
+      this.clearForm();
+
+    }
+
   }
 
   searchPurchase() {
@@ -838,71 +773,71 @@ export class ReceivePurchaseComponent implements OnInit {
     // this.products[idx].discount = +discount;
   }
   async checkExpired() {
-  //   this.isExpired = false;
-  //   this.isItemExpired = false;
-  //   if (this.receiveExpired) {
-  //     for (const v of this.products) {
-  //       if (!moment(v.expired_date, 'DD-MM-YYYY').isValid()) {
-  //         this.alertService.error('กรุณาระบุวันหมดอายุ');
-  //         console.log('err กรุณาระบุวันหมดอายุ');
-  //         this.isExpired = true;
-  //       }
-  //     }
-  //   }
-  //   // console.log(this.isExpired);
-  //   if (!this.isExpired) {
-  //     let count = 0;
-  //     for (const v of this.products) {
-  //       if (!moment(v.expired_date, 'DD-MM-YYYY').isValid()) {
-  //         const d: any = v.expired_date.split('/');
-  //         const expired_date: any = new Date(d[2], d[1] - 1, d[0]);
-  //         const diffday = moment(expired_date).diff(moment(), 'days');
-  //         // console.log(diffday, expired_date);
+    //   this.isExpired = false;
+    //   this.isItemExpired = false;
+    //   if (this.receiveExpired) {
+    //     for (const v of this.products) {
+    //       if (!moment(v.expired_date, 'DD-MM-YYYY').isValid()) {
+    //         this.alertService.error('กรุณาระบุวันหมดอายุ');
+    //         console.log('err กรุณาระบุวันหมดอายุ');
+    //         this.isExpired = true;
+    //       }
+    //     }
+    //   }
+    // //   // console.log(this.isExpired);
+    //   if (!this.isExpired) {
+    //     let count = 0;
+    //     for (const v of this.products) {
+    //       if (!moment(v.expired_date, 'DD-MM-YYYY').isValid()) {
+    //         const d: any = v.expired_date.split('/');
+    //         const expired_date: any = new Date(d[2], d[1] - 1, d[0]);
+    //         const diffday = moment(expired_date).diff(moment(), 'days');
+    //         // console.log(diffday, expired_date);
 
-  //         if (diffday < 0) {
-  //           count++;
-  //         }
-  //       }
-  //     }
-  //     if (count > 0) {
-  //       this.alertService.error('มีเวชภัณฑ์หมดอายุ ไม่อนุญาตให้รับสินค้า');
-  //       console.log('เวชภัณฑ์หมดอายุ');
-  //       this.isItemExpired = true;
-  //     }
-  //   }
-  //   // console.log(this.isItemExpired);
-  //   if (!this.isItemExpired) {
-  //     let checkDiffExpired;
-  //     let count = 0;
-  //     for (const v of this.products) {
-  //       if (!moment(v.expired_date, 'DD-MM-YYYY').isValid()) {
-  //         const d: any = v.expired_date.split('/');
-  //         const expired_date = moment(new Date(d[2], d[1] - 1, d[0])).format('YYYY-MM-DD');
-  //         checkDiffExpired = await this.receiveService.getPurchaseCheckExpire(v.generic_id, expired_date);
-  //         // console.log(checkDiffExpired);
-  //         if (!checkDiffExpired.ok) {
-  //           count++;
-  //         }
-  //       }
-  //     }
-  //     if (count > 0) {
-  //       console.log('err ใกล้หมดอายุ');
-  //       this.alertService.confirm(checkDiffExpired.error)
-  //         .then(() => {
-  //           this.isItemExpired = false; // ใช่ ดำเนินการ
-  //           this.modalExpired = true;
-  //           this.isComment = true;
-  //         })
-  //         .catch(() => {
-  //           this.isItemExpired = true;
-  //         })
-  //     } else {
-  //       if (!this.isExpired && !this.isItemExpired && !this.isReceiveHoliday && !this.isReceivePeriod) {
-  //         // console.log('all false');
-  //         this.saveReceiveTo();
-  //       }
-  //     }
+    //         if (diffday < 0) {
+    //           count++;
+    //         }
+    //       }
+    //     }
+    //     if (count > 0) {
+    //       this.alertService.error('มีเวชภัณฑ์หมดอายุ ไม่อนุญาตให้รับสินค้า');
+    //       console.log('เวชภัณฑ์หมดอายุ');
+    //       this.isItemExpired = true;
+    //     }
+    //   }
+    //   // console.log(this.isItemExpired);
+    //   if (!this.isItemExpired) {
+    //     let checkDiffExpired;
+    //     let count = 0;
+    //     for (const v of this.products) {
+    //       if (!moment(v.expired_date, 'DD-MM-YYYY').isValid()) {
+    //         const d: any = v.expired_date.split('/');
+    //         const expired_date = moment(new Date(d[2], d[1] - 1, d[0])).format('YYYY-MM-DD');
+    //         checkDiffExpired = await this.receiveService.getPurchaseCheckExpire(v.generic_id, expired_date);
+    //         // console.log(checkDiffExpired);
+    //         if (!checkDiffExpired.ok) {
+    //           count++;
+    //         }
+    //       }
+    //     }
+    //     if (count > 0) {
+    //       console.log('err ใกล้หมดอายุ');
+    //       this.alertService.confirm(checkDiffExpired.error)
+    //         .then(() => {
+    //           this.isItemExpired = false; // ใช่ ดำเนินการ
+    //           this.modalExpired = true;
+    //           this.isComment = true;
+    //         })
+    //         .catch(() => {
+    //           this.isItemExpired = true;
+    //         })
+    //     } else {
+    //       if (!this.isExpired && !this.isItemExpired && !this.isReceiveHoliday && !this.isReceivePeriod) {
+    //         // console.log('all false');
+    //         this.saveReceiveTo();
+    //       }
+    //     }
 
-  //   } // expired
+    // } // expired
   }
 }

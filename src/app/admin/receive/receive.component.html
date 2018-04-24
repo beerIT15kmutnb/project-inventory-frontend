@@ -16,6 +16,9 @@
   (click)="printSelecOption()">
   <clr-icon shape="printer"></clr-icon> พิมพ์ใบนำส่ง (แบบมีเงื่อนไข)
 </button> -->
+<button  class="btn btn-primary btn-sm btn-icon" (click)="saveApprove()">
+    <clr-icon shape="tasks"></clr-icon> ยืนยันรับสินค้า
+  </button>
 <!-- <clr-tabs>
   <clr-tab>
     <button clrTabLink (click)="clearSelectedApproved();selectTabReceive()">
@@ -82,11 +85,11 @@
           <clr-dg-cell *ngIf="w.purchase_order_book_number">{{w.purchase_order_book_number}}</clr-dg-cell>
           <clr-dg-cell style="text-align: center;">
             <div class="btn-group btn-success">
-              <button [disabled]="w.is_cancel === 'Y'" title="แก้ไขข้อมูล/อนุมัติ/เอกสาร" class="btn btn-primary btn-icon btn-sm wm-small-btn"
+              <button [disabled]="w.is_cancel === 'Y' || w.is_approve === 'Y'" title="แก้ไขข้อมูล/อนุมัติ/เอกสาร" class="btn btn-primary btn-icon btn-sm wm-small-btn"
                 [routerLink]="['/admin/receives/edit']" [queryParams]="{receiveId: w.receive_id}">
                 <clr-icon shape="note"></clr-icon>
               </button>
-              <button [disabled]="w.is_cancel === 'Y' || w.approve_id" title="ยกเลิกใบรับ" class="btn btn-danger btn-icon btn-sm wm-small-btn"
+              <button [disabled]="w.is_approve === 'Y' || w.is_cancel === 'Y'" title="ยกเลิกใบรับ" class="btn btn-danger btn-icon btn-sm wm-small-btn"
                 (click)="removeReceive(w)">
                 <clr-icon shape="trash"></clr-icon>
               </button>

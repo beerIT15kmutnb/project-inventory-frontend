@@ -16,7 +16,8 @@ import { environment } from '../environments/environment';
 import { HttpModule } from '@angular/http';
 import { GridDetailModule } from './grid-detail/grid-detail.module';
 import { AuthModule } from 'angular2-jwt';
-
+import { DirectivesModule } from './directives/directives.module';
+import { TextMaskModule } from 'angular2-text-mask';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { AuthModule } from 'angular2-jwt';
   imports: [
     BrowserModule,
     HttpModule,
+    AuthModule,
     LoginModule,
     AdminModule,
     HelperModule,
@@ -34,7 +36,9 @@ import { AuthModule } from 'angular2-jwt';
     ClarityModule.forRoot(),
     BrowserAnimationsModule,
     AppRoutingModule,
-    GridDetailModule
+    GridDetailModule,
+    DirectivesModule,
+    TextMaskModule
   ],
   providers: [
     AlertService,

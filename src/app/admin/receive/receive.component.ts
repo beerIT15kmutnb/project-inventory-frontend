@@ -25,7 +25,7 @@ import { isLoweredSymbol } from '@angular/compiler';
   templateUrl: './receive.component.html'
 })
 export class ReceiveComponent implements OnInit {
-  // @ViewChild('modalApprove') public modalApprove: any;
+  @ViewChild('modalApprove') public modalApprove: any;
   // @ViewChild('modalApproveOther') public modalApproveOther: any;
   @ViewChild('htmlPreview') public htmlPreview: any;
   @ViewChild('modalLoading') public modalLoading: any;
@@ -180,34 +180,6 @@ export class ReceiveComponent implements OnInit {
     // }
   }
 
-  async refreshOther(state: State) {
-    // this.offset = +state.page.from;
-    // const limit = +state.page.size;
-
-    // sessionStorage.setItem('currentPageReceive', this.currentPage.toString());
-    // sessionStorage.setItem('offsetReceive', this.offset.toString());
-
-    // this.modalLoading.show();
-    // try {
-    //   if (!this.queryOther) {
-    //     const rs = await this.receiveService.getReceiveOtherStatus(limit, this.offset, this.fillterApprove);
-    //     this.others = rs.rows;
-    //     this.totalReceiveOther = rs.total;
-    //     // await this.getReceiveOtherExpired();
-    //     this.modalLoading.hide();
-    //   } else {
-    //     const rs = await this.receiveService.getReceiveOtherStatusSearch(limit, this.offset, this.queryOther, this.fillterApprove);
-    //     this.others = rs.rows;
-    //     this.totalReceiveOther = rs.total;
-    //   }
-    //   // await this.getReceiveOtherExpiredSearch();
-    // } catch (error) {
-    //   this.modalLoading.hide();
-    //   this.alertService.error(error.message);
-    // }
-    // this.modalLoading.hide();
-  }
-
   removeReceive(w) {
     // this.alertService.confirm('คุณต้องการลบรายการรับสินค้านี้ [' + w.receive_code + '] ใช่หรือไม่?')
     //   .then(async () => {
@@ -234,54 +206,28 @@ export class ReceiveComponent implements OnInit {
     //   });
   }
 
-  removeReceiveOther(receive: any) {
-    // this.loading = true;
-    // this.alertService.confirm(`ต้องการลบรายการนี้ [${receive.receive_code}] ใช่หรือไม่?`)
-    //   .then(async () => {
-    //     try {
-    //       const rs: any = await this.receiveService.removeReceiveOther(receive.receive_other_id);
-    //       if (rs.ok) {
-    //         const idx = _.findIndex(this.others, { receive_other_id: receive.receive_other_id });
-    //         if (idx > -1) {
-    //           this.others.splice(idx, 1);
-    //         }
-    //         this.alertService.success();
-    //       } else {
-    //         this.alertService.error(rs.error);
-    //       }
-    //       this.modalLoading.hide();
-
-    //     } catch (error) {
-    //       this.modalLoading.hide();
-    //       this.alertService.error(error.message);
-    //     }
-
-    //   }).catch(() => {
-    //     this.modalLoading.hide();
-    //   });
-  }
-
+  
   clearSelectedApproved() {
     // this.selectedApprove = [];
     // this.selectedOtherApprove = [];
   }
 
   async getWaitingList() {
-    // try {
-    //   this.loading = true;
-    //   this.selectedApprove = [];
-    //   const rs = await this.receiveService.getReceiveStatus(this.perPage, this.offset, this.fillterApprove);
-    //   if (rs.ok) {
-    //     this.waitings = rs.rows;
-    //     this.totalReceive = rs.total;
-    //   } else {
-    //     this.alertService.error(rs.error);
-    //   }
-    //   this.loading = false;
-    // } catch (error) {
-    //   this.loading = false;
-    //   this.alertService.error(error.message);
-    // }
+    try {
+      this.loading = true;
+      this.selectedApprove = [];
+      const rs = await this.receiveService.getReceiveStatus(this.perPage, this.offset);
+      if (rs.ok) {
+        this.waitings = rs.rows;
+        this.totalReceive = rs.total;
+      } else {
+        this.alertService.error(rs.error);
+      }
+      this.loading = false;
+    } catch (error) {
+      this.loading = false;
+      this.alertService.error(error.message);
+    }
   }
 
   async getOtherList() {
@@ -368,16 +314,8 @@ export class ReceiveComponent implements OnInit {
 
   async approveReceiveCheck(access: any, action: any) {
 
-    // let check = false
-    // let accessName: any;
-    // this.titel = 'รายการรับสินค้า';
-
-    // if (access === 1) {
-    //   accessName = 'WM_RECEIVE_APPROVE'
-    //   this.action = 'WM_RECEIVES'
-    //   this.page = 1;
-
-    //   this.selectedApprove.length ? check = true : this.alertService.error('ไม่พบรายการที่ต้องการอนุมัติ');
+    let check = false
+    this.selectedApprove.length ? check = true : this.alertService.error('ไม่พบรายการที่ต้องการอนุมัติ');
     // } else if (access = 2) {
     //   accessName = 'WM_RECEIVE_OTHER_APPROVE'
     //   this.action = 'WM_RECEIVES_OTHER'
@@ -386,16 +324,16 @@ export class ReceiveComponent implements OnInit {
     //   this.selectedOtherApprove.length ? check = true : this.alertService.error('ไม่พบรายการที่ต้องการอนุมัติ');
     // }
 
-    // if (check) { // ตรวจสอบสิทธิการอนุมัติใบรับ
-    //   const rs = await this.accessCheck.can(accessName);
-    //   if (rs) {
-    //     this.page === 1 ? this.saveApprove() : this.saveApproveOther();
-    //   } else {
-    //     this.username = ''
-    //     this.password = ''
-    //     this.openModalConfirm = true
-    //   }
-    // }
+    if (check) { // ตรวจสอบสิทธิการอนุมัติใบรับ
+      //   const rs = await this.accessCheck.can(accessName);
+      //   if (rs) {
+      //     this.page === 1 ? this.saveApprove() : this.saveApproveOther();
+      //   } else {
+      //     this.username = ''
+      //     this.password = ''
+      //     this.openModalConfirm = true
+      //   }
+    }
   }
 
   async checkApprove(username: any, password: any) {
@@ -416,20 +354,45 @@ export class ReceiveComponent implements OnInit {
   }
 
   saveApprove() {
-    // const ids = [];
-    // this.selectedApprove.forEach(v => {
-    //   if (!v.approve_id && v.purchase_order_number) {
-    //     ids.push(v.receive_id);
-    //   }
-    // });
+    let check = false
+    console.log(this.selectedApprove.length);
+    const ids = [];
+      this.selectedApprove.forEach(v => {
+        if (v.is_approve === 'N') {
+          ids.push(v.receive_id);
+        }
+      });
+    ids.length ? check = true : this.alertService.error('ไม่พบรายการที่ต้องการอนุมัติ');
+    if (check) {
 
-    // this.alertService.confirm('มีรายการที่ต้องการอนุมัติจำนวน ' + ids.length + ' รายการ ต้องการอนุมัติใช่หรือไม่?')
-    //   .then(() => {
-    //     this.modalApprove.setReceiveIds(ids);
-    //     this.modalApprove.openModal();
-    //   }).catch(() => {
-    //     // cancel
-    //   });
+      this.alertService.confirm('มีรายการที่ต้องการอนุมัติจำนวน ' + ids.length + ' รายการ ต้องการอนุมัติใช่หรือไม่?')
+        .then(() => {
+          try {
+            console.log(ids);
+            
+            this.receiveService.saveApprove(ids)
+              .then((res: any) => {
+                if (res.ok) {
+                  this.alertService.success()
+                  console.log('success');
+                  this.getWaitingList()
+                } else {
+                  console.log(res);
+                  this.alertService.error(res.error);
+                }
+              })
+              .catch((error) => {
+                console.log(error+'435');
+                this.alertService.error(error.message);
+              });
+
+          } catch (error) {
+            this.alertService.error('เกิดข้อผิดพลาด')
+          }
+        }).catch(() => {
+          // cancel
+        });
+    }
   }
 
   async printDeliveryDate(showOption: any, sDate: any, eDate: any) {
@@ -771,12 +734,12 @@ export class ReceiveComponent implements OnInit {
   }
 
   async doSearchPo() {
-  //   this.modalLoading.show();
-  //   const rs: any = await this.receiveService.getPurchasesListSearch(this.perPage, this.offset, this.queryPo);
-  //   if (rs.ok) {
-  //     this.purchases = rs.rows;
-  //     this.totalPurchases = rs.total;
-  //   }
-  //   this.modalLoading.hide();
+    //   this.modalLoading.show();
+    //   const rs: any = await this.receiveService.getPurchasesListSearch(this.perPage, this.offset, this.queryPo);
+    //   if (rs.ok) {
+    //     this.purchases = rs.rows;
+    //     this.totalPurchases = rs.total;
+    //   }
+    //   this.modalLoading.hide();
   }
 }

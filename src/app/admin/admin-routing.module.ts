@@ -8,6 +8,7 @@ import { TransferDashboardComponent } from './transfer-dashboard/transfer-dashbo
 import { IssuesComponent } from './issues/issues.component';
 import { RequisitionComponent } from './requisition/requisition.component';
 import { AlertExpiredComponent } from './alert-expired/alert-expired.component';
+import { ReceiveEditComponent } from './receive-edit/receive-edit.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,7 @@ const routes: Routes = [
       { path: 'products', component: ProductsComponent },
       { path: 'receives', component: ReceiveComponent },
       { path: 'receives/purchase', component: ReceivePurchaseComponent },
+      { path: 'receives/edit', component: ReceiveEditComponent },
       { path: 'transfer-dashboard', component: TransferDashboardComponent },
       { path: 'issues', component: IssuesComponent },
       { path: 'requisition', component: RequisitionComponent },

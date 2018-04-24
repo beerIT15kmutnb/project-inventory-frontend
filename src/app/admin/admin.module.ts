@@ -20,17 +20,27 @@ import { ProductsService } from './products.service';
 import { AuthModule } from '../auth/auth.module';
 import { ReceiveService } from './receive.service';
 import { GridDetailModule } from '../grid-detail/grid-detail.module';
+import { DirectivesModule } from '../directives/directives.module';
+import { AgxTypeaheadModule } from '@siteslave/agx-typeahead';
+import { TextMaskModule } from 'angular2-text-mask';
+import { ReceiveEditComponent } from './receive-edit/receive-edit.component';
+
+
 @NgModule({
   imports: [
     CommonModule,
+    AuthModule,
     HelperModule,
     ClarityModule,
     FormsModule,
+    TextMaskModule,
     ModalsModule,
     MyDatePickerTHModule,
     AdminRoutingModule,
-    AuthModule,
-    GridDetailModule
+    GridDetailModule,
+    DirectivesModule,
+    AgxTypeaheadModule,
+  
   ],
   declarations: [
     LayoutComponent, 
@@ -40,7 +50,8 @@ import { GridDetailModule } from '../grid-detail/grid-detail.module';
     TransferDashboardComponent,
     IssuesComponent,
     RequisitionComponent,
-    AlertExpiredComponent
+    AlertExpiredComponent,
+    ReceiveEditComponent
   ],
   providers:[
     ToThaiDatePipe,
