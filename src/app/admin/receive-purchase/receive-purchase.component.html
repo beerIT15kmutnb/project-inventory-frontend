@@ -60,8 +60,8 @@
 </div>
 
 <clr-datagrid class="grid-order" [style.padding-top.px]="5">
-  <clr-dg-column [style.width.px]="500">ชื่อสินค้า</clr-dg-column>
-  <clr-dg-column [style.width.px]="120">จำนวนรับ</clr-dg-column>
+  <clr-dg-column [style.width.px]="400">ชื่อสินค้า</clr-dg-column>
+  <clr-dg-column [style.width.px]="100">จำนวนรับ</clr-dg-column>
   <clr-dg-column [style.width.px]="180">หน่วย</clr-dg-column>
   <clr-dg-column style="text-align: center; width: 100px;">รวม</clr-dg-column>
   <clr-dg-column [style.width.px]="180">Lot no.</clr-dg-column>
@@ -93,7 +93,7 @@
     </clr-dg-cell>
     <clr-dg-cell style="line-height: 25px;">
       <!-- <input [textMask]="{mask: maskDate}" style="width: 100%; background-color: #FFF9C4" name="expireDate" id="expireDate" type="text" -->
-      <input  style="width: 100%; background-color: #FFF9C4" name="expireDate" id="expireDate" type="text"
+      <input  [textMask]="{mask: maskDate}"  style="width: 100%; background-color: #FFF9C4" name="expireDate" id="expireDate" type="text"
         [value]="product.expired_date" #expired (keyup)="editChangeExpired(idx, expired.value)" />
     </clr-dg-cell>
     <!-- <clr-dg-cell> -->

@@ -321,6 +321,9 @@ export class ReceiveEditComponent implements OnInit {
     //   //
     // }
   }
+  editChangeExpired(idx: any, expired: any) {
+    this.products[idx].expired_date = expired;
+  }
 
   clearProductSearch() {
     this.selectedProductId = null;
@@ -377,6 +380,8 @@ export class ReceiveEditComponent implements OnInit {
   }
 
   addProduct() {
+    let cehckDateformath = moment( this.selectedExpiredDate,'DD/MM/YYYY').isValid() ? true : false;
+    if (cehckDateformath) {
     const product: any = {};
 
     product.product_id = this.selectedProductId;
@@ -399,6 +404,9 @@ export class ReceiveEditComponent implements OnInit {
       
       this.clearForm();
     }
+  } else {
+    this.alertService.error('รูปแบบวันที่ผิดพลาด');
+  }
 
   }
 
@@ -944,6 +952,7 @@ export class ReceiveEditComponent implements OnInit {
                 this.modalLoading.hide();
                 this.isSaving = false;
                 if (res.ok) {
+                  this.alertService.success();
                   this.router.navigate(['/admin/receives']);
                 } else {
                   this.alertService.error(res.error);

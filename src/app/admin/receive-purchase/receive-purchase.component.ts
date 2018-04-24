@@ -382,58 +382,30 @@ export class ReceivePurchaseComponent implements OnInit {
   }
 
   addProduct() {
-    const product: any = {};
-    product.product_id = this.selectedProductId;
-    product.product_name = this.selectedProductName;
-    // product.generic_name = this.selectedGenericName;
-    product.receive_qty = this.selectedReceiveQty;
-    // product.canReceive = this.selectedReceiveQty;
-    // // product.primary_unit_id = this.primaryUnitId;
-    // // product.primary_unit_name = this.primaryUnitName;
-    product.lot_no = this.selectedLotNo ? this.selectedLotNo.toUpperCase() : null;
-    // product.generic_id = this.selectedGenericId;
-    // product.discount = +this.selectedDiscount;
-    // product.expire_num_days = this.selectedExpireNumDays;
-    // // vendor
-    // product.manufacture_id = this.selectedManufactureId;
-    // product.manufacture_name = this.selectedManufactureName;
+    let cehckDateformath = moment(this.selectedExpiredDate, 'DD/MM/YYYY').isValid() ? true : false;
+    if (cehckDateformath) {
+      const product: any = {};
+      product.product_id = this.selectedProductId;
+      product.product_name = this.selectedProductName;
+      product.receive_qty = this.selectedReceiveQty;
+      product.lot_no = this.selectedLotNo ? this.selectedLotNo.toUpperCase() : null;
+      product.expired_date = this.selectedExpiredDate;
 
-    // // warehouses
-    // product.warehouse_id = this.selectedWarehouseId;
-    // product.warehouse_name = this.selectedWarehouseName;
+      console.log(product);
 
-    // // location
-    // product.location_id = this.selectedLocationId;
-    // product.location_name = this.selectedLocationName;
-
-    // product.unit_generic_id = this.selectedUnitGenericId;
-    product.large_unit_name = this.searchProduct.large_unit_name;
-    product.small_qty = this.searchProduct.small_qty;
-    product.small_unit_name = this.searchProduct.small_unit_name;
-    // product.unit_name = this.selectedUnitName;
-    // product.unit_name = this.selectedUnitName;
-    // product.conversion_qty = +this.conversionQty;
-
-    // // lot control
-    // product.is_lot_control = this.isLotControl;
-
-    // product.cost = this.selectedCost;
-
-    // // ของแถม
-    // product.is_free = this.isFree ? 'Y' : 'N';
-    product.expired_date = this.selectedExpiredDate;
-
-    console.log(product);
-
-    let idx = _.findIndex(this.products, { product_id: this.selectedProductId, lot_no: this.selectedLotNo, expired_date: this.selectedExpiredDate})
-    if (idx > -1) {
-      this.alertService.error('รายการนี้มีอยู่แล้ว กรุณาตรวจสอบ');
+      let idx = _.findIndex(this.products, { product_id: this.selectedProductId, lot_no: this.selectedLotNo, expired_date: this.selectedExpiredDate })
+      if (idx > -1) {
+        this.alertService.error('รายการนี้มีอยู่แล้ว กรุณาตรวจสอบ');
+      } else {
+        this.products.push(product);
+        //   // cal total price
+        // this.countTotalCost();
+        this.clearForm();
+      }
     } else {
-      this.products.push(product);
-      //   // cal total price
-      // this.countTotalCost();
-      this.clearForm();
+      this.alertService.error('รูปแบบวันที่ผิดพลาด');
     }
+
 
   }
 
@@ -559,36 +531,8 @@ export class ReceivePurchaseComponent implements OnInit {
     if (this.receiveDate) {
       const _receiveDate = this.receiveDate ?
         `${this.receiveDate.date.year}-${this.receiveDate.date.month}-${this.receiveDate.date.day}` : null;
-      console.log(_receiveDate);
+      console.log(_receiveDate); this.saveReceiveTo();
 
-      //   const rsP = await this.periodService.getStatus(_receiveDate)
-      //   if (rsP.rows[0].status_close === 'Y') {
-      //     this.alertService.error('ปิดรอบบัญชีแล้ว ไม่สามารถรับได้');
-      //     console.log('err ปิดรอบบัญชี');
-      //     this.isReceivePeriod = true;
-      //   } else {
-      //     const rs = await this.receiveService.getPurchaseCheckHoliday(_receiveDate);
-      //     console.log(rs);
-      //     if (rs.ok) {
-      //       this.isReceiveHoliday = false;
-      // await this.checkExpired();
-      //     } else {
-      //       this.isReceiveHoliday = true; // วันหยุด
-      //       console.log('err วันที่คุณเลือกเป็นวันหยุดราชการ จะรับสินค้าหรือไม่');
-      //       this.alertService.confirm(rs.error)
-      //         .then(async () => {
-      //           this.isReceiveHoliday = false; // วันหยุด
-      //           await this.checkExpired();
-      //         })
-      //         .catch(() => {
-      //           this.isReceiveHoliday = true;
-      //         })
-      // if (!this.isExpired && !this.isItemExpired && !this.isReceiveHoliday && !this.isReceivePeriod) {
-      this.saveReceiveTo();
-      // }
-      //     }
-
-      //   }
     } else {
       this.alertService.error('กรุณาระบุวันที่รับ');
     }
@@ -643,18 +587,12 @@ export class ReceivePurchaseComponent implements OnInit {
               }
             });
             console.log(_products, summary);
-
-            //           if (isErrorWarehouse) {
-            //             this.isSaving = false;
-            //             this.modalLoading.hide();
-            //             this.alertService.error('ข้อมูลรายการสินค้าไม่ครบถ้วน [คลังสินค้า, หน่วยรับ]');
-            //           } else {
-            //             // save product receive
             this.receiveService.saveReceive(summary, _products)
               .then((res: any) => {
                 this.modalLoading.hide();
                 this.isSaving = false;
                 if (res.ok) {
+                  this.alertService.success()
                   this.router.navigate(['/admin/receives']);
                 } else {
                   this.alertService.error(res.error);
