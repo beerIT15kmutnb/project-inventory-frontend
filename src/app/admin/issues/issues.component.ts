@@ -1,6 +1,7 @@
+
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { State } from '@clr/angular';
-// import { IssueService } from 'app/admin/issue.service';
+import { IssueService } from '../issue.service';
 import { AlertService } from '../../alert.service';
 
 import { IMyOptions } from 'mydatepicker-th';
@@ -19,7 +20,7 @@ export class IssuesComponent implements OnInit {
   issues = [];
   loading = false;
   total = 0;
-  perPage = 2;
+  perPage = 10;
   isSaving = false;
   status: any = '';
   token: any;
@@ -40,48 +41,53 @@ export class IssuesComponent implements OnInit {
   page: any
 
   constructor(
-    // private issueService: IssueService,
+    private issueService: IssueService,
     private alertService: AlertService,
     private router: Router,
     // private accessCheck: AccessCheck,
-    // @Inject('API_URL') private apiUrl: string
+    @Inject('API_URL') private apiUrl: string
   ) {
-    // this.token = sessionStorage.getItem('token');
-    // this.currentPage = +sessionStorage.getItem('currentPageIssue') ? +sessionStorage.getItem('currentPageIssue') : 1;
+    this.token = sessionStorage.getItem('token');
+    this.currentPage = +sessionStorage.getItem('currentPageIssue') ? +sessionStorage.getItem('currentPageIssue') : 1;
   }
 
   ngOnInit() { }
 
   async refresh(state: State) {
-    // this.offset = +state.page.from;
-    // sessionStorage.setItem('currentPageIssue', this.currentPage.toString());
-    // this.modalLoading.show();
-    // try {
-    //   const rs = await this.issueService.list(this.perPage, this.offset, this.status);
-    //   this.issues = rs.rows;
-    //   this.total = rs.total;
-    //   this.modalLoading.hide();
-    // } catch (error) {
-    //   this.modalLoading.hide();
-    //   this.alertService.error(error.message);
-    // }
+    this.offset = +state.page.from;
+    sessionStorage.setItem('currentPageIssue', this.currentPage.toString());
+    this.modalLoading.show();
+    try {
+      const rs = await this.issueService.list(this.perPage, this.offset, this.status);
+      if (rs.ok) {
+        this.issues = rs.rows;
+        this.total = rs.total;
+        this.modalLoading.hide();
+      } else {
+        this.modalLoading.hide();
+      this.alertService.error(rs.error);
+      }
+    } catch (error) {
+      this.modalLoading.hide();
+      this.alertService.error(error.message);
+    }
   }
 
   async getIssues() {
-    // this.modalLoading.show();
-    // try {
-    //   const rs = await this.issueService.list(this.perPage, this.offset, this.status);
-    //   if (rs.ok) {
-    //     this.issues = rs.rows;
-    //     this.total = +rs.total;
-    //   } else {
-    //     this.alertService.error(rs.error);
-    //   }
-    //   this.modalLoading.hide();
-    // } catch (error) {
-    //   this.modalLoading.hide();
-    //   this.alertService.error(error.message);
-    // }
+    this.modalLoading.show();
+    try {
+      const rs = await this.issueService.list(this.perPage, this.offset, this.status);
+      if (rs.ok) {
+        this.issues = rs.rows;
+        this.total = +rs.total;
+      } else {
+        this.alertService.error(rs.error);
+      }
+      this.modalLoading.hide();
+    } catch (error) {
+      this.modalLoading.hide();
+      this.alertService.error(error.message);
+    }
   }
 
   removeIssue(s: any) {
@@ -191,7 +197,7 @@ export class IssuesComponent implements OnInit {
   }
 
   changeStatus() {
-    // this.getIssues();
+    this.getIssues();
   }
 
 }

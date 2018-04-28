@@ -36,7 +36,6 @@
   <clr-dg-column style="width: 150px;">วันที่</clr-dg-column>
   <clr-dg-column style="width: 150px;">เลขที่</clr-dg-column>
   <clr-dg-column>ประเภท</clr-dg-column>
-  <clr-dg-column>อ้างอิง</clr-dg-column>
   <!-- <clr-dg-column style="width: 180px;">จำนวนรายการ</clr-dg-column> -->
   <clr-dg-column>หมายเหตุ</clr-dg-column>
   <clr-dg-column style="width: 150px;">#</clr-dg-column>
@@ -45,8 +44,7 @@
     <!-- <wm-transaction-issue-detail *clrIfExpanded [issueId]="s.issue_id" ngProjectAs="clr-dg-row-detail"></wm-transaction-issue-detail> -->
     <clr-dg-cell style="text-align: center;">{{s.issue_date | toThaiDate}}</clr-dg-cell>
     <clr-dg-cell style="text-align: center;">{{s.issue_code}}</clr-dg-cell>
-    <clr-dg-cell>{{s.transaction_name}}2</clr-dg-cell>
-    <clr-dg-cell>{{s.ref_document}}</clr-dg-cell>
+    <clr-dg-cell>{{s.transaction_name}}</clr-dg-cell>
     <!-- <clr-dg-cell style="text-align: right;">{{s.total | number}}</clr-dg-cell> -->
     <clr-dg-cell>{{s.comment}}</clr-dg-cell>
     <clr-dg-cell style="text-align: center;">

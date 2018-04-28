@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
-// import { TransferDashboardService } from 'app/admin/transfer-dashboard.service';
 import { AlertService } from './../../alert.service';
 import * as _ from 'lodash';
+import { TransferDashboardService } from '../transfer-dashboard.service';
+import { State } from '@clr/angular';
 
 @Component({
   selector: 'app-transfer-dashboard',
@@ -20,13 +21,13 @@ export class TransferDashboardComponent implements OnInit {
   perPage = 10;
 
   constructor(
-    // private dashboardSevice: TransferDashboardService,
+    private dashboardSevice: TransferDashboardService,
     private alertService: AlertService,
-    // @Inject('API_URL') private apiUrl: string
+    @Inject('API_URL') private apiUrl: string
   ) { }
 
   ngOnInit() {
-    // this.getWarehouse();
+    this.getWarehouse();
   }
 
   async getWarehouse() {
@@ -45,6 +46,9 @@ export class TransferDashboardComponent implements OnInit {
     // }
   }
 
+  async refresh(event:State){
+
+  }
   async getTransaction() {
     // this.modalLoading.show();
     // try {

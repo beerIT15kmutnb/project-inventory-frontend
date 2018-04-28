@@ -14,12 +14,12 @@
       <!-- <a href="{{env.purchasingUrl}}" *ngIf="Purchasing" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip"aria-haspopup="true"> -->
       <a href=""  class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip"aria-haspopup="true">
         <clr-icon shape="shopping-cart"></clr-icon>
-        <span class="tooltip-content">Purchasing</span>
+        <span class="tooltip-content">อุกปรณ์สำนักงาน</span>
       </a>
       <!-- <a href="{{env.inventoryUrl}}" routerLink="{{env.inventoryUrl}}" routerLinkActive="active" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right"role="tooltip" aria-haspopup="true"> -->
       <a href="" routerLink="" routerLinkActive="active" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right"role="tooltip" aria-haspopup="true">
         <clr-icon shape="data-cluster"></clr-icon>
-        <span class="tooltip-content">Inventory</span>
+        <span class="tooltip-content">ยา/เวชภัณฑ์</span>
       </a>
       <!-- <a href="{{env.umUrl}}" *ngIf="Administrator" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip"aria-haspopup="true"> -->
       <a href=""  class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip"aria-haspopup="true">
@@ -115,100 +115,13 @@
             <clr-icon shape="library"></clr-icon>
             คลังสินค้า
           </a>
-          <a clrVerticalNavLink routerLink="/admin/warehouse-type" routerLinkActive="active">
-            <clr-icon shape="library"></clr-icon>
-            ประเภทคลังสินค้า
-          </a>
-          <a clrVerticalNavLink routerLink="/admin/requisition-type" routerLinkActive="active">
-            <clr-icon shape="note"></clr-icon>
-            ประเภทการเบิก
-          </a>
-          <a clrVerticalNavLink routerLink="/admin/transection-type" routerLinkActive="active">
-            <clr-icon shape="note"></clr-icon>
-            ประเภทการตัดจ่าย
-          </a>
-          <a clrVerticalNavLink routerLink="/admin/receiveother-type" routerLinkActive="active">
-            <clr-icon shape="note"></clr-icon>
-            ประเภทการรับแบบอื่นๆ
-          </a>
-          <!-- <a clrVerticalNavLink routerLink="/admin/warehouse-products" routerLinkActive="active">
-            <clr-icon shape="folder"></clr-icon>
-            กำหนดสินค้าในคลัง
-          </a> -->
-          <a clrVerticalNavLink routerLink="/admin/requisition-templates" routerLinkActive="active">
-            <clr-icon shape="plugin"></clr-icon>
-            Template ชุดเบิก
-          </a>
-          <a clrVerticalNavLink routerLink="/admin/shipping-network" routerLinkActive="active">
-            <clr-icon shape="car"></clr-icon>
-            Shipping Network
-          </a>
-          <a clrVerticalNavLink routerLink="/admin/receive-planning" routerLinkActive="active">
-            <clr-icon shape="folder-open"></clr-icon>
-            กำหนดการรับสินค้า
-          </a>
-          <a clrVerticalNavLink routerLink="/admin/his-mapping" routerLinkActive="active">
-            <clr-icon shape="share"></clr-icon>
-            Map รหัสยากับ HIS
-          </a>
-          <a clrVerticalNavLink routerLink="/admin/donators" routerLinkActive="active">
-            <clr-icon shape="organization"></clr-icon>
-            ผู้บริจาค
-          </a>
           <a clrVerticalNavLink routerLink="/admin/min-max" routerLinkActive="active">
             <clr-icon shape="calculator" class="is-solid"></clr-icon>
             กำหนด MIN - MAX
           </a>
         </clr-vertical-nav-group-children>
       </clr-vertical-nav-group>
-      <clr-vertical-nav-group routerLinkActive="active">
-        <a clrVerticalNavLink href="javascript://">
-          <clr-icon shape="printer" clrVerticalNavIcon></clr-icon>
-          ระบบรายงาน
-        </a>
-        <clr-vertical-nav-group-children *clrIfExpanded="false">
-          <!-- <a clrVerticalNavLink routerLink="/admin/reports/stock-card" routerLinkActive="active">
-            <clr-icon shape="printer"></clr-icon>
-            รายงานคุมคลังเวชภัณฑ์
-          </a> -->
-          <a clrVerticalNavLink routerLink="/admin/reports/product-remain" routerLinkActive="active">
-            <clr-icon shape="printer"></clr-icon>
-            สินค้าคงเหลือ
-          </a>
-          <a clrVerticalNavLink routerLink="/admin/reports/product-expired" routerLinkActive="active">
-            <clr-icon shape="printer"></clr-icon>
-            สินค้าใกล้หมดอายุ
-          </a>
-          <a clrVerticalNavLink routerLink="/admin/reports/product-manufacture" routerLinkActive="active">
-            <clr-icon shape="printer"></clr-icon>
-            รายงานการผลิต
-          </a>
-          <a clrVerticalNavLink routerLink="/admin/reports/purchasing-notgiveaway" routerLinkActive="active">
-            <clr-icon shape="printer"></clr-icon>
-            รายงานการจัดซื้อ
-          </a>
-          <!-- <a clrVerticalNavLink routerLink="/admin/reports/product-receive" routerLinkActive="active">
-            <clr-icon shape="printer"></clr-icon>
-            รายงานเวชภัณฑ์ที่รับจากการสั่งซื้อ
-          </a> -->
-          <!-- <a clrVerticalNavLink routerLink="/admin/reports/receives" routerLinkActive="active">
-            <clr-icon shape="printer"></clr-icon>
-            ประวัติการตรวจรับสินค้า
-          </a> -->
-          <!-- <a clrVerticalNavLink routerLink="/admin/reports/value-products" routerLinkActive="active">
-            <clr-icon shape="printer"></clr-icon>
-            รายงานมูลค่ายาและเวชภัณฑ์คงคลัง
-          </a> -->
-          <!-- <a clrVerticalNavLink routerLink="/admin/reports/inventory-status" routerLinkActive="active">
-            <clr-icon shape="printer"></clr-icon>
-            รายงานสถานะเวชภัณฑ์คงคลัง
-          </a> -->
-          <!-- <a clrVerticalNavLink routerLink="/admin/reports/product-summary" routerLinkActive="active">
-            <clr-icon shape="printer"></clr-icon>
-            สรุปงานคลังเวชภัณฑ์
-          </a> -->
-        </clr-vertical-nav-group-children>
-      </clr-vertical-nav-group>
+     
       <!-- <a clrVerticalNavLink routerLinkActive="active" routerLink="./credit">
         <clr-icon shape="certificate" clrVerticalNavIcon></clr-icon>
         Credit

@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
-// import { AlertExpiredService } from '../alert-expired.service';
+import { AlertExpiredService } from '../alert-expired.service';
 import { AlertService } from '../../alert.service';
-// import { ProductsService } from './../products.service';
+import { ProductsService } from '../products.service';
 
 @Component({
   selector: 'app-alert-expired',
@@ -23,14 +23,14 @@ export class AlertExpiredComponent implements OnInit {
   products = [];
 
   constructor(
-    // private alertExpiredService: AlertExpiredService,
+    private alertExpiredService: AlertExpiredService,
     private alertService: AlertService,
     // private ref: ChangeDetectorRef,
-    // private productService: ProductsService,
+    private productService: ProductsService,
   ) { }
 
   ngOnInit() {
-    // this.getAllProducts();
+    this.getAllProducts();
     // this.getStatus();
     // this.getGenericType();
     // this.getProductExpired();

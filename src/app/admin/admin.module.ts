@@ -24,6 +24,10 @@ import { DirectivesModule } from '../directives/directives.module';
 import { AgxTypeaheadModule } from '@siteslave/agx-typeahead';
 import { TextMaskModule } from 'angular2-text-mask';
 import { ReceiveEditComponent } from './receive-edit/receive-edit.component';
+import { IssueService } from './issue.service';
+import { IssuesNewComponent } from './issues-new/issues-new.component';
+import { AlertExpiredService } from './alert-expired.service';
+import { TransferDashboardService } from './transfer-dashboard.service';
 
 
 @NgModule({
@@ -51,12 +55,16 @@ import { ReceiveEditComponent } from './receive-edit/receive-edit.component';
     IssuesComponent,
     RequisitionComponent,
     AlertExpiredComponent,
-    ReceiveEditComponent
+    ReceiveEditComponent,
+    IssuesNewComponent
   ],
   providers:[
     ToThaiDatePipe,
     ProductsService,
-    ReceiveService
+    ReceiveService,
+    IssueService,
+    AlertExpiredService,
+    TransferDashboardService
   ]
 })
 export class AdminModule { }

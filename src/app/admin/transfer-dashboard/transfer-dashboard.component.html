@@ -25,7 +25,7 @@
         </clr-dg-footer>
       </clr-datagrid> -->
       <div [clrLoading]="loading">
-        <clr-datagrid>
+        <clr-datagrid (clrDgRefresh)="refresh($event)" style="padding-top: 5px;" [(clrDgSelected)]="selectedApprove">
           <clr-dg-column [clrDgField]="'generic_name'">ชื่อเวชภัณฑ์</clr-dg-column>
           <clr-dg-column [style.width.px]="100">จำนวนต่ำสุด</clr-dg-column>
           <clr-dg-column [style.width.px]="100">จำนวนสูงสุด</clr-dg-column>
