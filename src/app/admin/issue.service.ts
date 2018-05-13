@@ -23,5 +23,10 @@ export class IssueService {
     return rs.json();
   }
 
+  async getTransactionIssues() {
+    const rs = await this.authHttp.get(`${this.url}/issues/getTransactionIssues`).toPromise();
+    return rs.json();
+  }
+
 
 }

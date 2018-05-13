@@ -5,9 +5,9 @@ import { ToThaiDatePipe } from './../../helper/to-thai-date.pipe';
 import { Component, OnInit, ChangeDetectorRef, ViewChild, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 // import { WarehouseService } from "../warehouse.service";
-import { ReceiveService } from "../receive.service";
+import { ReceiveService } from '../receive.service';
 // import { LabelerService } from "../labeler.service";
-import { AlertService } from "../../alert.service";
+import { AlertService } from '../../alert.service';
 import { IMyOptions } from 'mydatepicker-th';
 
 import 'rxjs/add/operator/filter';
@@ -18,16 +18,17 @@ import * as moment from 'moment';
 // import { DateService } from 'app/date.service';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'wm-receive-edit',
   templateUrl: './receive-edit.component.html'
 })
 export class ReceiveEditComponent implements OnInit {
 
-  searchProduct:any = {
+  searchProduct: any = {
     small_qty: null,
     small_unit_name: null,
     large_unit_name: null
-  }
+  };
   @ViewChild('htmlPreview') public htmlPreview: any;
   // @ViewChild('lotModal') public lotModal: any;
   // @ViewChild('manufactureList') public manufactureList: any;
@@ -151,7 +152,7 @@ export class ReceiveEditComponent implements OnInit {
   isLotControl: any;
 
   isItemExpired = false; // false = รับได้ true = หมดอายุ
-  isExpired = false // false = กรอกวันหมดอายุ   true = ไม่กรอกวันหมดอายุ
+  isExpired = false; // false = กรอกวันหมดอายุ   true = ไม่กรอกวันหมดอายุ
   isReceiveHoliday = false; // false = รับได้ true = เป็นวันหยุด
   isReceivePeriod = false; // false = รับได้ true = ปิดรอบ
 
@@ -357,7 +358,7 @@ export class ReceiveEditComponent implements OnInit {
   setSelectedProduct(event: any) {
     try {
       console.log(event);
-      this.searchProduct = event
+      this.searchProduct = event;
       this.selectedProductId = event ? event.product_id : null;
       //   this.selectedGenericId = event ? event.generic_id : null;
       this.selectedProductName = event ? `${event.product_name}` : null;
@@ -380,33 +381,33 @@ export class ReceiveEditComponent implements OnInit {
   }
 
   addProduct() {
-    let cehckDateformath = moment( this.selectedExpiredDate,'DD/MM/YYYY').isValid() ? true : false;
+    let cehckDateformath = moment(this.selectedExpiredDate, 'DD/MM/YYYY').isValid() ? true : false;
     if (cehckDateformath) {
-    const product: any = {};
+      const product: any = {};
 
-    product.product_id = this.selectedProductId;
-    product.product_name = this.selectedProductName;
-    product.receive_qty = this.selectedReceiveQty;
-    product.lot_no = this.selectedLotNo ? this.selectedLotNo.toUpperCase() : null;
-    product.large_unit_name = this.searchProduct.large_unit_name;
-    product.small_qty = this.searchProduct.small_qty;
-    product.small_unit_name = this.searchProduct.small_unit_name;
-    product.expired_date = this.selectedExpiredDate;
+      product.product_id = this.selectedProductId;
+      product.product_name = this.selectedProductName;
+      product.receive_qty = this.selectedReceiveQty;
+      product.lot_no = this.selectedLotNo ? this.selectedLotNo.toUpperCase() : null;
+      product.large_unit_name = this.searchProduct.large_unit_name;
+      product.small_qty = this.searchProduct.small_qty;
+      product.small_unit_name = this.searchProduct.small_unit_name;
+      product.expired_date = this.selectedExpiredDate;
 
-    console.log(product);
-    
-    let idx = _.findIndex(this.products, { product_id: this.selectedProductId, lot_no: this.selectedLotNo, expired_date: this.selectedExpiredDate})
-    if (idx > -1) {
-      this.alertService.error('รายการนี้มีอยู่แล้ว กรุณาตรวจสอบ');
+      console.log(product);
+
+      let idx = _.findIndex(this.products, { product_id: this.selectedProductId, lot_no: this.selectedLotNo, expired_date: this.selectedExpiredDate });
+      if (idx > -1) {
+        this.alertService.error('รายการนี้มีอยู่แล้ว กรุณาตรวจสอบ');
+      } else {
+        this.products.push(product);
+        console.log(this.products);
+
+        this.clearForm();
+      }
     } else {
-      this.products.push(product);
-      console.log(this.products);
-      
-      this.clearForm();
+      this.alertService.error('รูปแบบวันที่ผิดพลาด');
     }
-  } else {
-    this.alertService.error('รูปแบบวันที่ผิดพลาด');
-  }
 
   }
 
@@ -803,7 +804,7 @@ export class ReceiveEditComponent implements OnInit {
               month: moment(v.expired_date).get('month') + 1,
               day: moment(v.expired_date).get('date')
             }
-          }
+          };
           obj.product_id = v.product_id,
             obj.product_name = v.product_name,
             obj.lot_no = v.lot_no,
@@ -813,9 +814,9 @@ export class ReceiveEditComponent implements OnInit {
             obj.small_qty = v.conversion_qty,
             obj.small_unit_name = v.base_unit_name,
             obj.large_unit_name = v.from_unit_name,
-            obj.expired_date = receiveDateTmp.date.day+'/'+receiveDateTmp.date.month+'/'+receiveDateTmp.date.year
-            this.products.push(obj);
-        })
+            obj.expired_date = receiveDateTmp.date.day + '/' + receiveDateTmp.date.month + '/' + receiveDateTmp.date.year;
+          this.products.push(obj);
+        });
 
         // this.countTotalCost();
 
@@ -864,7 +865,7 @@ export class ReceiveEditComponent implements OnInit {
       const res: any = await this.receiveService.getReceiveInfo(this.receiveId);
       if (res.ok) {
         console.log(res.rows);
-        
+
         if (res.rows) {
 
           this.receiveCode = res.rows.receive_code;
@@ -877,7 +878,7 @@ export class ReceiveEditComponent implements OnInit {
                 month: moment(res.rows.receive_date).get('month') + 1,
                 day: moment(res.rows.receive_date).get('date')
               }
-            }
+            };
           }
           if (res.rows.delivery_date) {
             this.deliveryDate = {
@@ -886,7 +887,7 @@ export class ReceiveEditComponent implements OnInit {
                 month: moment(res.rows.delivery_date).get('month') + 1,
                 day: moment(res.rows.delivery_date).get('date')
               }
-            }
+            };
           }
 
         }
@@ -904,9 +905,9 @@ export class ReceiveEditComponent implements OnInit {
     if (this.receiveDate) {
       const _receiveDate = this.receiveDate ?
         `${this.receiveDate.date.year}-${this.receiveDate.date.month}-${this.receiveDate.date.day}` : null;
-        console.log(_receiveDate);
-       
-            this.saveReceiveTo();
+      console.log(_receiveDate);
+
+      this.saveReceiveTo();
 
     } else {
       this.alertService.error('กรุณาระบุวันที่รับ');
@@ -936,7 +937,7 @@ export class ReceiveEditComponent implements OnInit {
               receiveCode: this.receiveCode,
               deliveryCode: this.deliveryCode,
               deliveryDate: _deliveryDate,
-            }
+            };
             //           // remove qty = 0
             const _products = [];
             //           // check warehouse
@@ -947,7 +948,7 @@ export class ReceiveEditComponent implements OnInit {
               }
             });
             console.log(_products, summary);
-            this.receiveService.updateReceive(this.receiveId,summary, _products)
+            this.receiveService.updateReceive(this.receiveId, summary, _products)
               .then((res: any) => {
                 this.modalLoading.hide();
                 this.isSaving = false;

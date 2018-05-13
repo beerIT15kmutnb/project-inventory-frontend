@@ -31,7 +31,7 @@
               </select>
             </div>
           </div>
-          
+
         </div>
 
         <div class="form-group row">
@@ -59,29 +59,31 @@
 </div>
 
 <clr-datagrid>
+  <clr-dg-column [style.width.px]="5">#</clr-dg-column>
   <clr-dg-column [style.width.px]="400">ชื่อสินค้า</clr-dg-column>
   <clr-dg-column>จำนวนตัดจ่าย</clr-dg-column>
   <clr-dg-column>หน่วยตัดจ่าย</clr-dg-column>
-  <clr-dg-column>รวม (Base Unit)</clr-dg-column>
+  <clr-dg-column>รวม</clr-dg-column>
   <clr-dg-column>คงเหลือ</clr-dg-column>
 
   <clr-dg-column></clr-dg-column>
 
   <clr-dg-row *ngFor="let product of products; let idx = index;">
 
-    <clr-dg-cell style="line-height: 25px;">{{idx + 1}}</clr-dg-cell>
-    <clr-dg-cell style="line-height: 25px;">{{product.generic_name}}</clr-dg-cell>
-    <!-- <clr-dg-cell style="line-height: 25px;">{{product.expired_date | toEngDate}}</clr-dg-cell> -->
+    <clr-dg-cell>{{idx + 1}}</clr-dg-cell>
+    <clr-dg-cell>{{product.product_name}}</clr-dg-cell>
     <clr-dg-cell>
       <input type="text" #issueQty (keyup)="editChangeIssueQty(idx, issueQty)" class="wm-edit-box-number" style="width: 100%; background-color: #FFF9C4"
         wmNumberOnly [value]="product.issue_qty" />
     </clr-dg-cell>
-    <clr-dg-cell>
+    <clr-dg-cell style=" text-align: right;">
+      {{product.large_unit_name}}({{product.small_qty}}{{product.small_unit_name}})
       <!-- <wm-select-receive-unit #unit (onSelect)="editChangeUnit(idx, $event, unit)" [selectedUnitGenericId]="product.unit_generic_id"
         [genericId]="product.generic_id"></wm-select-receive-unit> -->
     </clr-dg-cell>
-    <clr-dg-cell style="line-height: 25px; text-align: right;">{{product.issue_qty*product.conversion_qty | number}} {{product.unit_name}}</clr-dg-cell>
-  <!-- <clr-dg-cell style="line-height: 25px;text-align: right;">{{product.reserve_qty | number}} {{product.unit_name}}</clr-dg-cell> -->
+    <clr-dg-cell style="text-align: right;" [ngStyle]="{'color': (product.issueQty * product.small_qty) > product.remain_qty ? 'red' : 'green'}">{{ product.issue_qty*product.small_qty | number }} {{product.small_unit_name}}</clr-dg-cell>
+    <clr-dg-cell style="text-align: right;">{{product.issue_qty | number}} {{product.large_unit_name}}</clr-dg-cell>
+    <!-- <clr-dg-cell style="line-height: 25px;text-align: right;">{{product.reserve_qty | number}} {{product.unit_name}}</clr-dg-cell> -->
     <!-- <clr-dg-cell style="line-height: 25px; text-align: right;" [ngStyle]="{'color': (product.issue_qty * product.conversion_qty) > product.remain_qty ? 'red' : 'green'}">{{product.remain_qty - (product.issue_qty*product.conversion_qty) | number}}</clr-dg-cell> -->
     <clr-dg-cell style="text-align: center;">
       <div class="btn-group btn-primary">
@@ -92,23 +94,29 @@
     </clr-dg-cell>
   </clr-dg-row>
   <clr-dg-row class="newLine">
+    <clr-dg-cell></clr-dg-cell>
     <clr-dg-cell>
+      <wm-search-product #productSearch (onSelect)="setSelectedProduct($event)" (onChange)="changeSearchProduct($event)"></wm-search-product>
       <!-- <wm-search-generic-warehouse-zero [warehouseId]="warehouseId" #productSearch (onSelect)="setSelectedProduct($event)"></wm-search-generic-warehouse-zero> -->
     </clr-dg-cell>
     <clr-dg-cell>
-      <input type="text" class="wm-edit-box-number" style="width: 100px;" style="background-color: #FFF9C4" [disabled]="!genericId"
+      <input type="text" class="wm-edit-box-number" style="width: 100px;" style="background-color: #FFF9C4" [disabled]="!selectedProductId"
         [(ngModel)]="issueQty" autocomplete="off" wmNumberWithOutDot placeholder="">
     </clr-dg-cell>
-    <clr-dg-cell>
+    <clr-dg-cell style="text-align: right; line-height: 25px;">
+      <div *ngIf="searchProduct.large_unit_name !== null">
+        {{searchProduct.large_unit_name}}({{searchProduct.small_qty}}{{searchProduct.small_unit_name}})
+      </div>
+
       <!-- <wm-select-receive-unit #unitList (onSelect)="changeUnit($event)"></wm-select-receive-unit> -->
     </clr-dg-cell>
-    <clr-dg-cell style="text-align: right; line-height: 25px;" [ngStyle]="{'color': (issueQty * conversionQty) > remainQty ? 'red' : 'green'}">{{ issueQty*conversionQty | number }} {{primaryUnitName}}</clr-dg-cell>
-    <clr-dg-cell style="text-align: right; line-height: 25px;">{{ remainQty | number }} {{primaryUnitName}}</clr-dg-cell>
+    <clr-dg-cell style="text-align: right; line-height: 25px;" [ngStyle]="{'color': (issueQty * searchProduct.small_qty) > remainQty ? 'red' : 'green'}">{{ issueQty*searchProduct.small_qty | number }} {{searchProduct.small_unit_name}}</clr-dg-cell>
+    <clr-dg-cell style="text-align: right; line-height: 25px;">{{ remainQty | number }} {{searchProduct.large_unit_name}}</clr-dg-cell>
     <!-- <clr-dg-cell style="text-align: center; line-height: 25px;">{{ primaryUnitName }}</clr-dg-cell> -->
 
     <clr-dg-cell style="text-align: center;">
       <div class="btn-group btn-primary">
-        <button class="btn btn-success btn-sm wm-small-btn" [disabled]="!genericId || !issueQty || !unitGenericId || ((issueQty * conversionQty) > reserveQty)"
+        <button class="btn btn-success btn-sm wm-small-btn" [disabled]="!selectedProductId || !issueQty ||  ((issueQty * searchProduct.small_qty) > remainQty)"
           (click)="addProduct()">
           เพิ่ม
         </button>

@@ -36,13 +36,12 @@ export class ProductsService {
   //   return resp.json();
   // }
 
-  // async getProductRemain(productId: any, lotId: any) {
-  //   const resp = await this.authHttp.post(`${this.url}/products/remain`, {
-  //     productId: productId,
-  //     lotId: lotId
-  //   }).toPromise();
-  //   return resp.json();
-  // }
+  async getProductRemain(productId: any) {
+    const resp = await this.authHttp.post(`${this.url}/products/remain`, {
+      product_id: productId
+    }).toPromise();
+    return resp.json();
+  }
 
   // async getProductRemainByWarehouse(productId: any, lotId: any, warehouseId: any) {
   //   const resp = await this.authHttp.post(`${this.url}/products/remain/warehouse`, {

@@ -20,6 +20,8 @@ import { IssueService } from '../issue.service';
   styles: []
 })
 export class IssuesNewComponent implements OnInit {
+  selectedProductName: string;
+  selectedProductId: any;
   products = [];
   issueDate = null;
   transactionId: null;
@@ -38,7 +40,7 @@ export class IssuesNewComponent implements OnInit {
   productName: any = null;
   genericId: any;
 
-  issueQty: any;
+  issueQty: any = 0;
   expiredDate: any = null;
   lotNo: any;
   conversionQty = 0;
@@ -60,6 +62,11 @@ export class IssuesNewComponent implements OnInit {
 
   isOpenModal = false;
   reserveQty;
+  searchProduct: any = {
+    small_qty: null,
+    small_unit_name: null,
+    large_unit_name: null
+  };
   // @ViewChild('unitList') public unitList: any;
   // @ViewChild('lotModal') public lotModal: any;
   // @ViewChild('lotList') public lotList: any;
@@ -112,8 +119,9 @@ export class IssuesNewComponent implements OnInit {
   }
 
   async getTransactionaIssues() {
-    // const rs = await this.basicService.getTransactionIssues();
-    // this.issues = rs.rows;
+    const rs = await this.issueService.getTransactionIssues();
+    console.log( rs.rows);
+    this.issues = rs.rows;
   }
 
   onEditChangeLots(event: any, idx: any) {
@@ -124,21 +132,43 @@ export class IssuesNewComponent implements OnInit {
     // this.products[idx].remain_qty = event.qty;
     // this.products[idx].conversion_qty = event.conversion_qty;
   }
+  changeSearchProduct(event) {
+    if (event) {
+      this.productSearch.clearProductSearch();
+      this.clearForm();
+    }
+  }
+  async setSelectedProduct(event: any) {
+    try {
+      console.log(event);
+      this.searchProduct = event;
+      this.selectedProductId = event ? event.product_id : null;
+      if(this.selectedProductId){
+        console.log(this.selectedProductId);
+        
+        const rs = await this.productService.getProductRemain(this.selectedProductId)
+        console.log(rs.data);
+        
+        this.remainQty = rs.data[0].qty
+      }
+      //   this.selectedGenericId = event ? event.generic_id : null;
+      this.selectedProductName = event ? `${event.product_name}` : null;
+      //   this.selectedGenericName = event ? `${event.generic_name}` : null;
+      // this.selectedExpireNumDays = event ? event.expire_num_days : 0;
 
-  setSelectedProduct(event: any) {
-    // try {
-    //   this.productId = event ? event.product_id : null;
-    //   this.genericName = event ? `${event.generic_name}` : null;
-    //   this.genericId = event ? event.generic_id : null;
-    //   this.unitList.setGenericId(this.genericId);
-    //   this.remainQty = event.qty;
-    //   this.reserveQty = event.qty - event.reserve_qty;
-    //   this.primaryUnitName = event.primary_unit_name;
-    //   console.log(event);
+      //   this.manufactureList.getManufacture(this.selectedGenericId);
+      //   this.warehouseList.getWarehouses(this.selectedGenericId);
 
-    // } catch (error) {
-    //   console.log(error.message);
-    // }
+      // this.primaryUnitId = event ? event.primary_unit_id : null;
+      // this.primaryUnitName = event ? event.primary_unit_name : null;
+      //   this.unitList.setGenericId(this.selectedGenericId);
+
+      //   // lot control
+      //   this.isLotControl = event ? event.is_lot_control : null;
+
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 
   async changeUnit(event: any) {
@@ -148,8 +178,6 @@ export class IssuesNewComponent implements OnInit {
     // } catch (error) {
     // }
   }
-
-
   changeLots(event: any) {
     // try {
     //   const idx = _.findIndex(this.lots, { lot_no: this.lotNo });
@@ -180,38 +208,39 @@ export class IssuesNewComponent implements OnInit {
 
   async addProduct() {
 
-    // const idx = _.findIndex(this.products, { generic_id: this.genericId });
-    // if (idx > -1) {
-    //   this.alertService.success('รายการซ้ำ', 'จำนวนจะไปเพิ่มในรายการเดิม');
-    //   const newQty = +this.products[idx].issue_qty + +this.issueQty;
-    //   if (newQty > +this.products[idx].remain_qty) {
-    //     this.products[idx].issue_qty = this.products[idx].remain_qty;
-    //   } else {
-    //     this.products[idx].issue_qty = newQty;
-    //   }
-    //   await this.alowcate(this.genericId);
-    // } else {
+    const idx = _.findIndex(this.products, { product_id: this.selectedProductId });
+    if (idx > -1) {
+      this.alertService.success('รายการซ้ำ', 'จำนวนจะไปเพิ่มในรายการเดิม');
+      const newQty = +this.products[idx].issue_qty + +this.issueQty;
+      if (newQty > +this.products[idx].remain_qty) {
+        this.products[idx].issue_qty = this.products[idx].remain_qty;
+      } else {
+        this.products[idx].issue_qty = newQty;
+      }
+      // await this.alowcate(this.genericId);
+    } else {
 
-    //   if (this.remainQty < this.issueQty) {
-    //     this.alertService.error('จำนวนจ่าย มากกว่าจำนวน คงเหลือ');
-    //   } else {
-    //     const obj: any = {};
-    //     obj.issue_qty = +this.issueQty;
-    //     obj.generic_id = this.genericId;
-    //     obj.generic_name = this.genericName;
-    //     obj.remain_qty = +this.remainQty;
-    //     obj.reserve_qty = +this.reserveQty;
-    //     obj.conversion_qty = +this.conversionQty;
-    //     obj.unit_generic_id = this.unitGenericId;
-    //     obj.warehouse_id = this.warehouseId;
-    //     obj.unit_name = this.primaryUnitName;
-    //     obj.items = [];
-    //     this.products.push(obj);
-    //     // console.log(this.products);
-    //     await this.alowcate(this.genericId);
-    //   }
-    // }
-    // this.clearForm();
+      if (this.remainQty < this.issueQty) {
+        this.alertService.error('จำนวนจ่าย มากกว่าจำนวน คงเหลือ');
+      } else {
+        const obj: any = {};
+        obj.issue_qty = +this.issueQty;
+        obj.product_id = this.selectedProductId;
+        obj.product_name = this.selectedProductName;
+        obj.remain_qty = +this.remainQty;
+        obj.reserve_qty = +this.reserveQty;
+        obj.large_unit_name = this.searchProduct.large_unit_name
+        obj.small_qty=this.searchProduct.small_qty
+        obj.small_unit_name=this.searchProduct.small_unit_name
+        // obj.warehouse_id = this.warehouseId;
+        
+        obj.items = [];
+        this.products.push(obj);
+        // console.log(this.products);
+        // await this.alowcate(this.genericId);
+      }
+    }
+    this.clearForm();
   }
 
   async alowcate(genericId) {
@@ -283,28 +312,32 @@ export class IssuesNewComponent implements OnInit {
   }
 
   removeSelectedProduct(idx: any) {
-    // this.alertService.confirm('ต้องการลบรายการนี้ ใช่หรือไม่?')
-    //   .then(() => {
-    //     this.products.splice(idx, 1);
-    //   }).catch(() => { });
+    this.alertService.confirm('ต้องการลบรายการนี้ ใช่หรือไม่?')
+      .then(() => {
+        this.products.splice(idx, 1);
+      }).catch(() => { });
   }
 
   clearForm() {
-    // this.remainQty = 0;
-    // this.issueQty = '';
+    this.remainQty = 0;
+    this.issueQty = '';
     // this.lotNo = null;
-    // this.productId = null;
+    this.selectedProductId = null;
     // this.genericId = null;
-    // this.productName = null;
+    this.selectedProductName = null;
     // // this.primaryUnitId = null;
     // // this.primaryUnitName = null;
     // this.expiredDate = null;
-    // this.unitGenericId = null;
+    this.searchProduct = {
+      small_qty: null,
+      small_unit_name: null,
+      large_unit_name: null
+    };
     // this.conversionQty = 0;
     // this.reserveQty = 0;
     // this.unitList.clearUnits();
     // this.lots = [];
-    // this.productSearch.clearProductSearch();
+    this.productSearch.clearProductSearch();
   }
 
   async saveIssue() {

@@ -32,13 +32,13 @@ export class IssuesComponent implements OnInit {
 
   titel: any;
   isConfirm: any;
-  openModalConfirm = false
-  confirmApprove = false
-  tmpOderApprove: any
-  username: any
-  password: any
-  action: any
-  page: any
+  openModalConfirm = false;
+  confirmApprove = false;
+  tmpOderApprove: any;
+  username: any;
+  password: any;
+  action: any;
+  page: any;
 
   constructor(
     private issueService: IssueService,
@@ -65,7 +65,7 @@ export class IssuesComponent implements OnInit {
         this.modalLoading.hide();
       } else {
         this.modalLoading.hide();
-      this.alertService.error(rs.error);
+        this.alertService.error(rs.error);
       }
     } catch (error) {
       this.modalLoading.hide();
@@ -141,9 +141,9 @@ export class IssuesComponent implements OnInit {
   }
 
   close() {
-    this.openModalConfirm = false
-    this.username = ''
-    this.password = ''
+    this.openModalConfirm = false;
+    this.username = '';
+    this.password = '';
   }
 
   approveIssue() {
