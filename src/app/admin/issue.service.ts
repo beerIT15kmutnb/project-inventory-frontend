@@ -11,7 +11,7 @@ export class IssueService {
   ) { }
 
   async updateIssue(issueId: any, summary: any, products: any) {
-    const rs = await this.authHttp.put(`${this.url}/issues/${issueId}`, {
+    const rs = await this.authHttp.put(`${this.url}/issues/update/${issueId}`, {
       summary: summary,
       products: products
     }).toPromise();
@@ -27,6 +27,22 @@ export class IssueService {
     const rs = await this.authHttp.get(`${this.url}/issues/getTransactionIssues`).toPromise();
     return rs.json();
   }
-
+  
+  async setIssueDetail(issueId:any){   
+    const rs = await this.authHttp.get(`${this.url}/issues/setIssueDetail/`+issueId).toPromise();
+    return rs.json();
+  }
+  async setIssues(issueId:any){   
+    const rs = await this.authHttp.get(`${this.url}/issues/setIssues/`+issueId).toPromise();
+    return rs.json();
+  }
+  async saveIssue(summary: any, products: any) {
+    const rs = await this.authHttp.put(`${this.url}/issues/saveIssue`,{
+      summary:summary,
+      products:products
+    }).toPromise();
+    return rs.json();
+  }
+  
 
 }

@@ -8,6 +8,7 @@ import { JwtHelper } from 'angular2-jwt';
 
 import * as _ from 'lodash';
 
+import * as moment from 'moment';
 import { ProductsService } from '../products.service';
 // import { BasicService } from 'app/basic.service';
 import { IssueService } from '../issue.service';
@@ -15,11 +16,12 @@ import { IssueService } from '../issue.service';
 // import { UploadingService } from 'app/uploading.service';
 
 @Component({
-  selector: 'wm-issues-new',
-  templateUrl: './issues-new.component.html',
+  selector: 'wm-issues-edit',
+  templateUrl: './issues-edit.component.html',
   styles: []
 })
-export class IssuesNewComponent implements OnInit {
+export class IssuesEditComponent implements OnInit {
+  issueId: any;
   selectedProductName: string;
   selectedProductId: any;
   products = [];
@@ -114,13 +116,69 @@ export class IssuesNewComponent implements OnInit {
         day: date.getDate()
       }
     };
+    this.route.queryParams
+      // .filter(params => params.order)
+      .subscribe(params => {
+        this.issueId = params.issueId;
+      });
 
     this.getTransactionaIssues();
+    this.setIssues();
+    this.setIssueDetail()
+
+  }
+  async setIssueDetail() {
+    try {
+      let rs = await this.issueService.setIssueDetail(this.issueId)
+      if (rs.ok) {
+        console.log(rs.rows[0]);
+
+        this.products = _.map(rs.rows[0], (v) => {
+          return {
+            product_name: v.product_name,
+            issue_qty: +v.qty,
+            product_id: v.product_id,
+            remain_qty: v.remainQty,
+            large_unit_name: v.lm,
+            small_qty: +v.small_qty,
+            small_unit_name: v.sm
+
+          }
+        })
+
+      } else {
+        this.alertService.error(rs.error)
+      }
+    } catch (error) {
+      this.alertService.error(error)
+    }
+  }
+  async setIssues() {
+    try {
+      let rs = await this.issueService.setIssues(this.issueId)
+      if (rs.ok && rs.rows[0]) {
+        let res = rs.rows[0]
+        this.issueDate = {
+          date: {
+            year: moment(res.issue_date).get('year'),
+            month: moment(res.issue_date).get('month') + 1,
+            day: moment(res.issue_date).get('date')
+          }
+        };
+        this.transactionId = res.transaction_issue_id;
+        this.comment = res.comment
+      } else {
+        this.alertService.error(rs.error)
+      }
+    } catch (error) {
+      this.alertService.error(error)
+    }
+
   }
 
   async getTransactionaIssues() {
     const rs = await this.issueService.getTransactionIssues();
-    console.log( rs.rows);
+    console.log(rs.rows);
     this.issues = rs.rows;
   }
 
@@ -143,12 +201,12 @@ export class IssuesNewComponent implements OnInit {
       console.log(event);
       this.searchProduct = event;
       this.selectedProductId = event ? event.product_id : null;
-      if(this.selectedProductId){
+      if (this.selectedProductId) {
         console.log(this.selectedProductId);
-        
+
         const rs = await this.productService.getProductRemain(this.selectedProductId)
         console.log(rs.data);
-        
+
         this.remainQty = rs.data[0].qty
       }
       //   this.selectedGenericId = event ? event.generic_id : null;
@@ -229,10 +287,10 @@ export class IssuesNewComponent implements OnInit {
         obj.product_name = this.selectedProductName;
         obj.remain_qty = +this.remainQty;
         obj.large_unit_name = this.searchProduct.large_unit_name
-        obj.small_qty=this.searchProduct.small_qty
-        obj.small_unit_name=this.searchProduct.small_unit_name
+        obj.small_qty = this.searchProduct.small_qty
+        obj.small_unit_name = this.searchProduct.small_unit_name
         // obj.warehouse_id = this.warehouseId;
-        
+
         // obj.items = [];
         this.products.push(obj);
         // console.log(this.products);
@@ -286,7 +344,7 @@ export class IssuesNewComponent implements OnInit {
     // // const oldQty = +this.products[idx].issue_qty;
     // console.log(this.products);
 
-    if ((+qty.value ) > +this.products[idx].remain_qty) {
+    if ((+qty.value) > +this.products[idx].remain_qty) {
       this.alertService.error('จำนวนจ่าย มากกว่าจำนวนคงเหลือ');
       this.products[idx].issue_qty = '';
     } else {
@@ -341,53 +399,47 @@ export class IssuesNewComponent implements OnInit {
 
   async saveIssue() {
     const issueDate = this.issueDate ? `${this.issueDate.date.year}-${this.issueDate.date.month}-${this.issueDate.date.day}` : null;
-    // const rs = await this.periodService.getStatus(issueDate);
-    // if (rs.rows[0].status_close === 'Y') {
-    //   this.alertService.error('ปิดรอบบัญชีแล้ว ไม่สามารถตัดจ่ายได้')
-    // } else {
-      this.alertService.confirm('ต้องการบันทึกรายการ ตัดจ่าย ใช่หรือไม่?')
-        .then(() => {
-          this.modalLoading.show();
-          const summary: any = {};
-          summary.issueDate = this.issueDate ? `${this.issueDate.date.year}-${this.issueDate.date.month}-${this.issueDate.date.day}` : null;
-          summary.transactionId = this.transactionId;
-          summary.comment = this.comment;
-    //       summary.refDocument = this.refDocument;
+    this.alertService.confirm('ต้องการบันทึกรายการ ตัดจ่าย ใช่หรือไม่?')
+      .then(() => {
+        this.modalLoading.show();
+        const summary: any = {};
+        summary.issueDate = this.issueDate ? `${this.issueDate.date.year}-${this.issueDate.date.month}-${this.issueDate.date.day}` : null;
+        summary.transactionId = this.transactionId;
+        summary.comment = this.comment;
+        //       summary.refDocument = this.refDocument;
 
-    //       // check product remain
-          let isError = false;
-          this.products.forEach(v => {
-            const totalIssue = v.issue_qty;
-            if (totalIssue > v.remain_qty || v.issue_qty <= 0) {
-              isError = true;
-            }
-          });
-
-          if (isError) {
-            this.alertService.error('มีจำนวนที่มียอดจ่ายมากกว่ายอดคงเหลือ หรือ ไม่ได้ระบุจำนวนจ่าย');
-            this.modalLoading.hide();
-          } else {
-            console.log(this.products);
-            
-            this.issueService.saveIssue(summary, this.products)
-              .then((results: any) => {
-                if (results.ok) {
-                  this.alertService.success();
-                  this.router.navigate(['/admin/issues']);
-                } else {
-                  this.alertService.error(results.error);
-                }
-                this.modalLoading.hide();
-              })
-              .catch((error: any) => {
-                this.modalLoading.hide();
-                this.alertService.error(error.message);
-              });
+        //       // check product remain
+        let isError = false;
+        this.products.forEach(v => {
+          const totalIssue = v.issue_qty;
+          if (totalIssue > v.remain_qty || v.issue_qty <= 0) {
+            isError = true;
           }
-
-        }).catch(() => {
-          this.modalLoading.hide();
         });
+
+        if (isError) {
+          this.alertService.error('มีจำนวนที่มียอดจ่ายมากกว่ายอดคงเหลือ หรือ ไม่ได้ระบุจำนวนจ่าย');
+          this.modalLoading.hide();
+        } else {
+          this.issueService.updateIssue(this.issueId, summary, this.products)
+            .then((results: any) => {
+              if (results.ok) {
+                this.alertService.success();
+                this.router.navigate(['/admin/issues']);
+              } else {
+                this.alertService.error(results.error);
+              }
+              this.modalLoading.hide();
+            })
+            .catch((error: any) => {
+              this.modalLoading.hide();
+              this.alertService.error(error.message);
+            });
+        }
+
+      }).catch(() => {
+        this.modalLoading.hide();
+      });
     // }
   }
 
