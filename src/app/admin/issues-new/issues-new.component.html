@@ -59,7 +59,6 @@
 </div>
 
 <clr-datagrid>
-  <clr-dg-column [style.width.px]="5">#</clr-dg-column>
   <clr-dg-column [style.width.px]="400">ชื่อสินค้า</clr-dg-column>
   <clr-dg-column >จำนวนตัดจ่าย</clr-dg-column>
   <clr-dg-column>หน่วยตัดจ่าย</clr-dg-column>
@@ -69,11 +68,11 @@
   <clr-dg-column></clr-dg-column>
 
   <clr-dg-row *ngFor="let product of products; let idx = index;">
-
-    <clr-dg-cell style="text-align: right; line-height: 25px;">{{idx + 1}}</clr-dg-cell>
-    <clr-dg-cell style="text-align: left; line-height: 25px;">{{product.product_name}}</clr-dg-cell>
+    <wm-issue-product (onChange)="changeQtyGrid($event)" *clrIfExpanded [data]="product.items" ngProjectAs="clr-dg-row-detail"></wm-issue-product>
+    <!-- <clr-dg-cell style="text-align: right; line-height: 25px;">{{idx + 1}}</clr-dg-cell> -->
+    <clr-dg-cell style="text-align: left; line-height: 25px;">{{idx + 1}}. {{product.product_name}}</clr-dg-cell>
     <clr-dg-cell>
-      <input type="text" #issueQty (keyup)="editChangeIssueQty(idx, issueQty)" class="wm-edit-box-number" style="width: 100%; background-color: #FFF9C4"
+      <input disabled type="text" #issueQty (keyup)="editChangeIssueQty(idx, issueQty)" class="wm-edit-box-number" style="width: 100%; background-color: #FFF9C4"
         wmNumberOnly [value]="product.issue_qty" />
     </clr-dg-cell>
     <clr-dg-cell style="text-align: right; line-height: 25px;">
@@ -93,8 +92,9 @@
       </div>
     </clr-dg-cell>
   </clr-dg-row>
+
+  
   <clr-dg-row class="newLine">
-    <clr-dg-cell></clr-dg-cell>
     <clr-dg-cell>
       <wm-search-product #productSearch (onSelect)="setSelectedProduct($event)" (onChange)="changeSearchProduct($event)"></wm-search-product>
       <!-- <wm-search-generic-warehouse-zero [warehouseId]="warehouseId" #productSearch (onSelect)="setSelectedProduct($event)"></wm-search-generic-warehouse-zero> -->
@@ -139,64 +139,5 @@
     กลับหน้าหลัก
   </button>
 </div>
-
-<clr-modal [(clrModalOpen)]="isOpenModal" [clrModalSize]="'xl'" [clrModalClosable]="false">
-  <h3 class="modal-title">ประวัติการตัดจ่าย</h3>
-  <div class="modal-body">
-    <clr-datagrid style="height: 300px;">
-      <clr-dg-column>เลขที่</clr-dg-column>
-      <clr-dg-column>วันที่ตัดจ่าย</clr-dg-column>
-      <clr-dg-column>หมายเหตุ</clr-dg-column>
-      <clr-dg-column></clr-dg-column>
-
-      <clr-dg-row *ngFor="let i of hlistIssues">
-        <!-- <wma-issues-list *clrIfExpanded [issueId]="i.issue_id" ngProjectAs="clr-dg-row-detail"></wma-issues-list> -->
-
-        <clr-dg-cell>{{i.issue_code}}</clr-dg-cell>
-        <clr-dg-cell>{{i.issue_date | toThaiDate}}</clr-dg-cell>
-        <clr-dg-cell>{{i.ref_ducoment}}</clr-dg-cell>
-        <clr-dg-cell>
-          <button type="button" class="btn btn-primary btn-sm wm-small-btn" (click)="addIssue(i.issue_id)">+ เพิ่ม</button>
-        </clr-dg-cell>
-      </clr-dg-row>
-    </clr-datagrid>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-danger btn-sm" (click)="isOpenModal = false">ปิดหน้าต่าง</button>
-  </div>
-</clr-modal>
-
-<clr-modal [(clrModalOpen)]="openUpload" [clrModalClosable]="false">
-  <h3 class="modal-title">อัปโหลดไฟล์</h3>
-  <div class="modal-body">
-    <p>เลือกไฟล์ที่ต้องการอัปโหลดโดยเลือกไฟล์ .xls, xlsx เท่านั้น</p>
-    <form>
-      <section class="form-block">
-        <div class="form-group row">
-          <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-            <input class="form-control" disabled type="text" id="txtFile" placeholder="..." [value]="fileName">
-          </div>
-          <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-            <div>
-              <label class="btn btn-sm btn-success btn-link wm-small-btn">
-                <input type="file" #file accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
-                  style="display: none;" (change)="fileChangeEvent($event)">
-                <clr-icon shape="search"></clr-icon>
-              </label>
-            </div>
-          </div>
-        </div>
-      </section>
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-sm btn-primary" [disabled]="!fileName" (click)="doUpload()">
-      อัปโหลดไฟล์
-    </button>
-    <button type="button" class="btn btn-sm btn-danger" (click)="openUpload = false">
-      ปิด/ยกเลิก
-    </button>
-  </div>
-</clr-modal>
 
 <app-loading-modal #modalLoading></app-loading-modal>

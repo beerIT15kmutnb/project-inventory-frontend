@@ -5,6 +5,8 @@ import { ClarityModule } from '@clr/angular';
 import { HelperModule } from '../helper/helper.module';
 import { FormsModule } from '@angular/forms';
 import { ModalsModule } from '../modals/modals.module';
+import { IssueProductComponent } from './issue-product/issue-product.component';
+import { DirectivesModule } from '../directives/directives.module';
 
 @NgModule({
   imports: [
@@ -12,15 +14,17 @@ import { ModalsModule } from '../modals/modals.module';
     
     HelperModule,
     FormsModule,
-    // DirectivesModule,
+    DirectivesModule,
     ModalsModule,
     ClarityModule
   ],
   declarations: [
     ProductDetailComponent,
+    IssueProductComponent
   ],
   exports:[
     ProductDetailComponent,
+    IssueProductComponent
   ]
 })
 export class GridDetailModule { }

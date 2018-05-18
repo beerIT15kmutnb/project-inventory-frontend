@@ -17,6 +17,11 @@ export class ProductsService {
     return resp.json();
   }
 
+  async getLot(productId:any ) {
+    const rs = await this.authHttp.get(`${this.url}/products/getLot?productId=${productId}`).toPromise();
+    return rs.json();
+  }
+
   async search(query: any, genericType: any, limit: number = 10, offset: number = 0) {
     const resp = await this.authHttp.post(`${this.url}/products/stock/products/search`, {
       limit: limit,
