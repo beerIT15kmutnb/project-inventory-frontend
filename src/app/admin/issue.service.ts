@@ -22,14 +22,27 @@ export class IssueService {
     const rs = await this.authHttp.get(`${this.url}/issues?limit=${limit}&offset=${offset}&status=${status}`).toPromise();
     return rs.json();
   }
+  async listDetail(id:any) {
+    const rs = await this.authHttp.get(`${this.url}/issues/listDetail?id=${id}`).toPromise();
+    return rs.json();
+  }
 
   async getTransactionIssues() {
     const rs = await this.authHttp.get(`${this.url}/issues/getTransactionIssues`).toPromise();
     return rs.json();
   }
-  
+  async approveIssue(issueId:any){
+    const rs = await this.authHttp.post(`${this.url}/issues/approveIssue`,{
+      issueId: issueId
+    }).toPromise();
+    return rs.json();
+  }
   async setIssueDetail(issueId:any){   
     const rs = await this.authHttp.get(`${this.url}/issues/setIssueDetail/`+issueId).toPromise();
+    return rs.json();
+  }
+  async setIssueProductDetail(issuePId:any){   
+    const rs = await this.authHttp.get(`${this.url}/issues/setIssueProductDetail/`+issuePId).toPromise();
     return rs.json();
   }
   async setIssues(issueId:any){   

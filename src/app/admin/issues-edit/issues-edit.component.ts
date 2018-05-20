@@ -135,6 +135,7 @@ export class IssuesEditComponent implements OnInit {
 
         this.products = _.map(rs.rows[0], (v) => {
           return {
+            issue_product_id: v.issue_product_id,
             product_name: v.product_name,
             issue_qty: +v.qty,
             product_id: v.product_id,
@@ -142,9 +143,27 @@ export class IssuesEditComponent implements OnInit {
             large_unit_name: v.lm,
             small_qty: +v.small_qty,
             small_unit_name: v.sm
-
           }
         })
+        for (let v of this.products) {
+          let rss = await this.issueService.setIssueProductDetail(v.issue_product_id)
+          if (rss.ok) {
+            console.log(rss.rows[0]);
+
+            v.items = _.map(rss.rows[0], (e) => {
+              return {
+                issue_product_id: e.issue_product_id,
+                product_id: e.product_id,
+                lot_no: e.lot_no,
+                qty: e.qty,
+                wm_product_id: e.wm_product_id,
+                remainQty :e.remainQty,
+                remainQtyB: e.remainQtyB,
+                expired_date: e.expired_date
+              }
+            })
+          }
+        }
 
       } else {
         this.alertService.error(rs.error)
@@ -291,8 +310,9 @@ export class IssuesEditComponent implements OnInit {
         obj.small_unit_name = this.searchProduct.small_unit_name
         // obj.warehouse_id = this.warehouseId;
 
-        // obj.items = [];
+        obj.items = [];
         this.products.push(obj);
+        await this.alowcate(this.selectedProductId);
         // console.log(this.products);
         // await this.alowcate(this.genericId);
       }
@@ -300,46 +320,67 @@ export class IssuesEditComponent implements OnInit {
     this.clearForm();
   }
 
-  async alowcate(genericId) {
-    // this.modalLoading.show();
-    // try {
-    //   if (this.products) {
-    //     let idx = _.findIndex(this.products, { generic_id: genericId })
-    //     let _data = {};
+  async alowcate(productId) {
+    this.modalLoading.show();
+    try {
+      let list
+      let result: any = await this.productService.getLot(productId);
+      console.log(result);
 
-    //     if (idx > -1) {
-    //       _data = {
-    //         genericId: this.products[idx].generic_id,
-    //         unitGenericId: this.products[idx].unit_generic_id,
-    //         genericQty: this.products[idx].issue_qty * this.products[idx].conversion_qty
-    //       };
-    //     }
+      if (result.ok) {
+        list = result.data[0];
+        // }
+        if (this.products) {
+          let idx = _.findIndex(this.products, { product_id: productId })
+          let _data = {};
+          console.log(list);
+          let issue_qty = this.products[idx].issue_qty
+          if (idx > -1) {
+            _.forEach(list, (v) => {
+              if (v.remainQty > 0)
+                if (v.remainQty >= issue_qty) {
+                  v.qty = issue_qty
+                  v.remainQtyB = v.remainQty - issue_qty
+                } else {
+                  v.qty = v.remainQty
+                  v.remainQtyB = v.remainQty - v.qty
+                }
+                issue_qty = issue_qty - v.qty
 
-    //     const data_ = [];
-    //     data_.push(_data);
+            })
+            console.log(list);
+            this.products[idx].items = list;
+            //   _data = {
+            //     genericId: this.products[idx].product_id,
+            //     unitGenericId: this.products[idx].unit_generic_id,
+            //     genericQty: this.products[idx].issue_qty * this.products[idx].conversion_qty
+            //   };
+          }
 
-    //     const result: any = await this.issueService.getIssuesProduct(data_);
-    //     if (result.ok) {
-    //       const list = result.rows;
-    //       list.forEach(v => {
-    //         v.unit_generic_id = this.products[idx].unit_generic_id
-    //       });
-    //       idx = _.findIndex(this.products, { generic_id: genericId })
-    //       if (idx > -1) {
-    //         this.products[idx].items = list;
-    //       }
-    //     } else {
-    //       console.log(result.error);
-    //       this.alertService.error();
-    //     }
-    //   }
-    //   this.modalLoading.hide();
-    // } catch (error) {
-    //   this.modalLoading.hide();
-    //   this.alertService.error(error.message);
-    // }
+          //     const data_ = [];
+          //     data_.push(_data);
+
+          //     const result: any = await this.issueService.getIssuesProduct(data_);
+          //     if (result.ok) {
+          //       const list = result.rows;
+          //       list.forEach(v => {
+          //         v.unit_generic_id = this.products[idx].unit_generic_id
+          //       });
+          //       idx = _.findIndex(this.products, { generic_id: genericId })
+          //       if (idx > -1) {
+          //         this.products[idx].items = list;
+          //       }
+        } else {
+          console.log(result.error);
+          this.alertService.error();
+        }
+      }
+      this.modalLoading.hide();
+    } catch (error) {
+      this.modalLoading.hide();
+      this.alertService.error(error.message);
+    }
   }
-
   editChangeIssueQty(idx: any, qty: any) {
     // // const oldQty = +this.products[idx].issue_qty;
     // console.log(this.products);
@@ -571,15 +612,21 @@ export class IssuesEditComponent implements OnInit {
   }
 
   changeQtyGrid(e) {
-    // let total_base = 0;
-    // e.forEach(v => {
-    //   total_base += (+v.product_qty);
-    // });
-
-    // const idx = _.findIndex(this.products, { generic_id: e[0].generic_id });
-    // if (idx > -1) {
-    //   const qty = Math.floor(total_base / +this.products[idx].conversion_qty);
-    //   this.products[idx].issue_qty = qty;
-    // }
+    // console.log(e);
+    
+    let total_base = 0;
+    e.forEach(v => {
+      total_base += (+v.qty); 
+    });
+    console.log(e[0].product_id);
+    
+    const idx = _.findIndex(this.products, { product_id: +e[0].product_id });
+    if (idx > -1) {
+      this.products[idx].issue_qty = total_base;
+    }
+    console.log(idx);
+    console.log(this.products);
+    console.log(this.products[idx]);
+    
   }
 }

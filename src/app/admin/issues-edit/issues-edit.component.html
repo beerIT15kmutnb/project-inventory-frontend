@@ -69,11 +69,11 @@
   <clr-dg-column></clr-dg-column>
 
   <clr-dg-row *ngFor="let product of products; let idx = index;">
-
+    <wm-issue-product (onChange)="changeQtyGrid($event)" *clrIfExpanded [data]="product.items" ngProjectAs="clr-dg-row-detail"></wm-issue-product>
     <clr-dg-cell style="text-align: right; line-height: 25px;">{{idx + 1}}</clr-dg-cell>
     <clr-dg-cell style="text-align: left; line-height: 25px;">{{product.product_name}}</clr-dg-cell>
     <clr-dg-cell>
-      <input type="text" #issueQty (keyup)="editChangeIssueQty(idx, issueQty)" class="wm-edit-box-number" style="width: 100%; background-color: #FFF9C4"
+      <input disabled type="text"  #issueQty (keyup)="editChangeIssueQty(idx, issueQty)" class="wm-edit-box-number" style="width: 100%; background-color: #FFF9C4"
         wmNumberOnly [value]="product.issue_qty" />
     </clr-dg-cell>
     <clr-dg-cell style="text-align: right; line-height: 25px;">

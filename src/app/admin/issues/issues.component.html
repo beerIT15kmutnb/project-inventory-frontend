@@ -14,7 +14,7 @@
         <button type="button" class="btn btn-sm btn-primary" (click)="showReport('')" [disabled]="!selectedApprove.length">
           <clr-icon shape="printer"></clr-icon> พิมรายงานตัดจ่าย
         </button>
-        <button type="button" class="btn btn-sm btn-success" (click)="approveIssueCheck()" [disabled]="!selectedApprove.length">
+        <button type="button" class="btn btn-sm btn-success" (click)="approveIssue()" [disabled]="!selectedApprove.length">
           <clr-icon shape="note"></clr-icon> อนุมัติตัดจ่าย
         </button>
       </div>
@@ -40,8 +40,8 @@
   <clr-dg-column>หมายเหตุ</clr-dg-column>
   <clr-dg-column style="width: 150px;">#</clr-dg-column>
   <clr-dg-placeholder>ไม่พบรายการ!</clr-dg-placeholder>
-  <clr-dg-row *ngFor="let s of issues" [clrDgItem]="s" [ngClass]="{'isSuccess': s.approved === 'Y', 'isError': s.is_cancel === 'Y'}">
-    <!-- <wm-transaction-issue-detail *clrIfExpanded [issueId]="s.issue_id" ngProjectAs="clr-dg-row-detail"></wm-transaction-issue-detail> -->
+  <clr-dg-row *ngFor="let s of issues" [clrDgItem]="s" [ngClass]="{'isSuccess': s.is_approve === 'Y', 'isError': s.is_cancel === 'Y'}">
+    <wm-transaction-issue-detail *clrIfExpanded [issueId]="s.issue_id" ngProjectAs="clr-dg-row-detail"></wm-transaction-issue-detail>
     <clr-dg-cell style="text-align: center;">{{s.issue_date | toThaiDate}}</clr-dg-cell>
     <clr-dg-cell style="text-align: center;">{{s.issue_code}}</clr-dg-cell>
     <clr-dg-cell>{{s.transaction_name}}</clr-dg-cell>
@@ -52,11 +52,11 @@
         <!-- <button [disabled]="isSaving" class="btn btn-sm btn-icon btn-primary" (click)="showReport(s.issue_id)">
           <clr-icon shape="printer"></clr-icon>
         </button> -->
-        <button [disabled]="s.approved === 'Y' || s.is_cancel === 'Y'" class="btn btn-sm btn-icon btn-success" routerLink="/admin/issues/edit"
+        <button [disabled]="s.is_approve === 'Y' || s.is_cancel === 'Y'" class="btn btn-sm btn-icon btn-success" routerLink="/admin/issues/edit"
           [queryParams]="{issueId: s.issue_id}">
           <clr-icon shape="note"></clr-icon>
         </button>
-        <button [disabled]="s.approved === 'Y' || s.is_cancel === 'Y'" class="btn btn-sm btn-icon btn-danger" (click)="removeIssue(s)">
+        <button [disabled]="s.is_approve === 'Y' || s.is_cancel === 'Y'" class="btn btn-sm btn-icon btn-danger" (click)="removeIssue(s)">
           <clr-icon shape="trash"></clr-icon>
         </button>
         <button [disabled]="s.is_cancel === 'Y'" class="btn btn-sm btn-icon btn-primary tooltip tooltip-sm tooltip-left" role="tooltip" aria-haspopup="true" (click)="showReport(s.issue_id)">

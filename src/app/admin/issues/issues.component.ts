@@ -62,6 +62,7 @@ export class IssuesComponent implements OnInit {
       if (rs.ok) {
         this.issues = rs.rows;
         this.total = rs.total;
+        this.selectedApprove = []
         this.modalLoading.hide();
       } else {
         this.modalLoading.hide();
@@ -80,6 +81,7 @@ export class IssuesComponent implements OnInit {
       if (rs.ok) {
         this.issues = rs.rows;
         this.total = +rs.total;
+        this.selectedApprove = []
       } else {
         this.alertService.error(rs.error);
       }
@@ -147,40 +149,42 @@ export class IssuesComponent implements OnInit {
   }
 
   approveIssue() {
-    // const issueIds = [];
-    // this.selectedApprove.forEach((v: any) => {
-    //   if (v.approved !== 'Y' && v.is_cancel !== 'Y') {
-    //     issueIds.push(v.issue_id);
-    //   }
-    // });
+    const issueIds = [];
+    this.selectedApprove.forEach((v: any) => {
+      if (v.approved !== 'Y' && v.is_cancel !== 'Y') {
+        issueIds.push(v.issue_id);
+      }
+    });
 
-    // if (issueIds.length) {
-    //   this.alertService.confirm(`มีรายการ ${issueIds.length} รายการ ที่ต้องการอนุมัติรายการใบตัดจ่าย ยืนยันใช่หรือไม่?`)
-    //     .then(async () => {
-    //       try {
-    //         this.modalLoading.show();
-    //         const rs: any = await this.issueService.approveIssue(issueIds);
-    //         if (rs.ok) {
-    //           this.alertService.success();
-    //           this.getIssues();
-    //         } else {
-    //           this.alertService.error(rs.error);
-    //         }
+    if (issueIds.length) {
+      this.alertService.confirm(`มีรายการ ${issueIds.length} รายการ ที่ต้องการอนุมัติรายการใบตัดจ่าย ยืนยันใช่หรือไม่?`)
+        .then(async () => {
+          try {
+            this.modalLoading.show();
+            console.log(issueIds);
+            
+            const rs: any = await this.issueService.approveIssue(issueIds);
+            if (rs.ok) {
+              this.alertService.success();
+              this.getIssues();
+            } else {
+              this.alertService.error(rs.error);
+            }
 
-    //         this.modalLoading.hide();
-    //       } catch (error) {
-    //         this.modalLoading.hide();
-    //         this.alertService.error(error.message);
-    //       }
-    //     })
-    //     .catch(() => {
-    //       // cancel
-    //       this.modalLoading.hide();
-    //     })
-    // } else {
-    //   this.selectedApprove = [];
-    //   this.alertService.error('ไม่พบรายการที่ต้องการอนุมัติ');
-    // }
+            this.modalLoading.hide();
+          } catch (error) {
+            this.modalLoading.hide();
+            this.alertService.error(error.message);
+          }
+        })
+        .catch(() => {
+          // cancel
+          this.modalLoading.hide();
+        })
+    } else {
+      this.selectedApprove = [];
+      this.alertService.error('ไม่พบรายการที่ต้องการอนุมัติ');
+    }
   }
 
   showReport(issues_id: any) {

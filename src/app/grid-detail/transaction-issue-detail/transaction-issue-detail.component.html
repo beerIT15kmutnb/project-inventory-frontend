@@ -1,0 +1,14 @@
+<div [clrLoading]="loading">
+  <clr-datagrid>
+    <clr-dg-column>ชื่อสินค้า</clr-dg-column>
+    <clr-dg-column>จำนวนจ่าย </clr-dg-column>
+    <clr-dg-column>หน่วย</clr-dg-column>
+
+    <clr-dg-row *ngFor="let r of products">
+      <clr-dg-cell>{{r.product_name}}</clr-dg-cell>
+      <clr-dg-cell style="text-align: right;">{{r.qty | number}} </clr-dg-cell>
+      <clr-dg-cell>{{r.lm}} ({{r.small_qty | number}} {{r.sm}})</clr-dg-cell>
+    </clr-dg-row>
+    <clr-dg-footer>{{products.length}} รายการ</clr-dg-footer>
+  </clr-datagrid>
+</div>

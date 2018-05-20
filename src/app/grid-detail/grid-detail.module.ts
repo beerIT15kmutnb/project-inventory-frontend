@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { ModalsModule } from '../modals/modals.module';
 import { IssueProductComponent } from './issue-product/issue-product.component';
 import { DirectivesModule } from '../directives/directives.module';
+import { TransactionIssuedetailComponent } from './transaction-issue-detail/transaction-issue-detail.component';
 
 @NgModule({
   imports: [
@@ -20,11 +21,13 @@ import { DirectivesModule } from '../directives/directives.module';
   ],
   declarations: [
     ProductDetailComponent,
-    IssueProductComponent
+    IssueProductComponent,
+    TransactionIssuedetailComponent
   ],
   exports:[
     ProductDetailComponent,
-    IssueProductComponent
+    IssueProductComponent,
+    TransactionIssuedetailComponent
   ]
 })
 export class GridDetailModule { }
