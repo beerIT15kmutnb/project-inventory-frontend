@@ -60,7 +60,7 @@
 
 <clr-datagrid>
   <clr-dg-column [style.width.px]="5">#</clr-dg-column>
-  <clr-dg-column [style.width.px]="400">ชื่อสินค้า</clr-dg-column>
+  <clr-dg-column [style.width.px]="400">ชื่อยา/เวชภัณฑ์</clr-dg-column>
   <clr-dg-column >จำนวนตัดจ่าย</clr-dg-column>
   <clr-dg-column>หน่วยตัดจ่าย</clr-dg-column>
   <clr-dg-column>รวม</clr-dg-column>
@@ -132,7 +132,7 @@
 <div>
   <button class="btn btn-success btn-sm" (click)="saveIssue()" [disabled]="!transactionId || !issueDate || !products.length">
     <clr-icon shape="floppy"></clr-icon>
-    บันทึกตัดจ่ายสินค้า
+    บันทึกตัดจ่ายยา/เวชภัณฑ์
   </button>
   <button class="btn btn-danger btn-sm" [routerLink]="['/admin/issues']">
     <clr-icon shape="home"></clr-icon>

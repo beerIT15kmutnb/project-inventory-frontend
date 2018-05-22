@@ -487,7 +487,7 @@ export class ReceivePurchaseComponent implements OnInit {
     //     this.products[idx].conversion_qty = +event.qty;
     //     this.countTotalCost();
     //   } else {
-    //     this.alertService.error('กรุณาเลือกหน่วยสินค้า')
+    //     this.alertService.error('กรุณาเลือกหน่วยยา/เวชภัณฑ์')
     //   }
     // } catch (error) {
     //   //
@@ -567,7 +567,7 @@ export class ReceivePurchaseComponent implements OnInit {
         `${this.purchaseDate.date.year}-${this.purchaseDate.date.month}-${this.purchaseDate.date.day}` : null;
 
       this.modalLoading.show();
-      this.alertService.confirm('ต้องการบันทึกข้อมูลการรับสินค้า ใช่หรือไม่?')
+      this.alertService.confirm('ต้องการบันทึกข้อมูลการรับยา/เวชภัณฑ์ ใช่หรือไม่?')
         .then(() => {
           try {
             const summary = {
@@ -738,7 +738,7 @@ export class ReceivePurchaseComponent implements OnInit {
     //       }
     //     }
     //     if (count > 0) {
-    //       this.alertService.error('มีเวชภัณฑ์หมดอายุ ไม่อนุญาตให้รับสินค้า');
+    //       this.alertService.error('มีเวชภัณฑ์หมดอายุ ไม่อนุญาตให้รับยา/เวชภัณฑ์');
     //       console.log('เวชภัณฑ์หมดอายุ');
     //       this.isItemExpired = true;
     //     }

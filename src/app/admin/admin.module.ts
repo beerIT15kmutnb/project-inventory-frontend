@@ -29,6 +29,8 @@ import { IssuesNewComponent } from './issues-new/issues-new.component';
 import { AlertExpiredService } from './alert-expired.service';
 import { TransferDashboardService } from './transfer-dashboard.service';
 import { IssuesEditComponent } from './issues-edit/issues-edit.component';
+import { RequisitionService } from './requisition.service';
+import { RequisitionNewComponent } from './requisition-new/requisition-new.component';
 
 
 @NgModule({
@@ -58,7 +60,8 @@ import { IssuesEditComponent } from './issues-edit/issues-edit.component';
     AlertExpiredComponent,
     ReceiveEditComponent,
     IssuesNewComponent,
-    IssuesEditComponent
+    IssuesEditComponent,
+    RequisitionNewComponent
   ],
   providers:[
     ToThaiDatePipe,
@@ -66,7 +69,8 @@ import { IssuesEditComponent } from './issues-edit/issues-edit.component';
     ReceiveService,
     IssueService,
     AlertExpiredService,
-    TransferDashboardService
+    TransferDashboardService,
+    RequisitionService
   ]
 })
 export class AdminModule { }

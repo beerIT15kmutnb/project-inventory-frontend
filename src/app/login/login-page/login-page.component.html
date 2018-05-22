@@ -1,16 +1,31 @@
 <clr-main-container>
   <!-- <clr-header class="header-6">
-    <div class="branding">
-      <a class="nav-link">
-        <img src="./assets/images/logo-mmis.png" style="width: 100px; height: 70px; padding-right: 5px;" alt="mmis logo" />        <span class="title">Warehouse & Inventory</span>
+    <div class="branding" >
+      <a class="nav-link" style="text-align: right !important;">
+        <img src="./assets/images/logo-icon.png" style="width: 45px; height: 45px;margin-right: 10px" alt="mmis logo" />        
+        <span class="title">
+          หน่วยบริการรักษาพยาบาล @ มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าพระนครเหนือ วิทยาเขตปราจีนบุรี
+        </span>
       </a>
     </div>
   </clr-header> -->
   <div class="login-wrapper">
     <form class="login">
-      <label class="title">
-            Inventory Management&#174;
+      <div style="text-align: center" >
+          <!-- <img src="./assets/images/logo-icon2.png" style="width: 100px; height: 70px; padding-right: 5px;" alt="logo" /> -->
+          <img src="./assets/images/logo-icon.png" style="width: 120px; height: 120px;margin-top: -90px;margin-bottom: 30px" alt="mmis logo" />        
+
+        <label style="font-size:25px">
+          ระบบสารสนเทศเพื่อการจัดการคลัง<br>
+          ยา/เวชภัณฑ์ <br>
+          และอุปกรณ์สำนักงาน
         </label>
+        <!-- <label style="font-size: 15px;margin-top: 5px;">
+          หน่วยบริการรักษาพยาบาล <br> 
+          มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าพระนครเหนือ <br>
+          วิทยาเขตปราจีนบุรี
+        </label> -->
+      </div>
       <div class="login-group">
         <input (keypress)="enterLogin($event)" autocomplete="off" class="username" [(ngModel)]="username" type="text" name="login_username" placeholder="ชื่อผู้ใช้งาน">
         <input (keypress)="enterLogin($event)" class="password" [(ngModel)]="password" type="password" name="login_password" placeholder="รหัสผ่าน">

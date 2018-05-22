@@ -2,8 +2,11 @@
   <clr-header class="header-4">
     <div class="branding" style="padding-left: 0px;">
       <a class="nav-link">
-        <img src="./assets/images/logo-icon.png" style="width: 100px; height: 70px;" alt="logo">
-        <span class="title">ห้องพยาบาล</span>
+        <div style="margin-left: 30px;margin-right: 10px;">
+          <img src="./assets/images/logo-icon.png" style="width: 40px; height: 40px;" alt="logo">
+        </div>
+        <span class="title">หน่วยบริการรักษาพยาบาล @ มจพ.ปจ.</span>
+        <br>
       </a>
     </div>
     <div class="header-nav">
@@ -12,17 +15,18 @@
         <span class="tooltip-content">Home</span>
       </a>
       <!-- <a href="{{env.purchasingUrl}}" *ngIf="Purchasing" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip"aria-haspopup="true"> -->
-      <a href=""  class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip"aria-haspopup="true">
+      <a href="" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip" aria-haspopup="true">
         <clr-icon shape="shopping-cart"></clr-icon>
         <span class="tooltip-content">อุกปรณ์สำนักงาน</span>
       </a>
       <!-- <a href="{{env.inventoryUrl}}" routerLink="{{env.inventoryUrl}}" routerLinkActive="active" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right"role="tooltip" aria-haspopup="true"> -->
-      <a href="" routerLink="" routerLinkActive="active" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right"role="tooltip" aria-haspopup="true">
+      <a href="" routerLink="" routerLinkActive="active" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip"
+        aria-haspopup="true">
         <clr-icon shape="data-cluster"></clr-icon>
         <span class="tooltip-content">ยา/เวชภัณฑ์</span>
       </a>
       <!-- <a href="{{env.umUrl}}" *ngIf="Administrator" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip"aria-haspopup="true"> -->
-      <a href=""  class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip"aria-haspopup="true">
+      <a href="" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip" aria-haspopup="true">
         <clr-icon shape="cog"></clr-icon>
         <span class="tooltip-content">Administrator</span>
       </a>
@@ -56,25 +60,25 @@
         <clr-icon clrVerticalNavIcon shape="alarm-clock" class="has-badge is-solid"></clr-icon>
         เวชภัณฑ์ที่ถึงจุดเบิก
       </a>
-      <a clrVerticalNavLink routerLink="/admin/products" title="รายการสินค้า" routerLinkActive="active">
+      <a clrVerticalNavLink routerLink="/admin/products" title="รายการยา/เวชภัณฑ์" routerLinkActive="active">
         <clr-icon clrVerticalNavIcon shape="folder"></clr-icon>
-        รายการสินค้า
+        รายการยา/เวชภัณฑ์
       </a>
-      <a clrVerticalNavLink routerLink="/admin/receives" title="รับสินค้าเข้าคลัง" routerLinkActive="active">
+      <a clrVerticalNavLink routerLink="/admin/receives" title="รับยา/เวชภัณฑ์เข้าคลัง" routerLinkActive="active">
         <clr-icon clrVerticalNavIcon shape="plus"></clr-icon>
-        รับสินค้าเข้าคลัง
+        รับยา/เวชภัณฑ์เข้าคลัง
       </a>
-      <a clrVerticalNavLink routerLink="/admin/issues" title="ตัดจ่ายสินค้า" routerLinkActive="active">
+      <a clrVerticalNavLink routerLink="/admin/issues" title="ตัดจ่ายยา/เวชภัณฑ์" routerLinkActive="active">
         <clr-icon clrVerticalNavIcon shape="scissors"></clr-icon>
-        ตัดจ่ายสินค้า
+        ตัดจ่ายยา/เวชภัณฑ์
       </a>
-      <!-- <a clrVerticalNavLink routerLink="/admin/transfer" title="โอนสินค้า" routerLinkActive="active">
+      <!-- <a clrVerticalNavLink routerLink="/admin/transfer" title="โอนยา/เวชภัณฑ์" routerLinkActive="active">
         <clr-icon clrVerticalNavIcon shape="two-way-arrows"></clr-icon>
-        โอนสินค้า
+        โอนยา/เวชภัณฑ์
       </a> -->
-      <a clrVerticalNavLink routerLink="/admin/requisition" title="เบิกสินค้า" routerLinkActive="active">
+      <a clrVerticalNavLink routerLink="/admin/requisition" title="เบิกยา/เวชภัณฑ์" routerLinkActive="active">
         <clr-icon clrVerticalNavIcon shape="tools"></clr-icon>
-        เบิกสินค้า
+        เบิกยา/เวชภัณฑ์
       </a>
       <a clrVerticalNavLink routerLink="/admin/alert-expired" title="แจ้งเตือนยาหมดอายุ" routerLinkActive="active">
         <clr-icon clrVerticalNavIcon shape="alarm-clock"></clr-icon>
@@ -84,9 +88,9 @@
         <clr-icon clrVerticalNavIcon shape="shield-check"></clr-icon>
         ปิดรอบบัญชี
       </a> -->
-      <!-- <a clrVerticalNavLink routerLink="/admin/counting" title="นับสินค้าคงเหลือ" routerLinkActive="active">
+      <!-- <a clrVerticalNavLink routerLink="/admin/counting" title="นับยา/เวชภัณฑ์คงเหลือ" routerLinkActive="active">
         <clr-icon clrVerticalNavIcon shape="clipboard"></clr-icon>
-        นับสินค้าคงเหลือ
+        นับยา/เวชภัณฑ์คงเหลือ
       </a> -->
       <!-- <a clrVerticalNavLink routerLink="/admin/his-issue-transaction" title="ตัดจ่ายจาก HIS" routerLinkActive="active">
         <clr-icon clrVerticalNavIcon shape="sync"></clr-icon>
@@ -113,7 +117,7 @@
         <clr-vertical-nav-group-children *clrIfExpanded="false">
           <a clrVerticalNavLink routerLink="/admin/warehouse" routerLinkActive="active">
             <clr-icon shape="library"></clr-icon>
-            คลังสินค้า
+            คลังยา/เวชภัณฑ์
           </a>
           <a clrVerticalNavLink routerLink="/admin/min-max" routerLinkActive="active">
             <clr-icon shape="calculator" class="is-solid"></clr-icon>
@@ -121,7 +125,7 @@
           </a>
         </clr-vertical-nav-group-children>
       </clr-vertical-nav-group>
-     
+
       <!-- <a clrVerticalNavLink routerLinkActive="active" routerLink="./credit">
         <clr-icon shape="certificate" clrVerticalNavIcon></clr-icon>
         Credit

@@ -181,7 +181,7 @@ export class ReceiveComponent implements OnInit {
   }
 
   removeReceive(w) {
-    // this.alertService.confirm('คุณต้องการลบรายการรับสินค้านี้ [' + w.receive_code + '] ใช่หรือไม่?')
+    // this.alertService.confirm('คุณต้องการลบรายการรับยา/เวชภัณฑ์นี้ [' + w.receive_code + '] ใช่หรือไม่?')
     //   .then(async () => {
     //     try {
     //       this.modalLoading.show();

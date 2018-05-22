@@ -1,6 +1,6 @@
 <nav class="breadcrumb">
   <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
-  <span class="breadcrumb-item active">ตัดจ่ายสินค้า</span>
+  <span class="breadcrumb-item active">ตัดจ่ายยา/เวชภัณฑ์</span>
 </nav>
 <div class="row wid99">
   <div class="col-md-6">
@@ -73,28 +73,5 @@
   </clr-dg-footer>
 </clr-datagrid>
 
-<clr-modal [(clrModalOpen)]="openModalConfirm" [clrModalStaticBackdrop]="true" [clrModalSize]="'md'" [clrModalClosable]="false">
-  <h3 class="modal-title">สิทธิ์การอนุมัติ{{titel}}</h3>
-  <div class="modal-body" style="height:150px">
-
-    <form>
-      <section class="form-block">
-        <div class="form-group">
-          <label for="aForm_1" class="required">User Name</label>
-          <input autocomplete="nope" type="text" id="username" name="username" [(ngModel)]="username" >
-        </div>
-        <div class="form-group">
-          <label for="aForm_1" class="required"> password</label>
-          <input autocomplete="new-password" type="password" id="password" name="password" [(ngModel)]="password"  (keyup.enter)="checkApprove(username,password)">
-        </div>
-      </section>
-    </form>
-  </div>
-  <div class="modal-footer" style="padding-top: 0px;">
-    <button type="button" class="btn btn-md btn-primary" [disabled]="!username || !password"
-      (click)="checkApprove(username,password)">บันทึก</button>
-    <button type="button" class="btn btn-md btn-danger-outline" (click)="close()">ปิด</button>
-  </div>
-</clr-modal>
 <app-loading-modal #modalLoading></app-loading-modal>
 <app-html-preview #htmlPreview></app-html-preview>

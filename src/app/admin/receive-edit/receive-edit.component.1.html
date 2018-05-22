@@ -1,6 +1,6 @@
 <nav class="breadcrumb">
   <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
-  <a class="breadcrumb-item" href="javascript://" routerLink="/admin/receives">รับสินค้าเข้าคลัง</a>
+  <a class="breadcrumb-item" href="javascript://" routerLink="/admin/receives">รับยา/เวชภัณฑ์เข้าคลัง</a>
   <span class="breadcrumb-item active">รับจากการซื้อ</span>
 </nav>
 <div class="progress loop" *ngIf="loading">
@@ -105,7 +105,7 @@
 <clr-datagrid class="grid-order">
   <clr-dg-column [style.width.px]="10">#</clr-dg-column>
   <clr-dg-column [style.width.px]="100">ของแถม</clr-dg-column>
-  <clr-dg-column [style.width.px]="300">ชื่อสินค้า</clr-dg-column>
+  <clr-dg-column [style.width.px]="300">ชื่อยา/เวชภัณฑ์</clr-dg-column>
   <clr-dg-column>จำนวนรับ</clr-dg-column>
   <clr-dg-column [style.width.px]="180">หน่วย</clr-dg-column>
   <clr-dg-column style="text-align: center; width: 100px;">รวม</clr-dg-column>
@@ -115,7 +115,7 @@
   <clr-dg-column [style.width.px]="180">ผู้ผลิต</clr-dg-column>
   <clr-dg-column [style.width.px]="100">Lot no.</clr-dg-column>
   <clr-dg-column [style.width.px]="120">หมดอายุ</clr-dg-column>
-  <clr-dg-column [style.width.px]="180">คลังสินค้า</clr-dg-column>
+  <clr-dg-column [style.width.px]="180">คลังยา/เวชภัณฑ์</clr-dg-column>
   <clr-dg-column [style.width.px]="150">สถานที่เก็บ</clr-dg-column>
   <clr-dg-column [style.width.px]="150"></clr-dg-column>
 
@@ -256,7 +256,7 @@
     </button> -->
     <button class="btn btn-danger btn-sm" (click)="removeReceive()" [disabled]="isApprove || deleting">
       <clr-icon shape="trash"></clr-icon>
-      ลบใบรับสินค้า
+      ลบใบรับยา/เวชภัณฑ์
     </button>
     <button class="btn btn-outline-success btn-sm" (click)="uploadFile()">
       <clr-icon shape="file"></clr-icon>
@@ -300,7 +300,7 @@
 <wm-loading-modal #modalLoading></wm-loading-modal>
 
 <clr-modal [(clrModalOpen)]="modalExpired" [clrModalClosable]="false">
-  <h3 class="modal-title">หมายเหตุการรับสินค้าเข้าคลังใกล้วันหมดอายุ</h3>
+  <h3 class="modal-title">หมายเหตุการรับยา/เวชภัณฑ์เข้าคลังใกล้วันหมดอายุ</h3>
   <div class="modal-body">
     <form class="compact" style="padding-top: 0px;">
       <section class="form-block">

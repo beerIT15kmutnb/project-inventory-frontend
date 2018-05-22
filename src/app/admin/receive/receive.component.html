@@ -1,13 +1,13 @@
 <nav class="breadcrumb">
   <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
-  <span class="breadcrumb-item active">รับสินค้าเข้าคลัง</span>
+  <span class="breadcrumb-item active">รับยา/เวชภัณฑ์เข้าคลัง</span>
 </nav>
 <div class="progress loop" *ngIf="loading">
   <progress></progress>
 </div>
 
   <button type="padding-top: 5px;" routerLink="/admin/receives/purchase" class="btn btn-sm btn-success" >
-    + รับสินค้าเข้าคลัง
+    + รับยา/เวชภัณฑ์เข้าคลัง
   </button>
 <!-- <button style="float: right;" class="btn btn-primary btn-sm btn-icon" (click)="printSelecOption()">
   <clr-icon shape="printer"></clr-icon> พิมพ์ใบนำส่ง
@@ -17,12 +17,12 @@
   <clr-icon shape="printer"></clr-icon> พิมพ์ใบนำส่ง (แบบมีเงื่อนไข)
 </button> -->
 <button  class="btn btn-primary btn-sm btn-icon" (click)="saveApprove()">
-    <clr-icon shape="tasks"></clr-icon> ยืนยันรับสินค้า
+    <clr-icon shape="tasks"></clr-icon> ยืนยันรับยา/เวชภัณฑ์
   </button>
 <!-- <clr-tabs>
   <clr-tab>
     <button clrTabLink (click)="clearSelectedApproved();selectTabReceive()">
-      <clr-icon shape="tasks"></clr-icon> รับสินค้าเข้าคลัง
+      <clr-icon shape="tasks"></clr-icon> รับยา/เวชภัณฑ์เข้าคลัง
     </button>
     <clr-tab-content *clrIfActive="tab === 'receive'"> -->
       <div class="card">
@@ -77,7 +77,7 @@
         <clr-dg-column style="width: 180px;">เลขที่ใบประมาณการ</clr-dg-column>
         <clr-dg-column style="width: 150px;"></clr-dg-column>
         <clr-dg-placeholder>ไม่พบรายการ!</clr-dg-placeholder>
-        <clr-dg-row *ngFor="let w of waitings" [clrDgItem]="w" [ngClass]="{'approve-status': w.approve_id, 'isError': w.is_cancel === 'Y'}">
+        <clr-dg-row *ngFor="let w of waitings" [clrDgItem]="w" [ngClass]="{'approve-status': w.is_approve === 'Y', 'isError': w.is_cancel === 'Y'}">
           <wm-product-detail *clrIfExpanded [receiveId]="w.receive_id" ngProjectAs="clr-dg-row-detail"></wm-product-detail>
           <clr-dg-cell style="text-align: center;">{{w.receive_date | toThaiDate}}</clr-dg-cell>
           <clr-dg-cell>{{w.receive_code || w.receive_tmp_code}}</clr-dg-cell>
@@ -110,147 +110,6 @@
   </clr-tab>
 </clr-tabs> -->
 
-<clr-modal [(clrModalOpen)]="openModal" [clrModalSize]="'lg'" [clrModalClosable]="false">
-  <h3 *ngIf="tab === 'receive'" class="modal-title">พิมพ์ใบนำส่ง (รับจากการซื้อ)</h3>
-  <h3 *ngIf="tab === 'receiveOther'" class="modal-title">พิมพ์ใบนำส่ง (รับอื่นๆ)</h3>
-  <div class="modal-body" style="height: 370px;">
-    <clr-tabs>
-      <clr-tab>
-        <button clrTabLink> พิมพ์ใบนำส่ง</button>
-        <clr-tab-content *clrIfActive>
-          <div class="card">
-            <div class="card-block">
-              <div class="row" style="margin:.5em">
-                <div class="col-md-12">
-                  <label for="">เลขที่ใบรับ</label>
-                </div>
-                <div class="col-md-12">
-                  <label class="col-md-1 required" for="">ระหว่าง</label>
-                  <input class="col-md-3 " type="text" name="query" [(ngModel)]="sID" placeholder="RV-61-000000">
-                  <label class="col-md-1 required" for="">ถึง</label>
-                  <input class="col-md-3" type="text" name="query2" [(ngModel)]="eID" placeholder="RV-61-999999">
-                  <button type="button" class="btn btn-success btn-md" (click)="printDeliveryId(showOption,sID,eID)" [disabled]="!sID || !eID">พิมพ์</button>
-                </div>
-              </div>
-            </div>
-            <div class="card-block" *ngIf='showOption === 1'>
-              <div class="row" style="margin:.5em">
-                <div class="col-md-12">
-                  <label for="">เลขที่ใบสั่งซื้อ</label>
-                </div>
-                <div class="col-md-12">
-                  <label class="col-md-1 required" for="">ระหว่าง</label>
-                  <input class="col-md-3 " type="text" name="query" [(ngModel)]="sIDpo" placeholder="PO-61-000000">
-                  <label class="col-md-1 required" for="">ถึง</label>
-                  <input class="col-md-3" type="text" name="query2" [(ngModel)]="eIDpo" placeholder="PO-61-999999">
-                  <button type="button" class="btn btn-success btn-md" (click)="printPoId(showOption,sIDpo,eIDpo)" [disabled]="!sIDpo || !eIDpo">พิมพ์</button>
-                </div>
-              </div>
-            </div>
-            <div class="card-block">
-              <div class="form-group">
-                <div class="row" style="margin:.5em">
-                  <div class="col-md-12">
-                    <label for="">วันที่</label>
-                  </div>
-                  <label class="required col-md-1" for="">ตั้งแต่</label>
-                  <div class="col-md-4" style="display:inline-block;vertical-align: middle;">
-                    <my-date-picker-th name="mydate" [options]="myDatePickerOptions" [(ngModel)]="sDate" required></my-date-picker-th>
-                  </div>
-                  <label class=" col-md-1 required" for="">ถึง</label>
-                  <div class="col-md-4" style="display:inline-block;vertical-align: middle;">
-                    <my-date-picker-th name="mydate" [options]="myDatePickerOptions" [(ngModel)]="eDate" required></my-date-picker-th>
-                  </div>
-                  <button type="button" class="col-md-1 btn btn-success btn-lg" (click)="printDeliveryDate(showOption,sDate,eDate)" [disabled]="!sDate || !eDate">พิมพ์</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </clr-tab-content>
-      </clr-tab>
-      <clr-tab *ngIf="tab === 'receive'">
-          <button clrTabLink> พิมพ์ใบตรวจรับ </button>
-          <clr-tab-content *clrIfActive>
-            <div class="card">
-              <div class="card-block">
-                <div class="row" style="margin:.5em">
-                  <div class="col-md-12">
-                    <label for="">ตามเลขที่ใบรับ</label>
-                  </div>
-                  <div class="col-md-12">
-                    <label class="col-md-1 required" for="">ระหว่าง</label>
-                    <input class="col-md-3 " type="text" name="query" [(ngModel)]="sID" placeholder="RV-61-000000">
-                    <label class="col-md-1 required" for="">ถึง</label>
-                    <input class="col-md-3" type="text" name="query2" [(ngModel)]="eID" placeholder="RV-61-999999">
-                    <button type="button" class="btn btn-success btn-md" (click)="printDeliveryId(3,sID,eID)" [disabled]="!sID || !eID">พิมพ์</button>
-                  </div>
-                </div>
-              </div>
-              <div class="card-block">
-                <div class="row" style="margin:.5em">
-                  <div class="col-md-12">
-                    <label for="">ตามเลขที่ใบสั่งซื้อ</label>
-                  </div>
-                  <div class="col-md-12">
-                    <label class="col-md-1 required" for="">ระหว่าง</label>
-                    <input class="col-md-3 " type="text" name="query" [(ngModel)]="sIDpo" placeholder="PO-61-000000">
-                    <label class="col-md-1 required" for="">ถึง</label>
-                    <input class="col-md-3" type="text" name="query2" [(ngModel)]="eIDpo" placeholder="PO-61-999999">
-                    <button type="button" class="btn btn-success btn-md" (click)="printPoId(3,sIDpo,eIDpo)" [disabled]="!sIDpo || !eIDpo">พิมพ์</button>
-                  </div>
-                </div>
-              </div>
-              <!-- <div class="card-block">
-                <div class="form-group">
-                  <div class="row" style="margin:.5em">
-                    <div class="col-md-12">
-                      <label for="">วันที่ตามเลขที่ใบรับ</label>
-                    </div>
-                    <label class="required col-md-1" for="">ตั้งแต่</label>
-                    <div class="col-md-4" style="display:inline-block;vertical-align: middle;">
-                      <my-date-picker-th name="mydate" [options]="myDatePickerOptions" [(ngModel)]="sDate" required></my-date-picker-th>
-                    </div>
-                    <label class=" col-md-1 required" for="">ถึง</label>
-                    <div class="col-md-4" style="display:inline-block;vertical-align: middle;">
-                      <my-date-picker-th name="mydate" [options]="myDatePickerOptions" [(ngModel)]="eDate" required></my-date-picker-th>
-                    </div>
-                    <button type="button" class="col-md-1 btn btn-success btn-lg" (click)="printDeliveryDate(3,sDate,eDate)" [disabled]="!sDate || !eDate">พิมพ์</button>
-                  </div>
-                </div>
-              </div> -->
-            </div>
-  
-          </clr-tab-content>
-        </clr-tab>
-    </clr-tabs>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-danger btn-lg" (click)="openModal = false">ปิด</button>
-  </div>
-</clr-modal>
-<clr-modal [(clrModalOpen)]="openModalConfirm" [clrModalStaticBackdrop]="true" [clrModalSize]="'md'" [clrModalClosable]="false">
-  <h3 class="modal-title">สิทธิ์การอนุมัติ{{titel}}</h3>
-  <div class="modal-body" style="height:150px">
-
-    <form>
-      <section class="form-block">
-        <div class="form-group">
-          <label for="aForm_1" class="required">User Name</label>
-          <input autocomplete="nope" type="text" id="username" name="username" [(ngModel)]="username">
-        </div>
-        <div class="form-group">
-          <label for="aForm_1" class="required"> password</label>
-          <input autocomplete="new-password" type="password" id="password" name="password" [(ngModel)]="password" (keyup.enter)="checkApprove(username,password)">
-        </div>
-      </section>
-    </form>
-  </div>
-  <div class="modal-footer" style="padding-top: 0px;">
-    <button type="button" class="btn btn-md btn-primary" [disabled]="!username || !password" (click)="checkApprove(username,password)">บันทึก</button>
-    <button type="button" class="btn btn-md btn-danger-outline" (click)="close()">ปิด</button>
-  </div>
-</clr-modal>
 <!-- <wm-modal-receive-approve #modalApprove (onSuccess)="approveSuccess($event)"></wm-modal-receive-approve> -->
 <!-- <wm-modal-receive-approve-other #modalApproveOther (onSuccess)="approveSuccessOther($event)"></wm-modal-receive-approve-other> -->
 

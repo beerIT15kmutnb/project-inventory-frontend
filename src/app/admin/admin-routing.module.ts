@@ -11,6 +11,7 @@ import { AlertExpiredComponent } from './alert-expired/alert-expired.component';
 import { ReceiveEditComponent } from './receive-edit/receive-edit.component';
 import { IssuesNewComponent } from './issues-new/issues-new.component';
 import { IssuesEditComponent } from './issues-edit/issues-edit.component';
+import { RequisitionNewComponent } from './requisition-new/requisition-new.component';
 
 const routes: Routes = [
   {
@@ -28,7 +29,8 @@ const routes: Routes = [
       { path: 'issues/new', component: IssuesNewComponent },
       { path: 'issues/edit', component: IssuesEditComponent },
       { path: 'requisition', component: RequisitionComponent },
-      { path:'alert-expired' , component: AlertExpiredComponent}
+      { path: 'alert-expired', component: AlertExpiredComponent },
+      { path: 'requisition/new', component: RequisitionNewComponent }
     ]
   }
 ];

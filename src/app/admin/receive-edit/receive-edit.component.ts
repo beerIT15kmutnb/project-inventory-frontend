@@ -499,7 +499,7 @@ export class ReceiveEditComponent implements OnInit {
     //     this.products[idx].conversion_qty = +event.qty;
     //     this.countTotalCost();
     //   } else {
-    //     this.alertService.error('กรุณาเลือกหน่วยสินค้า')
+    //     this.alertService.error('กรุณาเลือกหน่วยยา/เวชภัณฑ์')
     //   }
     // } catch (error) {
     //   //
@@ -553,7 +553,7 @@ export class ReceiveEditComponent implements OnInit {
     //       await this.checkExpired();
     //     } else {
     //       this.isReceiveHoliday = true; // วันหยุด
-    //       console.log('err วันที่คุณเลือกเป็นวันหยุดราชการ จะรับสินค้าหรือไม่');
+    //       console.log('err วันที่คุณเลือกเป็นวันหยุดราชการ จะรับยา/เวชภัณฑ์หรือไม่');
     //       this.alertService.confirm(rs.error)
     //         .then(async () => {
     //           this.isReceiveHoliday = false; // วันหยุด
@@ -592,7 +592,7 @@ export class ReceiveEditComponent implements OnInit {
     //   this.isSaving = false;
     //   this.modalLoading.hide();
     // } else {
-    //   this.alertService.confirm('ต้องการบันทึกข้อมูลการรับสินค้า ใช่หรือไม่?')
+    //   this.alertService.confirm('ต้องการบันทึกข้อมูลการรับยา/เวชภัณฑ์ ใช่หรือไม่?')
     //     .then(async () => {
     //       this.modalLoading.show();
     //       this.isSaving = true;
@@ -649,7 +649,7 @@ export class ReceiveEditComponent implements OnInit {
     //             if (isError) {
     //               this.modalLoading.hide();
     //               this.isSaving = false;
-    //               this.alertService.error('ข้อมูลรายการสินค้าบางรายการไม่ครบถ้วน [คลังสินค้า, หน่วยรับ, lot, วันหมดอายุ]');
+    //               this.alertService.error('ข้อมูลรายการยา/เวชภัณฑ์บางรายการไม่ครบถ้วน [คลังยา/เวชภัณฑ์, หน่วยรับ, lot, วันหมดอายุ]');
     //             } else {
     //               const rs: any = await this.receiveService.updateReceive(this.receiveId, summary, _products);
     //               if (rs.ok) {
@@ -664,7 +664,7 @@ export class ReceiveEditComponent implements OnInit {
     //           } else {
     //             this.isSaving = false;
     //             this.modalLoading.hide();
-    //             this.alertService.error('ไม่สามารถบันทึกรับสินค้าก่อนวันออกใบสั่งซื้อได้!');
+    //             this.alertService.error('ไม่สามารถบันทึกรับยา/เวชภัณฑ์ก่อนวันออกใบสั่งซื้อได้!');
     //           }
 
     //         } else {
@@ -709,7 +709,7 @@ export class ReceiveEditComponent implements OnInit {
     //           if (isError) {
     //             this.isSaving = false;
     //             this.modalLoading.hide();
-    //             this.alertService.error('ข้อมูลรายการสินค้าบางรายการไม่ครบถ้วน [คลังสินค้า, หน่วยรับ, lot, วันหมดอายุ]');
+    //             this.alertService.error('ข้อมูลรายการยา/เวชภัณฑ์บางรายการไม่ครบถ้วน [คลังยา/เวชภัณฑ์, หน่วยรับ, lot, วันหมดอายุ]');
     //           } else {
 
     //             const rs: any = await this.receiveService.updateReceive(this.receiveId, summary, _products);
@@ -832,7 +832,7 @@ export class ReceiveEditComponent implements OnInit {
 
   removeReceive() {
     // this.deleting = true;
-    // this.alertService.confirm('คุณต้องการลบรายการรับสินค้านี้ [' + this.receiveId + '] ใช่หรือไม่?')
+    // this.alertService.confirm('คุณต้องการลบรายการรับยา/เวชภัณฑ์นี้ [' + this.receiveId + '] ใช่หรือไม่?')
     //   .then(async () => {
     //     try {
     //       this.modalLoading.show();
@@ -929,7 +929,7 @@ export class ReceiveEditComponent implements OnInit {
         `${this.purchaseDate.date.year}-${this.purchaseDate.date.month}-${this.purchaseDate.date.day}` : null;
 
       this.modalLoading.show();
-      this.alertService.confirm('ต้องการบันทึกข้อมูลการรับสินค้า ใช่หรือไม่?')
+      this.alertService.confirm('ต้องการบันทึกข้อมูลการรับยา/เวชภัณฑ์ ใช่หรือไม่?')
         .then(() => {
           try {
             const summary = {
@@ -1059,7 +1059,7 @@ export class ReceiveEditComponent implements OnInit {
     //     }
     //   }
     //   if (count > 0) {
-    //     this.alertService.error('มีเวชภัณฑ์หมดอายุ ไม่อนุญาตให้รับสินค้า');
+    //     this.alertService.error('มีเวชภัณฑ์หมดอายุ ไม่อนุญาตให้รับยา/เวชภัณฑ์');
     //     console.log('เวชภัณฑ์หมดอายุ');
     //     this.isItemExpired = true;
     //   }
