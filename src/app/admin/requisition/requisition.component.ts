@@ -138,21 +138,21 @@ export class RequisitionComponent implements OnInit {
   }
 
   async getApproved() {
-    // this.requisitionSelected = []
-    // this.modalLoading.show();
-    // try {
-    //   const rs: any = await this.requisitionService.getApproved(this.perPage, this.offset, this.query);
-    //   this.modalLoading.hide();
-    //   if (rs.ok) {
-    //     this.approveds = rs.rows;
-    //     this.tabApprove = rs.total[0].total;
-    //   } else {
-    //     this.alertService.error(rs.error);
-    //   }
-    // } catch (error) {
-    //   this.modalLoading.hide();
-    //   this.alertService.error(error.message);
-    // }
+    this.requisitionSelected = []
+    this.modalLoading.show();
+    try {
+      const rs: any = await this.requisitionService.getApproved(this.perPage, this.offset, this.query);
+      this.modalLoading.hide();
+      if (rs.ok) {
+        this.approveds = rs.rows;
+        // this.tabApprove = rs.total[0].total;
+      } else {
+        this.alertService.error(rs.error);
+      }
+    } catch (error) {
+      this.modalLoading.hide();
+      this.alertService.error(error.message);
+    }
   }
 
   async removeOrder(order: any) {

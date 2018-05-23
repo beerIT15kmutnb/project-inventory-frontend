@@ -39,8 +39,8 @@ export class TransferDashboardService {
     return resp.json();
   }
 
-  async getTransaction(limit: number = 10, offset: number = 0) {
-    const resp = await this.authHttp.post(`${this.url}/transfer-dashboard/transaction/list`, {
+  async getTransaction(limit: number = 50, offset: number = 0) {
+    const resp = await this.authHttp.post(`${this.url}/products/transaction/list`, {
       limit: limit,
       offset: offset
     }).toPromise();

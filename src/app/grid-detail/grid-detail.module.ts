@@ -8,6 +8,7 @@ import { ModalsModule } from '../modals/modals.module';
 import { IssueProductComponent } from './issue-product/issue-product.component';
 import { DirectivesModule } from '../directives/directives.module';
 import { TransactionIssuedetailComponent } from './transaction-issue-detail/transaction-issue-detail.component';
+import { RequisitionOrderDetailComponent } from './requisition-order-detail/requisition-order-detail.component';
 
 @NgModule({
   imports: [
@@ -22,12 +23,14 @@ import { TransactionIssuedetailComponent } from './transaction-issue-detail/tran
   declarations: [
     ProductDetailComponent,
     IssueProductComponent,
-    TransactionIssuedetailComponent
+    TransactionIssuedetailComponent,
+    RequisitionOrderDetailComponent
   ],
   exports:[
     ProductDetailComponent,
     IssueProductComponent,
-    TransactionIssuedetailComponent
+    TransactionIssuedetailComponent,
+    RequisitionOrderDetailComponent
   ]
 })
 export class GridDetailModule { }

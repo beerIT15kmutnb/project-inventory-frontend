@@ -11,6 +11,8 @@ import { State } from '@clr/angular';
 })
 export class TransferDashboardComponent implements OnInit {
 
+  offset: number;
+  currentPage = 1;
   @ViewChild('modalLoading') private modalLoading;
   @ViewChild('htmlPreview') public htmlPreview: any;
   selectedApprove = [];
@@ -18,8 +20,8 @@ export class TransferDashboardComponent implements OnInit {
   transactions: any = [];
   histories: any = [];
   warehouses: any = [];
-  perPage = 10;
-
+  perPage = 50;
+  products:any
   constructor(
     private dashboardSevice: TransferDashboardService,
     private alertService: AlertService,
@@ -27,7 +29,7 @@ export class TransferDashboardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getWarehouse();
+    
   }
 
   async getWarehouse() {
@@ -46,23 +48,28 @@ export class TransferDashboardComponent implements OnInit {
     // }
   }
 
-  async refresh(event:State){
-
+  async refresh(state:State){
+    this.offset = +state.page.from;
+    sessionStorage.setItem('currentPagedb', this.currentPage.toString());
+    this.getWaiting();
   }
-  async getTransaction() {
-    // this.modalLoading.show();
-    // try {
-    //   const rs: any = await this.dashboardSevice.getTransaction();
-    //   if (rs.ok) {
-    //     this.transactions = rs.rows;
-    //   } else {
-    //     this.alertService.error(rs.error);
-    //   }
-    //   this.modalLoading.hide();
-    // } catch (error) {
-    //   this.modalLoading.hide();
-    //   this.alertService.error(error.message);
-    // }
+
+  async getWaiting() {
+    this.modalLoading.show();
+    try {
+      const rs: any = await this.dashboardSevice.getTransaction(this.perPage,this.offset);
+      if (rs.ok) {
+        console.log(rs.rows);
+        
+        this.products = rs.rows[0];
+      } else {
+        this.alertService.error(rs.error);
+      }
+      this.modalLoading.hide();
+    } catch (error) {
+      this.modalLoading.hide();
+      this.alertService.error(error.message);
+    }
   }
 
   async getTransactionHistory() {

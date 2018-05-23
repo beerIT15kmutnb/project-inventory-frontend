@@ -2,42 +2,24 @@
   <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
   <span class="breadcrumb-item active">เวชภัณฑ์ถึงจุดเบิก</span>
 </nav>
-
-    <button class='btn btn-sm btn-primary'>พิมพ์ใบประมาณการ</button>
-      <!-- <clr-datagrid [style.height.%]="85">
-        <clr-dg-column [clrDgField]="'dst_warehouse_name'">คลัง/หน่วยเบิก</clr-dg-column>
-        <clr-dg-column [style.width.px]="100">#</clr-dg-column>
-        <clr-dg-placeholder>ไม่พบรายการ</clr-dg-placeholder>
-        <clr-dg-row *clrDgItems="let w of warehouses; let idx = index">
-          <wm-transfer-warehouse-new [dstWarehouseId]="w.dst_warehouse_id" (refresh)="getWarehouse()" *clrIfExpanded ngProjectAs="clr-dg-row-detail"></wm-transfer-warehouse-new>
-          <wm-addition-warehouse-view [dstWarehouseId]="w.dst_warehouse_id" *clrIfExpanded ngProjectAs="clr-dg-row-detail"></wm-addition-warehouse-view>
-          <clr-dg-cell>{{w.dst_warehouse_name}}</clr-dg-cell>
-          <clr-dg-cell style="text-align: center;">
-            <button title="เติมเวชภัณฑ์" class="btn btn-success btn-icon btn-sm wm-small-btn" [routerLink]="['/admin/transfer-dashboard/warehouse']"
-              [queryParams]="{warehouseId: w.dst_warehouse_id}">
-              <clr-icon shape="note"></clr-icon>
-            </button>
-          </clr-dg-cell>
-        </clr-dg-row>
-        <clr-dg-footer>
-          {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} จาก {{pagination.totalItems}} รายการ
-          <clr-dg-pagination #pagination [clrDgPageSize]="perPage" [clrDgTotalItems]="warehouses.length"></clr-dg-pagination>
-        </clr-dg-footer>
-      </clr-datagrid> -->
+    <div style="padding-top: 10px">
+      <button  class='btn btn-sm btn-primary'>พิมพ์ใบประมาณการ</button>
+    </div>
+     
       <div [clrLoading]="loading">
-        <clr-datagrid (clrDgRefresh)="refresh($event)" style="padding-top: 5px;" [(clrDgSelected)]="selectedApprove">
-          <clr-dg-column [clrDgField]="'generic_name'">ชื่อเวชภัณฑ์</clr-dg-column>
+        <clr-datagrid (clrDgRefresh)="refresh($event)" style="margin-top: -10px;" [(clrDgSelected)]="selectedApprove">
+          <clr-dg-column [clrDgField]="'product_name'">ชื่อยา/เวชภัณฑ์</clr-dg-column>
           <clr-dg-column [style.width.px]="100">จำนวนต่ำสุด</clr-dg-column>
           <clr-dg-column [style.width.px]="100">จำนวนสูงสุด</clr-dg-column>
           <clr-dg-column [style.width.px]="100">คงเหลือ</clr-dg-column>
           <clr-dg-column [style.width.px]="100">หน่วย</clr-dg-column>
           <!-- <clr-dg-column></clr-dg-column> -->
           <clr-dg-placeholder>ไม่พบรายการ</clr-dg-placeholder>
-          <clr-dg-row *clrDgItems="let g of generics">
-            <clr-dg-cell>{{g.generic_name}}</clr-dg-cell>
-            <clr-dg-cell style="text-align: right;">{{g.dst_min_qty | number}}</clr-dg-cell>
-            <clr-dg-cell style="text-align: right;">{{g.dst_max_qty | number}}</clr-dg-cell>
-            <clr-dg-cell style="text-align: right;">{{g.dst_remain_qty | number}}</clr-dg-cell>
+          <clr-dg-row *clrDgItems="let g of products" [clrDgItem]="g">
+            <clr-dg-cell>{{g.product_name}}</clr-dg-cell>
+            <clr-dg-cell style="text-align: right;">{{g.min_qty | number}}</clr-dg-cell>
+            <clr-dg-cell style="text-align: right;">{{g.max_qty | number}}</clr-dg-cell>
+            <clr-dg-cell style="text-align: right;">{{g.qty | number}}</clr-dg-cell>
             <clr-dg-cell style="text-align: center;">{{g.unit_name}}</clr-dg-cell>
             <!-- <clr-dg-cell>
               <div class="btn-group btn-sm">
@@ -52,7 +34,7 @@
           </clr-dg-row>
           <clr-dg-footer>
             {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} จาก {{pagination.totalItems}} รายการ
-            <clr-dg-pagination #pagination [clrDgPageSize]="5"></clr-dg-pagination>
+            <clr-dg-pagination #pagination [(clrDgPage)]="currentPage" [clrDgPageSize]="perPage"  [clrDgPageSize]="50"></clr-dg-pagination>
           </clr-dg-footer>
         </clr-datagrid>
       </div>
