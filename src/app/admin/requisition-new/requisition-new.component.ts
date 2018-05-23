@@ -53,13 +53,24 @@ export class RequisitionNewComponent implements OnInit {
 
   // public mask = [/\d/, /\d/, /\d/];
 
+  selectedProductName: string;
+  selectedProductId: any;
+  products = [];
+  issueDate = null;
+  transactionId: null;
+  issues: any = [];
+  comment: any = null;
+  remainQty = 0;
+
+  productId: any = null;
+  productName: any = null;
+
+  reqQty: any = 0;
   searchProduct: any = {
     small_qty: null,
     small_unit_name: null,
     large_unit_name: null
-  }
-  selectedProductId = null;
-  selectedProductName = null;
+  };
 ////////////////////////
 
   warehouses: any[] = [];
@@ -72,7 +83,7 @@ export class RequisitionNewComponent implements OnInit {
   requisitionStatus: any[] = [];
 
   requisitionSummary: any = [];
-  products: Array<any> = [];
+  // products: Array<any> = [];
   requiSitionTypes: any = [];
   requisitionTypeID: any;
 
@@ -127,87 +138,334 @@ export class RequisitionNewComponent implements OnInit {
       }
     };
 
-    await this.getTypes();
-    await this.getWarehouses();
+    // await this.getTypes();
+    // await this.getWarehouses();
 
     if (this.requisitionId) {
-      await this.getOrderDetail();
-      await this.getOrderItems();
+      await this.setIssues();
+      await this.setIssueDetail()
       this.isUpdate = true;
     }
 
   }
-  
-  setSelectedProduct(event: any) {
+  ///////////////////////////////////////////////////////
+  async setIssueDetail() {
     try {
-      console.log(event);
-      this.searchProduct = event
-      this.selectedProductId = event ? event.product_id : null;
-      //   this.selectedGenericId = event ? event.generic_id : null;
-      this.selectedProductName = event ? `${event.product_name}` : null;
-      //   this.selectedGenericName = event ? `${event.generic_name}` : null;
-      // this.selectedExpireNumDays = event ? event.expire_num_days : 0;
+      // let rs = await this.issueService.setIssueDetail(this.issueId)
+      // if (rs.ok) {
+      //   console.log(rs.rows[0]);
 
-      //   this.manufactureList.getManufacture(this.selectedGenericId);
-      //   this.warehouseList.getWarehouses(this.selectedGenericId);
+      //   this.products = _.map(rs.rows[0], (v) => {
+      //     return {
+      //       issue_product_id: v.issue_product_id,
+      //       product_name: v.product_name,
+      //       issue_qty: +v.qty,
+      //       product_id: v.product_id,
+      //       remain_qty: v.remainQty,
+      //       large_unit_name: v.lm,
+      //       small_qty: +v.small_qty,
+      //       small_unit_name: v.sm
+      //     }
+      //   })
+      //   for (let v of this.products) {
+      //     let rss = await this.issueService.setIssueProductDetail(v.issue_product_id)
+      //     if (rss.ok) {
+      //       console.log(rss.rows[0]);
 
-      // this.primaryUnitId = event ? event.primary_unit_id : null;
-      // this.primaryUnitName = event ? event.primary_unit_name : null;
-      //   this.unitList.setGenericId(this.selectedGenericId);
+      //       v.items = _.map(rss.rows[0], (e) => {
+      //         return {
+      //           issue_product_id: e.issue_product_id,
+      //           product_id: e.product_id,
+      //           lot_no: e.lot_no,
+      //           qty: e.qty,
+      //           wm_product_id: e.wm_product_id,
+      //           remainQty :e.remainQty,
+      //           remainQtyB: e.remainQtyB,
+      //           expired_date: e.expired_date
+      //         }
+      //       })
+      //     }
+      //   }
 
-      //   // lot control
-      //   this.isLotControl = event ? event.is_lot_control : null;
-
+      // } else {
+      //   this.alertService.error(rs.error)
+      // }
     } catch (error) {
-      console.log(error.message);
+      this.alertService.error(error)
     }
+  }
+  async setIssues() {
+    try {
+      // let rs = await this.issueService.setIssues(this.issueId)
+      // if (rs.ok && rs.rows[0]) {
+      //   let res = rs.rows[0]
+      //   this.issueDate = {
+      //     date: {
+      //       year: moment(res.issue_date).get('year'),
+      //       month: moment(res.issue_date).get('month') + 1,
+      //       day: moment(res.issue_date).get('date')
+      //     }
+      //   };
+      //   this.transactionId = res.transaction_issue_id;
+      //   this.comment = res.comment
+      // } else {
+      //   this.alertService.error(rs.error)
+      // }
+    } catch (error) {
+      this.alertService.error(error)
+    }
+
   }
   changeSearchProduct(event) {
     if (event) {
       this.productSearch.clearProductSearch();
       this.clearForm();
-
     }
-
   }
+
+  async setSelectedProduct(event: any) {
+    try {
+      this.searchProduct = event;
+      this.selectedProductId = event ? event.product_id : null;
+      if (this.selectedProductId) {
+        const rs = await this.productService.getProductRemain(this.selectedProductId)
+        this.remainQty = rs.data[0].qty
+      }
+      this.selectedProductName = event ? `${event.product_name}` : null;
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+
+  clearProductSearch() {
+    this.selectedProductId = null;
+  }
+
+
+  async addProduct() {
+    const idx = _.findIndex(this.products, { product_id: this.selectedProductId });
+    if (idx > -1) {
+      this.alertService.success('รายการซ้ำ', 'จำนวนจะไปเพิ่มในรายการเดิม');
+      const newQty = +this.products[idx].reqs_qty + +this.reqQty;
+      if (newQty > +this.products[idx].remain_qty) {
+        this.products[idx].reqs_qty = this.products[idx].remain_qty;
+      } else {
+        this.products[idx].reqs_qty = newQty;
+      }
+    } else {
+      if (this.remainQty < this.reqQty) {
+        this.alertService.error('จำนวนจ่าย มากกว่าจำนวน คงเหลือ');
+      } else {
+        const obj: any = {};
+        obj.reqs_qty = +this.reqQty;
+        obj.product_id = this.selectedProductId;
+        obj.product_name = this.selectedProductName;
+        obj.remain_qty = +this.remainQty;
+        obj.large_unit_name = this.searchProduct.large_unit_name
+        obj.small_qty = this.searchProduct.small_qty
+        obj.small_unit_name = this.searchProduct.small_unit_name
+        obj.items = [];
+        this.products.push(obj);
+        await this.alowcate(this.selectedProductId);
+      }
+    }
+    this.clearForm();
+  }
+
+  async alowcate(productId) {
+    this.modalLoading.show();
+    try {
+      let list
+      let result: any = await this.productService.getLot(productId);
+      console.log(result);
+
+      if (result.ok) {
+        list = result.data[0];
+        if (this.products) {
+          let idx = _.findIndex(this.products, { product_id: productId })
+          let _data = {};
+          console.log(list);
+          let reqs_qty = this.products[idx].reqs_qty
+          if (idx > -1) {
+            _.forEach(list, (v) => {
+              if (v.remainQty > 0)
+                if (v.remainQty >= reqs_qty) {
+                  v.qty = reqs_qty
+                  v.remainQtyB = v.remainQty - reqs_qty
+                } else {
+                  v.qty = v.remainQty
+                  v.remainQtyB = v.remainQty - v.qty
+                }
+              reqs_qty = reqs_qty - v.qty
+
+            })
+            this.products[idx].items = list;
+          }
+        } else {
+          this.alertService.error();
+        }
+      }
+      this.modalLoading.hide();
+    } catch (error) {
+      this.modalLoading.hide();
+      this.alertService.error(error.message);
+    }
+  }
+
+  editChangereqQty(idx: any, qty: any) {
+    if ((+qty.value) > +this.products[idx].remain_qty) {
+      this.alertService.error('จำนวนจ่าย มากกว่าจำนวนคงเหลือ');
+      this.products[idx].reqs_qty = '';
+    } else {
+      this.products[idx].reqs_qty = +qty.value;
+    }
+  }
+
+
+  removeSelectedProduct(idx: any) {
+    this.alertService.confirm('ต้องการลบรายการนี้ ใช่หรือไม่?')
+      .then(() => {
+        this.products.splice(idx, 1);
+      }).catch(() => { });
+  }
+
   clearForm() {
+    this.remainQty = 0;
+    this.reqQty = '';
+    this.selectedProductId = null;
+    this.selectedProductName = null;
     this.searchProduct = {
-      product_name: null,
       small_qty: null,
       small_unit_name: null,
       large_unit_name: null
-    }
-    this.selectedProductId = null;
-    this.selectedProductName = null;
-    //   this.selectedGenericName = null;
-    // this.selectedExpiredDate = null;
-    //   this.selectedExpireNumDays = 0;
-    // // this.selectedLotId = null;
-    // this.selectedLotNo = null;
-    //   this.selectedCost = 0;
-    // this.selectedReceiveQty = '';
-    //   this.selectedUnitId = null;
-    //   this.selectedUnitName = null;
-    //   this.selectedUnitGenericId = null;
-    //   this.primaryUnitId = null;
-    //   this.primaryUnitName = null;
-    //   this.conversionQty = 0;
-    //   this.selectedDiscount = 0;
-
-    //   // ของแถม
-    //   this.isFree = false;
-    //   this.isLotControl = null;
-
-    //   this.selectedManufactureId = null;
-    //   this.selectedManufactureName = null;
-
-    //   this.manufactureList.clearVendor();
-    //   this.warehouseList.clearWarehousList();
-    //   this.locationList.clearLocation();
-    //   // this.lotList.clearLots();
+    };
     this.productSearch.clearProductSearch();
-    //   this.unitList.clearUnits();
   }
+  async save() {
+    // this.isSave = true;
+    const reqDate = this.requisitionDate.date ? `${this.requisitionDate.date.year}-${this.requisitionDate.date.month}-${this.requisitionDate.date.day}` : null;
+    this.alertService.confirm('ต้องการบันทึกข้อมูล ใช่หรือไม่?')
+      .then(async () => {
+        const order: any = {};
+        // console.log(this.requisitionDate.date);
+        order.requisition_date = reqDate;
+    //     order.requisition_type_id = this.requisitionTypeID;
+        order.wm_requisition = 2 //this.wmRequisition;
+        order.wm_withdraw = 1 //this.wmWithdraw;
+
+        const products: Array<any> = [];
+
+        // this.products.forEach((v: any) => {
+        //   if (v.requisition_qty > 0) {
+        //     const obj: any = {};
+        //     obj.product_id = v.product_id;
+        //     obj.requisition_qty = v.requisition_qty;
+        //     // obj.unit_generic_id = v.unit_generic_id;
+        //     products.push(obj);
+        //   }
+        // });
+        console.log(this.products,order);
+        
+        if (!this.products.length) {
+          this.alertService.error('กรุณาระบุจำนวนสินค้าที่ต้องการเบิก');
+          // this.isSave = false;
+        } else {
+          this.modalLoading.show();
+          try {
+            let rs: any;
+            if (this.isUpdate) {
+              // rs = await this.requisitionService.updateRequisitionOrder(this.requisitionId, order, products);
+            } else {
+              rs = await this.requisitionService.saveRequisitionOrder(order, this.products);
+            }
+
+            this.modalLoading.hide();
+            this.isSave = false;
+            if (rs.ok) {
+              this.alertService.success()
+              this.router.navigate(['/admin/requisition']);
+            } else {
+              this.alertService.error(rs.error);
+            }
+
+          } catch (error) {
+            this.isSave = false;
+            this.modalLoading.hide();
+            this.alertService.error(error.message);
+          }
+        }
+      })
+      .catch(() => {
+        this.isSave = false;
+        this.modalLoading.hide();
+      })
+
+  }
+  async saveIssue() {
+  //   const issueDate = this.issueDate ? `${this.issueDate.date.year}-${this.issueDate.date.month}-${this.issueDate.date.day}` : null;
+  //   this.alertService.confirm('ต้องการบันทึกรายการ ตัดจ่าย ใช่หรือไม่?')
+  //     .then(() => {
+  //       this.modalLoading.show();
+  //       const summary: any = {};
+  //       summary.issueDate = this.issueDate ? `${this.issueDate.date.year}-${this.issueDate.date.month}-${this.issueDate.date.day}` : null;
+  //       summary.transactionId = this.transactionId;
+  //       summary.comment = this.comment;
+  //       let isError = false;
+  //       this.products.forEach(v => {
+  //         const totalIssue = v.reqs_qty;
+  //         if (totalIssue > v.remain_qty || v.reqs_qty <= 0) {
+  //           isError = true;
+  //         }
+  //       });
+
+  //       if (isError) {
+  //         this.alertService.error('มีจำนวนที่มียอดจ่ายมากกว่ายอดคงเหลือ หรือ ไม่ได้ระบุจำนวนจ่าย');
+  //         this.modalLoading.hide();
+  //       } else {
+  //         this.issueService.saveIssue(summary, this.products)
+  //           .then((results: any) => {
+  //             if (results.ok) {
+  //               this.alertService.success();
+  //               this.router.navigate(['/admin/issues']);
+  //             } else {
+  //               this.alertService.error(results.error);
+  //             }
+  //             this.modalLoading.hide();
+  //           })
+  //           .catch((error: any) => {
+  //             this.modalLoading.hide();
+  //             this.alertService.error(error.message);
+  //           });
+  //       }
+  //     }).catch(() => {
+  //       this.modalLoading.hide();
+  //     });
+  }
+
+  setSelectedGeneric(e) {
+    this.products.push(e);
+  }
+
+  changeQtyGrid(e) {
+    // console.log(e);
+
+    let total_base = 0;
+    e.forEach(v => {
+      total_base += (+v.qty);
+    });
+    console.log(e[0].product_id);
+
+    const idx = _.findIndex(this.products, { product_id: +e[0].product_id });
+    if (idx > -1) {
+      this.products[idx].reqs_qty = total_base;
+    }
+    console.log(idx);
+    console.log(this.products);
+    console.log(this.products[idx]);
+
+  }
+  ///////////////////////////////////////////////////////
   async getTypes() {
     // this.modalLoading.show();
     // try {
@@ -310,7 +568,7 @@ export class RequisitionNewComponent implements OnInit {
     // this.searchGenericCmp.clearSearch();
   }
 
-  setSelectedGeneric(generic: any) {
+  // setSelectedGeneric(generic: any) {
     // this.selectedGenericId = generic.generic_id;
     // this.selectedGenericName = generic.generic_name;
     // this.selectedWorkingCode = generic.working_code;
@@ -318,7 +576,7 @@ export class RequisitionNewComponent implements OnInit {
     // this.selectedRequisitionQty = 1;
 
     // this.selectUnits.getUnits(generic.generic_id);
-  }
+  // }
 
   onChangeUnit(event: any) {
     // this.selectedUnitGenericId = event.unit_generic_id;
@@ -343,7 +601,7 @@ export class RequisitionNewComponent implements OnInit {
     // }
   }
 
-  addProduct() {
+  // addProduct() {
     // const idx = _.findIndex(this.products, { generic_id: this.selectedGenericId })
     // if (idx > -1) {
     //   this.alertService.error('รายการซ้ำกรุณาแก้ไขรายการเดิม')
@@ -359,7 +617,7 @@ export class RequisitionNewComponent implements OnInit {
     //   this.products.push(product);
     //   this.clearItem();
     // }
-  }
+  // }
 
   async getTemplateItems(templateId: any) {
     // try {
@@ -425,64 +683,7 @@ export class RequisitionNewComponent implements OnInit {
     // }
   }
 
-  async save() {
-    // this.isSave = true;
-    // const reqDate = this.requisitionDate.date ? `${this.requisitionDate.date.year}-${this.requisitionDate.date.month}-${this.requisitionDate.date.day}` : null;
-    // this.alertService.confirm('ต้องการบันทึกข้อมูล ใช่หรือไม่?')
-    //   .then(async () => {
-    //     const order: IRequisitionOrder = {};
-    //     // console.log(this.requisitionDate.date);
-    //     order.requisition_date = reqDate;
-    //     order.requisition_type_id = this.requisitionTypeID;
-    //     order.wm_requisition = this.wmRequisition;
-    //     order.wm_withdraw = this.wmWithdraw;
-
-    //     const products: Array<IRequisitionOrderItem> = [];
-
-    //     this.products.forEach((v: IRequisitionOrderItem) => {
-    //       if (v.requisition_qty > 0) {
-    //         const obj: IRequisitionOrderItem = {};
-    //         obj.generic_id = v.generic_id;
-    //         obj.requisition_qty = v.to_unit_qty * v.requisition_qty;
-    //         obj.unit_generic_id = v.unit_generic_id;
-    //         products.push(obj);
-    //       }
-    //     });
-
-    //     if (!products.length) {
-    //       this.alertService.error('กรุณาระบุจำนวนสินค้าที่ต้องการเบิก');
-    //       this.isSave = false;
-    //     } else {
-    //       this.modalLoading.show();
-    //       try {
-    //         let rs: any;
-    //         if (this.isUpdate) {
-    //           rs = await this.requisitionService.updateRequisitionOrder(this.requisitionId, order, products);
-    //         } else {
-    //           rs = await this.requisitionService.saveRequisitionOrder(order, products);
-    //         }
-
-    //         this.modalLoading.hide();
-    //         this.isSave = false;
-    //         if (rs.ok) {
-    //           this.router.navigate(['/admin/requisition']);
-    //         } else {
-    //           this.alertService.error(rs.error);
-    //         }
-
-    //       } catch (error) {
-    //         this.isSave = false;
-    //         this.modalLoading.hide();
-    //         this.alertService.error(error.message);
-    //       }
-    //     }
-    //   })
-    //   .catch(() => {
-    //     this.isSave = false;
-    //     this.modalLoading.hide();
-    //   })
-
-  }
+  
 
   async getTemplates() {
     // try {

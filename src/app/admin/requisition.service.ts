@@ -15,4 +15,12 @@ export class RequisitionService {
       .toPromise();
     return rs.json();
   }
+  async saveRequisitionOrder(order: any, products: any) {
+    const rs: any = await this.authHttp.post(`${this.url}/requisition/orders/saveRequisitionOrder`, {
+      order: order,
+      products: products
+    }).toPromise();
+    return rs.json();
+  }
+
 }
