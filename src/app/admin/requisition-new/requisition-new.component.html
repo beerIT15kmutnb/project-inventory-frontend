@@ -82,17 +82,17 @@
   
     
   <clr-dg-row *ngFor="let product of products; let idx = index;">
-      <wm-issue-product (onChange)="changeQtyGrid($event)" *clrIfExpanded [data]="product.items" ngProjectAs="clr-dg-row-detail"></wm-issue-product>
+      <!-- <wm-issue-product (onChange)="changeQtyGrid($event)" *clrIfExpanded [data]="product.items" ngProjectAs="clr-dg-row-detail"></wm-issue-product> -->
       <clr-dg-cell style="text-align: left; line-height: 25px;">{{idx + 1}}. {{product.product_name}}</clr-dg-cell>
       <clr-dg-cell>
-        <input disabled type="text" #reqQty (keyup)="editChangereqQty(idx, reqQty)" class="wm-edit-box-number" style="width: 100%; background-color: #FFF9C4"
-          wmNumberOnly [value]="product.reqs_qty" />
+        <input type="text" #reqQty (keyup)="editChangereqQty(idx, reqQty)" class="wm-edit-box-number" style="width: 100%; background-color: #FFF9C4"
+          wmNumberOnly [value]="product.requisition_qty" />
       </clr-dg-cell>
       <clr-dg-cell style="text-align: right; line-height: 25px;">
         {{product.large_unit_name}}( {{product.small_qty}} {{product.small_unit_name}})
       </clr-dg-cell>
-      <clr-dg-cell style="text-align: right; line-height: 25px;" [ngStyle]="{'color': (product.reqQty * product.small_qty) > product.remain_qty ? 'red' : 'green'}">{{ product.reqs_qty*product.small_qty | number }} {{product.small_unit_name}}</clr-dg-cell>
-      <clr-dg-cell style="line-height: 25px; text-align: right;" [ngStyle]="{'color': (product.reqs_qty * product.small_qty) > product.remain_qty ? 'red' : 'green'}">{{product.remain_qty - product.reqs_qty | number}} {{product.large_unit_name}}</clr-dg-cell>
+      <clr-dg-cell style="text-align: right; line-height: 25px;" [ngStyle]="{'color': (product.requisition_qty * product.small_qty) > product.remain_qty ? 'red' : 'green'}">{{ product.requisition_qty*product.small_qty | number }} {{product.small_unit_name}}</clr-dg-cell>
+      <clr-dg-cell style="line-height: 25px; text-align: right;" [ngStyle]="{'color': (product.requisition_qty * product.small_qty) > product.remain_qty ? 'red' : 'green'}">{{product.remain_qty - product.requisition_qty | number}} {{product.large_unit_name}}</clr-dg-cell>
       <clr-dg-cell style="text-align: center;">
         <div class="btn-group btn-primary">
           <button class="btn btn-sm btn-danger wm-small-btn" (click)="removeSelectedProduct(idx)">

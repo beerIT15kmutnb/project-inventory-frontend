@@ -30,7 +30,8 @@ const routes: Routes = [
       { path: 'issues/edit', component: IssuesEditComponent },
       { path: 'requisition', component: RequisitionComponent },
       { path: 'alert-expired', component: AlertExpiredComponent },
-      { path: 'requisition/new', component: RequisitionNewComponent }
+      { path: 'requisition/new', component: RequisitionNewComponent },
+      { path: 'requisition/edit/:requisitionId', component: RequisitionNewComponent }      
     ]
   }
 ];

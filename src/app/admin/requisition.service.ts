@@ -16,10 +16,29 @@ export class RequisitionService {
     return rs.json();
   }
   async saveRequisitionOrder(order: any, products: any) {
-    const rs: any = await this.authHttp.post(`${this.url}/requisition/orders/saveRequisitionOrder`, {
+    const rs: any = await this.authHttp.put(`${this.url}/requisition/orders/saveRequisitionOrder`, {
       order: order,
       products: products
     }).toPromise();
+    return rs.json();
+  }
+  async updateRequisitionOrder(id: any, order: any, products: any) {
+    const rs: any = await this.authHttp.put(`${this.url}/requisition/orders/updateRequisitionOrder/${id}`, {
+      order: order,
+      products: products
+    }).toPromise();
+    return rs.json();
+  }
+  async setReqs(requisitionId: any) {
+    const rs: any = await this.authHttp.get(`${this.url}/requisition/orders/setReqs/${requisitionId}`).toPromise();
+    return rs.json();
+  }
+  async setReqsDetail(requisitionId: any) {
+    const rs: any = await this.authHttp.get(`${this.url}/requisition/orders/setReqsDetail/${requisitionId}`).toPromise();
+    return rs.json();
+  }
+  async setReqsProductDetail(id: any) {
+    const rs: any = await this.authHttp.get(`${this.url}/requisition/orders/setReqsProductDetail/${id}`).toPromise();
     return rs.json();
   }
 

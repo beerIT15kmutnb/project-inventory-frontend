@@ -142,76 +142,79 @@ export class RequisitionNewComponent implements OnInit {
     // await this.getWarehouses();
 
     if (this.requisitionId) {
-      await this.setIssues();
-      await this.setIssueDetail()
+      await this.setReqs();
+      await this.setReqsDetail()
       this.isUpdate = true;
     }
 
   }
   ///////////////////////////////////////////////////////
-  async setIssueDetail() {
+  async setReqsDetail() {
     try {
-      // let rs = await this.issueService.setIssueDetail(this.issueId)
-      // if (rs.ok) {
-      //   console.log(rs.rows[0]);
+      let rs = await this.requisitionService.setReqsDetail(this.requisitionId)
+      if (rs.ok) {
+        console.log(rs.rows[0]);
 
-      //   this.products = _.map(rs.rows[0], (v) => {
-      //     return {
-      //       issue_product_id: v.issue_product_id,
-      //       product_name: v.product_name,
-      //       issue_qty: +v.qty,
-      //       product_id: v.product_id,
-      //       remain_qty: v.remainQty,
-      //       large_unit_name: v.lm,
-      //       small_qty: +v.small_qty,
-      //       small_unit_name: v.sm
-      //     }
-      //   })
-      //   for (let v of this.products) {
-      //     let rss = await this.issueService.setIssueProductDetail(v.issue_product_id)
-      //     if (rss.ok) {
-      //       console.log(rss.rows[0]);
+        this.products = _.map(rs.rows[0], (v) => {
+          return {
+            requisition_order_id: v.requisition_order_id,
+            product_name: v.product_name,
+            requisition_qty: +v.requisition_qty,
+            product_id: v.product_id,
+            remain_qty: v.remainQty,
+            large_unit_name: v.lm,
+            small_qty: +v.small_qty,
+            small_unit_name: v.sm
+          }
+        })
+        // for (let v of this.products) {
+        //   let rss = await this.requisitionService.setReqsProductDetail(v.requisition_order_id)
+        //   if (rss.ok) {
+        //     console.log(rss.rows[0]);
 
-      //       v.items = _.map(rss.rows[0], (e) => {
-      //         return {
-      //           issue_product_id: e.issue_product_id,
-      //           product_id: e.product_id,
-      //           lot_no: e.lot_no,
-      //           qty: e.qty,
-      //           wm_product_id: e.wm_product_id,
-      //           remainQty :e.remainQty,
-      //           remainQtyB: e.remainQtyB,
-      //           expired_date: e.expired_date
-      //         }
-      //       })
-      //     }
-      //   }
+        //     v.items = _.map(rss.rows[0], (e) => {
+        //       return {
+        //         requisition_order_id: e.requisition_order_id,
+        //         product_id: e.product_id,
+        //         lot_no: e.lot_no,
+        //         qty: e.qty,
+        //         wm_product_id: e.wm_product_id,
+        //         remainQty :e.remainQty,
+        //         remainQtyB: e.remainQtyB,
+        //         expired_date: e.expired_date
+        //       }
+        //     })
+        //   }
+        // }
 
-      // } else {
-      //   this.alertService.error(rs.error)
-      // }
+      } else {
+        this.alertService.error(rs.error)
+      }
     } catch (error) {
       this.alertService.error(error)
     }
   }
-  async setIssues() {
+  async setReqs() {
     try {
-      // let rs = await this.issueService.setIssues(this.issueId)
-      // if (rs.ok && rs.rows[0]) {
-      //   let res = rs.rows[0]
-      //   this.issueDate = {
-      //     date: {
-      //       year: moment(res.issue_date).get('year'),
-      //       month: moment(res.issue_date).get('month') + 1,
-      //       day: moment(res.issue_date).get('date')
-      //     }
-      //   };
-      //   this.transactionId = res.transaction_issue_id;
-      //   this.comment = res.comment
-      // } else {
-      //   this.alertService.error(rs.error)
-      // }
+      let rs = await this.requisitionService.setReqs(this.requisitionId)
+      console.log(rs);
+      if (rs.ok && rs.rows) {
+        let res = rs.rows
+        this.requisitionDate = {
+          date: {
+            year: moment(res.requisition_date).get('year'),
+            month: moment(res.requisition_date).get('month') + 1,
+            day: moment(res.requisition_date).get('date')
+          }
+        };
+        this.requisitionCode = res.requisition_code;
+        // this.comment = res.comment
+      } else {
+        this.alertService.error(rs.error)
+      }
     } catch (error) {
+      console.log(error);
+      
       this.alertService.error(error)
     }
 
@@ -247,18 +250,18 @@ export class RequisitionNewComponent implements OnInit {
     const idx = _.findIndex(this.products, { product_id: this.selectedProductId });
     if (idx > -1) {
       this.alertService.success('รายการซ้ำ', 'จำนวนจะไปเพิ่มในรายการเดิม');
-      const newQty = +this.products[idx].reqs_qty + +this.reqQty;
+      const newQty = +this.products[idx].requisition_qty + +this.reqQty;
       if (newQty > +this.products[idx].remain_qty) {
-        this.products[idx].reqs_qty = this.products[idx].remain_qty;
+        this.products[idx].requisition_qty = this.products[idx].remain_qty;
       } else {
-        this.products[idx].reqs_qty = newQty;
+        this.products[idx].requisition_qty = newQty;
       }
     } else {
       if (this.remainQty < this.reqQty) {
         this.alertService.error('จำนวนจ่าย มากกว่าจำนวน คงเหลือ');
       } else {
         const obj: any = {};
-        obj.reqs_qty = +this.reqQty;
+        obj.requisition_qty = +this.reqQty;
         obj.product_id = this.selectedProductId;
         obj.product_name = this.selectedProductName;
         obj.remain_qty = +this.remainQty;
@@ -286,18 +289,18 @@ export class RequisitionNewComponent implements OnInit {
           let idx = _.findIndex(this.products, { product_id: productId })
           let _data = {};
           console.log(list);
-          let reqs_qty = this.products[idx].reqs_qty
+          let requisition_qty = this.products[idx].requisition_qty
           if (idx > -1) {
             _.forEach(list, (v) => {
               if (v.remainQty > 0)
-                if (v.remainQty >= reqs_qty) {
-                  v.qty = reqs_qty
-                  v.remainQtyB = v.remainQty - reqs_qty
+                if (v.remainQty >= requisition_qty) {
+                  v.qty = requisition_qty
+                  v.remainQtyB = v.remainQty - requisition_qty
                 } else {
                   v.qty = v.remainQty
                   v.remainQtyB = v.remainQty - v.qty
                 }
-              reqs_qty = reqs_qty - v.qty
+              requisition_qty = requisition_qty - v.qty
 
             })
             this.products[idx].items = list;
@@ -316,9 +319,9 @@ export class RequisitionNewComponent implements OnInit {
   editChangereqQty(idx: any, qty: any) {
     if ((+qty.value) > +this.products[idx].remain_qty) {
       this.alertService.error('จำนวนจ่าย มากกว่าจำนวนคงเหลือ');
-      this.products[idx].reqs_qty = '';
+      this.products[idx].requisition_qty = '';
     } else {
-      this.products[idx].reqs_qty = +qty.value;
+      this.products[idx].requisition_qty = +qty.value;
     }
   }
 
@@ -375,7 +378,9 @@ export class RequisitionNewComponent implements OnInit {
           try {
             let rs: any;
             if (this.isUpdate) {
-              // rs = await this.requisitionService.updateRequisitionOrder(this.requisitionId, order, products);
+              console.log(21111);
+              
+              rs = await this.requisitionService.updateRequisitionOrder(this.requisitionId, order, this.products);
             } else {
               rs = await this.requisitionService.saveRequisitionOrder(order, this.products);
             }
@@ -402,7 +407,7 @@ export class RequisitionNewComponent implements OnInit {
       })
 
   }
-  async saveIssue() {
+  async saveReqs() {
   //   const issueDate = this.issueDate ? `${this.issueDate.date.year}-${this.issueDate.date.month}-${this.issueDate.date.day}` : null;
   //   this.alertService.confirm('ต้องการบันทึกรายการ ตัดจ่าย ใช่หรือไม่?')
   //     .then(() => {
@@ -413,8 +418,8 @@ export class RequisitionNewComponent implements OnInit {
   //       summary.comment = this.comment;
   //       let isError = false;
   //       this.products.forEach(v => {
-  //         const totalIssue = v.reqs_qty;
-  //         if (totalIssue > v.remain_qty || v.reqs_qty <= 0) {
+  //         const totalReqs = v.requisition_qty;
+  //         if (totalReqs > v.remain_qty || v.requisition_qty <= 0) {
   //           isError = true;
   //         }
   //       });
@@ -423,7 +428,7 @@ export class RequisitionNewComponent implements OnInit {
   //         this.alertService.error('มีจำนวนที่มียอดจ่ายมากกว่ายอดคงเหลือ หรือ ไม่ได้ระบุจำนวนจ่าย');
   //         this.modalLoading.hide();
   //       } else {
-  //         this.issueService.saveIssue(summary, this.products)
+  //         this.issueService.saveReqs(summary, this.products)
   //           .then((results: any) => {
   //             if (results.ok) {
   //               this.alertService.success();
@@ -458,7 +463,7 @@ export class RequisitionNewComponent implements OnInit {
 
     const idx = _.findIndex(this.products, { product_id: +e[0].product_id });
     if (idx > -1) {
-      this.products[idx].reqs_qty = total_base;
+      this.products[idx].requisition_qty = total_base;
     }
     console.log(idx);
     console.log(this.products);
