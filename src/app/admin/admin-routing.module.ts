@@ -12,6 +12,7 @@ import { ReceiveEditComponent } from './receive-edit/receive-edit.component';
 import { IssuesNewComponent } from './issues-new/issues-new.component';
 import { IssuesEditComponent } from './issues-edit/issues-edit.component';
 import { RequisitionNewComponent } from './requisition-new/requisition-new.component';
+import { RequisitionConfirmComponent } from './requisition-confirm/requisition-confirm.component';
 
 const routes: Routes = [
   {
@@ -31,7 +32,8 @@ const routes: Routes = [
       { path: 'requisition', component: RequisitionComponent },
       { path: 'alert-expired', component: AlertExpiredComponent },
       { path: 'requisition/new', component: RequisitionNewComponent },
-      { path: 'requisition/edit/:requisitionId', component: RequisitionNewComponent }      
+      { path: 'requisition/edit/:requisitionId', component: RequisitionNewComponent },
+      { path: 'requisition/confirm', component: RequisitionConfirmComponent },     
     ]
   }
 ];

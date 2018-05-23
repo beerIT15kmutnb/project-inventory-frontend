@@ -31,6 +31,7 @@ import { TransferDashboardService } from './transfer-dashboard.service';
 import { IssuesEditComponent } from './issues-edit/issues-edit.component';
 import { RequisitionService } from './requisition.service';
 import { RequisitionNewComponent } from './requisition-new/requisition-new.component';
+import { RequisitionConfirmComponent } from './requisition-confirm/requisition-confirm.component';
 
 
 @NgModule({
@@ -61,7 +62,8 @@ import { RequisitionNewComponent } from './requisition-new/requisition-new.compo
     ReceiveEditComponent,
     IssuesNewComponent,
     IssuesEditComponent,
-    RequisitionNewComponent
+    RequisitionNewComponent,
+    RequisitionConfirmComponent
   ],
   providers:[
     ToThaiDatePipe,

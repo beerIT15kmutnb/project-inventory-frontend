@@ -22,6 +22,12 @@ export class RequisitionService {
     }).toPromise();
     return rs.json();
   }
+  async approveRequisitionOrder(id: any, products: any) {
+    const rs: any = await this.authHttp.put(`${this.url}/requisition/orders/approveRequisitionOrder/${id}`, {
+      products: products
+    }).toPromise();
+    return rs.json();
+  }
   async updateRequisitionOrder(id: any, order: any, products: any) {
     const rs: any = await this.authHttp.put(`${this.url}/requisition/orders/updateRequisitionOrder/${id}`, {
       order: order,
