@@ -1,6 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { AuthHttp } from 'angular2-jwt';
 import 'rxjs/add/operator/toPromise';
+import { query } from '@angular/animations';
 
 @Injectable()
 export class ProductsService {
@@ -9,15 +10,54 @@ export class ProductsService {
     private authHttp: AuthHttp
   ) { }
 
-  async all(limit: number = 10, offset: number = 0) {
+  async getProductPackage(id:any){
+    const rs = await this.authHttp.get(`${this.url}/products/getProductPackage/${id}`).toPromise();
+    return rs.json();
+  }
+  async getUnit() {
+    const rs = await this.authHttp.get(`${this.url}/products/getUnit`).toPromise();
+    return rs.json();
+  }
+  async saveAddProduct(items:any){
+    const rs = await this.authHttp.put(`${this.url}/products/saveAddProduct`,{
+      items:items
+    }).toPromise();
+    return rs.json();
+  }async saveEditProduct(items:any){
+    const rs = await this.authHttp.put(`${this.url}/products/saveEditProduct`,{
+      items:items
+    }).toPromise();
+    return rs.json();
+  }
+  async saveAddGenerics(items:any){
+    const rs = await this.authHttp.put(`${this.url}/products/saveAddGenerics`,{
+      items:items
+    }).toPromise();
+    return rs.json();
+  }async saveEditGenerics(items:any){
+    const rs = await this.authHttp.put(`${this.url}/products/saveEditGenerics`,{
+      items:items
+    }).toPromise();
+    return rs.json();
+  }
+  async allProducts(query: any, limit: number = 10, offset: number = 0) {
     const resp = await this.authHttp.post(`${this.url}/products/stock/products/all`, {
       limit: limit,
-      offset: offset
+      offset: offset,
+      query: query
+    }).toPromise();
+    return resp.json();
+  }
+  async allGenerics(query: any, limit: number = 10, offset: number = 0) {
+    const resp = await this.authHttp.post(`${this.url}/products/stock/generics/all`, {
+      limit: limit,
+      offset: offset,
+      query: query
     }).toPromise();
     return resp.json();
   }
 
-  async getLot(productId:any ) {
+  async getLot(productId: any) {
     const rs = await this.authHttp.get(`${this.url}/products/getLot?productId=${productId}`).toPromise();
     return rs.json();
   }
@@ -30,7 +70,18 @@ export class ProductsService {
     }).toPromise();
     return resp.json();
   }
-
+  async addUnit(items:any){
+    let rs:any =  await this.authHttp.put(`${this.url}/products/addUnit`,{
+      items:items
+    }).toPromise();
+    return rs.json();
+  }
+  async editUnit(items:any){
+    let rs:any =  await this.authHttp.put(`${this.url}/products/editUnit`,{
+      items:items
+    }).toPromise();
+    return rs.json();
+  }
   // async getProductStockDetail(productId: any) {
   //   const resp = await this.authHttp.get(`${this.url}/products/stock/remain/${productId}`).toPromise();
   //   return resp.json();
@@ -82,9 +133,9 @@ export class ProductsService {
   //   return resp.json();
   // }
 
-  // async getGenericType() {
-  //   const resp = await this.authHttp.get(`${this.url}/generics/types`).toPromise();
-  //   return resp.json();
-  // }
+  async getGenericType() {
+    const resp = await this.authHttp.get(`${this.url}/products/getGenericType`).toPromise();
+    return resp.json();
+  }
 
 }

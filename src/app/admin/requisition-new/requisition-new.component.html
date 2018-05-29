@@ -74,8 +74,8 @@
     
   <clr-datagrid class="order-form">
     <clr-dg-column [style.width.px]="380">ชื่อยา/เวชภัณฑ์</clr-dg-column>
-    <clr-dg-column >จำนวนเบิก</clr-dg-column>
-    <clr-dg-column >หน่วย</clr-dg-column>
+    <clr-dg-column [style.width.px]="200">จำนวนเบิก</clr-dg-column>
+    <clr-dg-column [style.width.px]="200">package</clr-dg-column>
     <clr-dg-column >รวม</clr-dg-column>
     <clr-dg-column >คงเหลือ</clr-dg-column>
     <clr-dg-column ></clr-dg-column>
@@ -83,7 +83,10 @@
     
   <clr-dg-row *ngFor="let product of products; let idx = index;">
       <!-- <wm-issue-product (onChange)="changeQtyGrid($event)" *clrIfExpanded [data]="product.items" ngProjectAs="clr-dg-row-detail"></wm-issue-product> -->
-      <clr-dg-cell style="text-align: left; line-height: 25px;">{{idx + 1}}. {{product.product_name}}</clr-dg-cell>
+      <clr-dg-cell style="text-align: left; line-height: 25px;">
+        {{idx + 1}}. {{product.generic_name}}
+      <label style="font-size: 10px">({{product.product_name}})</label>
+      </clr-dg-cell>
       <clr-dg-cell>
         <input type="text" #reqQty (keyup)="editChangereqQty(idx, reqQty)" class="wm-edit-box-number" style="width: 100%; background-color: #FFF9C4"
           wmNumberOnly [value]="product.requisition_qty" />
@@ -94,7 +97,7 @@
       <clr-dg-cell style="text-align: right; line-height: 25px;" [ngStyle]="{'color': (product.requisition_qty * product.small_qty) > product.remain_qty ? 'red' : 'green'}">{{ product.requisition_qty*product.small_qty | number }} {{product.small_unit_name}}</clr-dg-cell>
       <clr-dg-cell style="line-height: 25px; text-align: right;" [ngStyle]="{'color': (product.requisition_qty * product.small_qty) > product.remain_qty ? 'red' : 'green'}">{{product.remain_qty - product.requisition_qty | number}} {{product.large_unit_name}}</clr-dg-cell>
       <clr-dg-cell style="text-align: center;">
-        <div class="btn-group btn-primary">
+        <div class="btn-group">
           <button class="btn btn-sm btn-danger wm-small-btn" (click)="removeSelectedProduct(idx)">
             <clr-icon shape="trash"></clr-icon>
           </button>
@@ -105,17 +108,25 @@
     
     <clr-dg-row class="newLine">
       <clr-dg-cell>
-        <wm-search-product #productSearch (onSelect)="setSelectedProduct($event)" (onChange)="changeSearchProduct($event)"></wm-search-product>
+        <app-search-generics-box #productSearch (onSelect)="setSelectedGeneric($event)" (onChange)="changeSearchProduct($event)"></app-search-generics-box>
+        <!-- <wm-search-product #productSearch (onSelect)="setSelectedProduct($event)" (onChange)="changeSearchProduct($event)"></wm-search-product> -->
       </clr-dg-cell>
       <clr-dg-cell>
         <input type="text" class="wm-edit-box-number" style="width: 100px;" style="background-color: #FFF9C4" [disabled]="!selectedProductId"
           [(ngModel)]="reqQty" autocomplete="off" wmNumberWithOutDot placeholder="">
       </clr-dg-cell>
       <clr-dg-cell style="text-align: right; line-height: 25px;">
-        <div *ngIf="searchProduct.large_unit_name !== null">
+        <!-- <div *ngIf="searchProduct.large_unit_name !== null">
           {{searchProduct.large_unit_name}}( {{searchProduct.small_qty}} {{searchProduct.small_unit_name}})
-        </div>
-  
+        </div> -->
+
+        <div class="select">
+            <select id="selects_5" name="type" [(ngModel)]="selectedProduct" (ngModelChange)="addProductItem($event)">
+              <option  *ngFor="let p of packageItems" [ngValue]="p">
+                {{p.large_unit_name}}( {{p.small_qty}} {{p.small_unit_name}})
+              </option>
+            </select>
+          </div>
       </clr-dg-cell>
       <clr-dg-cell style="text-align: right; line-height: 25px;" [ngStyle]="{'color': (reqQty * searchProduct.small_qty) > remainQty ? 'red' : 'green'}">{{ reqQty*searchProduct.small_qty | number }} {{searchProduct.small_unit_name}}</clr-dg-cell>
       <clr-dg-cell style="text-align: right; line-height: 25px;">{{ remainQty | number }} {{searchProduct.large_unit_name}}</clr-dg-cell>

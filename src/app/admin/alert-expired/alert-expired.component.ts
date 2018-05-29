@@ -33,7 +33,7 @@ export class AlertExpiredComponent implements OnInit {
     this.getAllProducts();
     // this.getStatus();
     // this.getGenericType();
-    // this.getProductExpired();
+    this.getProductExpired();
   }
 
   getStatus() {
@@ -58,19 +58,21 @@ export class AlertExpiredComponent implements OnInit {
   }
 
   async getProductExpired() {
-    // this.modalLoading.show();
-    // try {
-    //   const rs: any = await this.alertExpiredService.getProductExpired();
-    //   if (rs.ok) {
-    //     this.products = rs.rows;
-    //   } else {
-    //     this.alertService.error('เกิดข้อผิดพลาด : ' + JSON.stringify(rs.error));
-    //   }
-    //   this.modalLoading.hide();
-    // } catch (error) {
-    //   this.modalLoading.hide();
-    //   this.alertService.serverError();
-    // }
+    this.modalLoading.show();
+    try {
+      const rs: any = await this.alertExpiredService.getProductExpired();
+      console.log(rs);
+      
+      if (rs.ok) {
+        this.products = rs.data[0];
+      } else {
+        this.alertService.error('เกิดข้อผิดพลาด : ' + JSON.stringify(rs.error));
+      }
+      this.modalLoading.hide();
+    } catch (error) {
+      this.modalLoading.hide();
+      this.alertService.error(error);
+    }
   }
   setAlertStatus() {
     // if (this.isAlert) {
@@ -97,20 +99,20 @@ export class AlertExpiredComponent implements OnInit {
   }
 
   async getAllProducts() {
-    // this.isAll = true;
-    // this.modalLoading.show();
-    // try {
-    //   let rs: any = await this.alertExpiredService.getAllGenerics();
-    //   if (rs.ok) {
-    //     this.allGenerics = rs.rows;
-    //   } else {
-    //     this.alertService.error('เกิดข้อผิดพลาด : ' + JSON.stringify(rs.error));
-    //   }
-    //   this.modalLoading.hide();
-    // } catch (error) {
-    //   this.modalLoading.hide();
-    //   this.alertService.serverError();
-    // }
+    this.isAll = true;
+    this.modalLoading.show();
+    try {
+      let rs: any = await this.alertExpiredService.getAllProducts();
+      if (rs.ok) {
+        this.allGenerics = rs.data;
+      } else {
+        this.alertService.error('เกิดข้อผิดพลาด : ' + JSON.stringify(rs.error));
+      }
+      this.modalLoading.hide();
+    } catch (error) {
+      this.modalLoading.hide();
+      this.alertService.error(error);
+    }
   }
 
   async changeGenericType() {

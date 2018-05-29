@@ -214,14 +214,107 @@ export class ReceiveEditComponent implements OnInit {
       }
     };
 
-    // this.getReceiveTypes();
-    // this.getCommittees();
-    // this.getReceiveStatus();
-
     // get receive product
     await this.getReceiveProductList(this.receiveId);
     await this.getReceiveInfo(this.receiveId);
   }
+  //////////////////////////////////////
+
+  async getReceiveInfo(receiveId: any) {
+    try {
+      this.modalLoading.show();
+      const res: any = await this.receiveService.getReceiveInfo(this.receiveId);
+      if (res.ok) {
+        console.log(res.rows);
+
+        if (res.rows) {
+
+          this.receiveCode = res.rows.receive_code;
+          this.deliveryCode = res.rows.delivery_code;
+          this.isApprove = res.rows.is_approve === 'Y' ? true : false;
+          if (res.rows.receive_date) {
+            this.receiveDate = {
+              date: {
+                year: moment(res.rows.receive_date).get('year'),
+                month: moment(res.rows.receive_date).get('month') + 1,
+                day: moment(res.rows.receive_date).get('date')
+              }
+            };
+          }
+          if (res.rows.delivery_date) {
+            this.deliveryDate = {
+              date: {
+                year: moment(res.rows.delivery_date).get('year'),
+                month: moment(res.rows.delivery_date).get('month') + 1,
+                day: moment(res.rows.delivery_date).get('date')
+              }
+            };
+          }
+
+        }
+      } else {
+        this.alertService.error(res.error);
+      }
+
+      this.modalLoading.hide();
+    } catch (error) {
+      this.modalLoading.hide();
+      this.alertService.error(error.message);
+    }
+  }
+
+
+  async getReceiveProductList(receiveId: any) {
+    try {
+      this.modalLoading.show();
+      const res: any = await this.receiveService.getReceiveProducts(receiveId);
+      if (res.ok) {
+        // clear old products
+        console.log(res.rows[0]);
+
+        this.products = [];
+
+        res.rows[0].forEach((v: any) => {
+          let obj: any = {};
+          let receiveDateTmp = {
+            date: {
+              year: moment(v.expired_date).get('year'),
+              month: moment(v.expired_date).get('month') + 1,
+              day: moment(v.expired_date).get('date')
+            }
+          };
+          obj.product_id = v.product_id,
+            obj.product_name = v.product_name,
+            obj.lot_no = v.lot_no,
+            obj.generic_name = v.generic_name,
+            obj.generic_id = v.generic_id,
+            obj.receive_qty = v.receive_qty,
+            obj.small_qty = v.conversion_qty,
+            obj.small_unit_name = v.base_unit_name,
+            obj.large_unit_name = v.from_unit_name,
+            obj.expired_date = receiveDateTmp.date.day + '/' + receiveDateTmp.date.month + '/' + receiveDateTmp.date.year;
+          this.products.push(obj);
+        });
+
+        // this.countTotalCost();
+
+      } else {
+        this.alertService.error(res.error);
+      }
+      this.modalLoading.hide();
+    } catch (error) {
+      this.modalLoading.hide();
+      this.alertService.error('เกิดข้อผิดพลาด ' + error.message);
+    }
+  }
+
+  //////////////////////////////////////
+
+
+
+
+
+
 
   async getReceiveTypes() {
     // try {
@@ -786,50 +879,6 @@ export class ReceiveEditComponent implements OnInit {
 
   }
 
-  async getReceiveProductList(receiveId: any) {
-    try {
-      this.modalLoading.show();
-      const res: any = await this.receiveService.getReceiveProducts(receiveId);
-      if (res.ok) {
-        // clear old products
-        console.log(res.rows[0]);
-
-        this.products = [];
-
-        res.rows[0].forEach((v: any) => {
-          let obj: any = {};
-          let receiveDateTmp = {
-            date: {
-              year: moment(v.expired_date).get('year'),
-              month: moment(v.expired_date).get('month') + 1,
-              day: moment(v.expired_date).get('date')
-            }
-          };
-          obj.product_id = v.product_id,
-            obj.product_name = v.product_name,
-            obj.lot_no = v.lot_no,
-            obj.generic_name = v.generic_name,
-            obj.generic_id = v.generic_id,
-            obj.receive_qty = v.receive_qty,
-            obj.small_qty = v.conversion_qty,
-            obj.small_unit_name = v.base_unit_name,
-            obj.large_unit_name = v.from_unit_name,
-            obj.expired_date = receiveDateTmp.date.day + '/' + receiveDateTmp.date.month + '/' + receiveDateTmp.date.year;
-          this.products.push(obj);
-        });
-
-        // this.countTotalCost();
-
-      } else {
-        this.alertService.error(res.error);
-      }
-      this.modalLoading.hide();
-    } catch (error) {
-      this.modalLoading.hide();
-      this.alertService.error('เกิดข้อผิดพลาด ' + error.message);
-    }
-  }
-
   removeReceive() {
     // this.deleting = true;
     // this.alertService.confirm('คุณต้องการลบรายการรับยา/เวชภัณฑ์นี้ [' + this.receiveId + '] ใช่หรือไม่?')
@@ -859,48 +908,7 @@ export class ReceiveEditComponent implements OnInit {
     //   });
   }
 
-  async getReceiveInfo(receiveId: any) {
-    try {
-      this.modalLoading.show();
-      const res: any = await this.receiveService.getReceiveInfo(this.receiveId);
-      if (res.ok) {
-        console.log(res.rows);
 
-        if (res.rows) {
-
-          this.receiveCode = res.rows.receive_code;
-          this.deliveryCode = res.rows.delivery_code;
-          this.isApprove = res.rows.is_approve === 'Y' ? true : false;
-          if (res.rows.receive_date) {
-            this.receiveDate = {
-              date: {
-                year: moment(res.rows.receive_date).get('year'),
-                month: moment(res.rows.receive_date).get('month') + 1,
-                day: moment(res.rows.receive_date).get('date')
-              }
-            };
-          }
-          if (res.rows.delivery_date) {
-            this.deliveryDate = {
-              date: {
-                year: moment(res.rows.delivery_date).get('year'),
-                month: moment(res.rows.delivery_date).get('month') + 1,
-                day: moment(res.rows.delivery_date).get('date')
-              }
-            };
-          }
-
-        }
-      } else {
-        this.alertService.error(res.error);
-      }
-
-      this.modalLoading.hide();
-    } catch (error) {
-      this.modalLoading.hide();
-      this.alertService.error(error.message);
-    }
-  }
   async saveReceive() {
     if (this.receiveDate) {
       const _receiveDate = this.receiveDate ?

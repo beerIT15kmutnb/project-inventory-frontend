@@ -1,0 +1,83 @@
+<nav class="breadcrumb">
+    <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
+    <span class="breadcrumb-item active">จัดการหน่วย</span>
+  </nav>
+  <div style="margin-top: 7px">
+    <button class="btn btn-sm btn-success" (click)="add()">
+      <clr-icon shape="plus"></clr-icon>เพิ่มหน่วย
+    </button>
+  </div>
+  <clr-datagrid style="margin-top: -13px" [style.height.%]="85">
+    <!-- <clr-dg-column [style.width.%]="10">รหัสหน่วย</clr-dg-column> -->
+    <clr-dg-column [clrDgField]="'unit_name'">ชื่อหน่วย</clr-dg-column>
+    <clr-dg-column [style.width.%]="30"></clr-dg-column>
+  
+    <clr-dg-placeholder>ไม่พบรายการ!</clr-dg-placeholder>
+    <clr-dg-row *clrDgItems="let t of units;let idx = index" [clrDgItem]="t">
+      <!-- <clr-dg-cell >{{t.generic_type_code}}</clr-dg-cell> -->
+      <clr-dg-cell>{{t.unit_name}}</clr-dg-cell>
+      <clr-dg-cell style="text-align: center">
+        <div class="btn-group">
+          <button class="btn btn-sm btn-primary" (click)="edit(t)">
+            <clr-icon shape="note"></clr-icon>
+          </button>
+          <button class="btn btn-sm btn-danger" (click)="remove(t)">
+            <clr-icon shape="trash"></clr-icon>
+          </button>
+        </div>
+      </clr-dg-cell>
+    </clr-dg-row>
+  
+    <clr-dg-footer>
+      {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} จาก {{pagination.totalItems | number}} รายการ
+      <clr-dg-pagination #pagination></clr-dg-pagination>
+    </clr-dg-footer>
+  </clr-datagrid>
+  
+  <clr-modal [(clrModalOpen)]="openModal" [clrModalStaticBackdrop]="true" [clrModalSize]="'md'" [clrModalClosable]="false">
+    <h3 class="modal-title" *ngIf="items.unit_id">แก้ไขหน่วย</h3>
+    <h3 class="modal-title" *ngIf="!items.unit_id">เพิ่มหน่วย</h3>
+    <div class="modal-body">
+      <!--  -->
+      <div class="card">
+        <div class="card-block">
+          <form>
+            <section>
+              <div class="form-group row">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                  <label class="required" for="productName">ชื่อหน่วย</label>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                  <input class="form-control" type="text" name="productName" placeholder="" [(ngModel)]="items.unit_name">
+                  <!-- > -->
+                </div>
+              </div>
+  
+              <div class="form-group row">
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                  <label>Active</label>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                  <div class="toggle-switch">
+                    <input type="checkbox" id="toggle" #event [checked]="items.is_active==='Y'" (change)="changActiveGeneric($event)">
+                    <label for="toggle"></label>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer" style="padding-top: 24px;">
+      <button [disabled]="items.unit_name == ''" *ngIf="items.unit_id" type="button" class="btn btn-md btn-primary"
+        (click)="saveEdit()">บันทึก</button>
+      <button [disabled]="items.unit_name == ''" *ngIf="!items.unit_id" type="button" class="btn btn-md btn-primary"
+        (click)="saveAdd()">บันทึก</button>
+      <button type="button" class="btn btn-md btn-danger-outline" (click)="close()">ปิด</button>
+    </div>
+  </clr-modal>
+  <app-loading-modal #modalLoading></app-loading-modal>
+  

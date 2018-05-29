@@ -38,7 +38,7 @@
   <clr-dg-column>ประเภท</clr-dg-column>
   <!-- <clr-dg-column style="width: 180px;">จำนวนรายการ</clr-dg-column> -->
   <clr-dg-column>หมายเหตุ</clr-dg-column>
-  <clr-dg-column style="width: 150px;">#</clr-dg-column>
+  <clr-dg-column style="width: 200px;"></clr-dg-column>
   <clr-dg-placeholder>ไม่พบรายการ!</clr-dg-placeholder>
   <clr-dg-row *ngFor="let s of issues" [clrDgItem]="s" [ngClass]="{'isSuccess': s.is_approve === 'Y', 'isError': s.is_cancel === 'Y'}">
     <wm-transaction-issue-detail *clrIfExpanded [issueId]="s.issue_id" ngProjectAs="clr-dg-row-detail"></wm-transaction-issue-detail>
@@ -52,17 +52,17 @@
         <!-- <button [disabled]="isSaving" class="btn btn-sm btn-icon btn-primary" (click)="showReport(s.issue_id)">
           <clr-icon shape="printer"></clr-icon>
         </button> -->
-        <button [disabled]="s.is_approve === 'Y' || s.is_cancel === 'Y'" class="btn btn-sm btn-icon btn-success" routerLink="/admin/issues/edit"
+        <button [disabled]="s.is_approve === 'Y' || s.is_cancel === 'Y'" class="btn btn-sm btn-primary" routerLink="/admin/issues/edit"
           [queryParams]="{issueId: s.issue_id}">
           <clr-icon shape="note"></clr-icon>
         </button>
-        <button [disabled]="s.is_approve === 'Y' || s.is_cancel === 'Y'" class="btn btn-sm btn-icon btn-danger" (click)="removeIssue(s)">
+        <button [disabled]="s.is_approve === 'Y' || s.is_cancel === 'Y'" class="btn btn-sm btn-danger" (click)="removeIssue(s)">
           <clr-icon shape="trash"></clr-icon>
         </button>
-        <button [disabled]="s.is_cancel === 'Y'" class="btn btn-sm btn-icon btn-primary tooltip tooltip-sm tooltip-left" role="tooltip" aria-haspopup="true" (click)="showReport(s.issue_id)">
+        <!-- <button [disabled]="s.is_cancel === 'Y'" class="btn btn-sm btn-icon btn-primary tooltip tooltip-sm tooltip-left" role="tooltip" aria-haspopup="true" (click)="showReport(s.issue_id)">
           <clr-icon shape="printer"></clr-icon>
           <span class="tooltip-content">พิมพ์ใบตัดจ่าย</span>
-        </button>
+        </button> -->
       </div>
     </clr-dg-cell>
   </clr-dg-row>

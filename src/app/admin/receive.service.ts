@@ -10,6 +10,35 @@ export class ReceiveService {
     @Inject('API_URL') private url: string,
     private authHttp: AuthHttp
   ) { }
+  ////////////////////////////////////
+
+
+  async saveReceive(summary: any, products: Array<any>) {
+    const res = await this.authHttp.post(`${this.url}/receives`, {
+      summary: summary,
+      products: products
+    }).toPromise();
+    console.log(res.json());
+     
+    return res.json();
+  }
+
+  async getReceiveInfo(receiveId: any) {
+    const res = await this.authHttp.get(`${this.url}/receives/info?receiveId=${receiveId}`)
+      .toPromise();
+    return res.json();
+  }
+  async getReceiveProducts(receiveId) {
+    const res = await this.authHttp.get(`${this.url}/receives/products?receiveId=${receiveId}`)
+      .toPromise();
+    return res.json();
+  }
+  ////////////////////////////////////
+
+
+
+
+
 
   getAllProducts() {
     return new Promise((resolve, reject) => {
@@ -127,15 +156,7 @@ export class ReceiveService {
     const res = await this.authHttp.get(`${this.url}/receives/po/${id}`).toPromise();
     return res.json();
   }
-  async saveReceive(summary: any, products: Array<any>) {
-    const res = await this.authHttp.post(`${this.url}/receives`, {
-      summary: summary,
-      products: products
-    }).toPromise();
-    console.log(res.json());
-     
-    return res.json();
-  }
+  
   // async updateReceive(summary: any, products: Array<any>) {
   //   const res = await this.authHttp.post(`${this.url}/receives/update`, {
   //     summary: summary,
@@ -348,11 +369,7 @@ export class ReceiveService {
     return res.json();
   }
 
-  async getReceiveInfo(receiveId: any) {
-    const res = await this.authHttp.get(`${this.url}/receives/info?receiveId=${receiveId}`)
-      .toPromise();
-    return res.json();
-  }
+
 
   async getPeople() {
     const res = await this.authHttp.get(`${this.url}/receives/people/list`)
@@ -360,11 +377,7 @@ export class ReceiveService {
     return res.json();
   }
 
-  async getReceiveProducts(receiveId) {
-    const res = await this.authHttp.get(`${this.url}/receives/products?receiveId=${receiveId}`)
-      .toPromise();
-    return res.json();
-  }
+
 
   async getReceiveOtherProducts(receiveOtherId) {
     const res = await this.authHttp.get(`${this.url}/receives/other/product-list/${receiveOtherId}`)

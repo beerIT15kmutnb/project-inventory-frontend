@@ -13,6 +13,8 @@ import { IssuesNewComponent } from './issues-new/issues-new.component';
 import { IssuesEditComponent } from './issues-edit/issues-edit.component';
 import { RequisitionNewComponent } from './requisition-new/requisition-new.component';
 import { RequisitionConfirmComponent } from './requisition-confirm/requisition-confirm.component';
+import { UnitManagementComponent } from './unit-management/unit-management.component';
+import { TypeManagementComponent } from './type-management/type-management.component';
 
 const routes: Routes = [
   {
@@ -33,7 +35,9 @@ const routes: Routes = [
       { path: 'alert-expired', component: AlertExpiredComponent },
       { path: 'requisition/new', component: RequisitionNewComponent },
       { path: 'requisition/edit/:requisitionId', component: RequisitionNewComponent },
-      { path: 'requisition/confirm', component: RequisitionConfirmComponent },     
+      { path: 'requisition/confirm', component: RequisitionConfirmComponent },
+      { path: 'unit-management', component: UnitManagementComponent },
+      { path: 'type-management', component: TypeManagementComponent }
     ]
   }
 ];

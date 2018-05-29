@@ -32,6 +32,10 @@ import { IssuesEditComponent } from './issues-edit/issues-edit.component';
 import { RequisitionService } from './requisition.service';
 import { RequisitionNewComponent } from './requisition-new/requisition-new.component';
 import { RequisitionConfirmComponent } from './requisition-confirm/requisition-confirm.component';
+import { ProductsNewComponent } from './products-new/products-new.component';
+import { UnitManagementComponent } from './unit-management/unit-management.component';
+import { TypeManagementComponent } from './type-management/type-management.component';
+import { GenericsService } from './generics.service';
 
 
 @NgModule({
@@ -63,7 +67,10 @@ import { RequisitionConfirmComponent } from './requisition-confirm/requisition-c
     IssuesNewComponent,
     IssuesEditComponent,
     RequisitionNewComponent,
-    RequisitionConfirmComponent
+    RequisitionConfirmComponent,
+    ProductsNewComponent,
+    UnitManagementComponent,
+    TypeManagementComponent
   ],
   providers:[
     ToThaiDatePipe,
@@ -72,7 +79,8 @@ import { RequisitionConfirmComponent } from './requisition-confirm/requisition-c
     IssueService,
     AlertExpiredService,
     TransferDashboardService,
-    RequisitionService
+    RequisitionService,
+    GenericsService
   ]
 })
 export class AdminModule { }

@@ -19,7 +19,6 @@
         <clr-dg-column>วันหมดอายุ</clr-dg-column>
         <clr-dg-column>วันที่ต่าง</clr-dg-column>
         <clr-dg-column>จำนวนวันแจ้งเตือนหมดอายุ</clr-dg-column>
-        <clr-dg-column>คลัง</clr-dg-column>
   
         <clr-dg-placeholder>ไม่พบรายการยา!</clr-dg-placeholder>
         <clr-dg-row *clrDgItems="let p of products" [clrDgItem]="p"  [ngClass]="{'expired-date-status': (p.diff < 0)}">
@@ -29,7 +28,6 @@
           <clr-dg-cell>{{p.expired_date | expiredDate}}</clr-dg-cell>
           <clr-dg-cell>{{p.diff}}</clr-dg-cell>
           <clr-dg-cell>{{p.num_days}}</clr-dg-cell>
-          <clr-dg-cell>{{p.warehouse_name}}</clr-dg-cell>
         </clr-dg-row>
 
         <clr-dg-footer>
@@ -43,7 +41,7 @@
     <button clrTabLink (click)="getAllProducts()">
       ตั้งค่าวันหมดอายุ</button>
     <clr-tab-content *clrIfActive>
-      <div style="padding-top: 5px; padding-bottom: 5px; display:inline-block;">
+      <!-- <div style="padding-top: 5px; padding-bottom: 5px; display:inline-block;">
         <div class="btn-group btn-sm">
           <div class="radio btn">
             <input type="radio" (click)="getAllProducts()" [checked]="isAll" name="btn-group-demo-radios" id="btn-demo-radio-1">
@@ -54,28 +52,28 @@
             <label for="btn-demo-radio-2">เฉพาะยังไม่กำหนด</label>
           </div>
         </div>
-      </div>
+      </div> -->
       <div>
         <button [disabled]="!selectedGenerics.length" class="btn btn-sm btn-success" (click)="setExpireCount()">กำหนดวันหมดอายุ</button>
-        <div class="col-md-2" style="text-align: right; display:inline-block; float: right;">
+        <!-- <div class="col-md-2" style="text-align: right; display:inline-block; float: right;">
           <div class="select">
             <select [(ngModel)]="genericType" name="genericType" (change)="changeGenericType()">
               <option value="all">ทั้งหมด</option>
               <option [value]="t.generic_type_id" *ngFor="let t of genericTypes">{{t.generic_type_name}}</option>
             </select>
           </div>
-        </div>
+        </div> -->
       </div>
       <clr-datagrid [(clrDgSelected)]="selectedGenerics" [style.height.%]="85">
-        <clr-dg-column [style.width.px]="150" [clrDgField]="'working_code'">Generic Code</clr-dg-column>
+        <clr-dg-column [style.width.px]="150" [clrDgField]="'working_code'">รหัสยา/เวชภัณฑ์</clr-dg-column>
         <!-- <clr-dg-column [style.width.%]="35" [clrDgField]="'product_name'">ชื่อยา (ชื่อการค้า)</clr-dg-column> -->
-        <clr-dg-column [clrDgField]="'generic_name'">Generic name</clr-dg-column>
+        <clr-dg-column [clrDgField]="'generic_name'">ชื่อยา/เวชภัณฑ์</clr-dg-column>
         <clr-dg-column [style.width.px]="150">ก่อนวันหมดอายุ (วัน)</clr-dg-column>
         <!--<clr-dg-column [style.width.%]="10">#</clr-dg-column>-->
         <clr-dg-placeholder>ไม่พบรายการยา!</clr-dg-placeholder>
         <clr-dg-row *clrDgItems="let generic of allGenerics" [clrDgItem]="generic">
           <!-- <clr-dg-cell>{{product.product_id}}</clr-dg-cell> -->
-          <clr-dg-cell>{{generic.working_code}}</clr-dg-cell>
+          <clr-dg-cell>{{generic.generic_code}}</clr-dg-cell>
           <clr-dg-cell>{{generic.generic_name}}</clr-dg-cell>
           <clr-dg-cell style="text-align: right;">{{generic.num_days | number}}</clr-dg-cell>
         </clr-dg-row>

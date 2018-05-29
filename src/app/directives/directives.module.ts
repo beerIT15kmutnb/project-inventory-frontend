@@ -10,6 +10,7 @@ import { ModalsModule } from '../modals/modals.module';
 import { AgxTypeaheadModule } from '@siteslave/agx-typeahead';
 import { TextMaskModule } from 'angular2-text-mask';
 import { UpperCaseDirective } from './upper-case.directive';
+import { SearchGenericsBoxComponent } from './search-generics-box/search-generics-box.component';
 
 @NgModule({
   imports: [
@@ -25,12 +26,14 @@ import { UpperCaseDirective } from './upper-case.directive';
   declarations: [
     SelectReceiveUnitComponent,
     SearchProductComponent,
-    UpperCaseDirective
+    UpperCaseDirective,
+    SearchGenericsBoxComponent
   ],
   exports: [
     SelectReceiveUnitComponent,
     SearchProductComponent,
-    UpperCaseDirective
+    UpperCaseDirective,
+    SearchGenericsBoxComponent
   ]
 })
 export class DirectivesModule { }

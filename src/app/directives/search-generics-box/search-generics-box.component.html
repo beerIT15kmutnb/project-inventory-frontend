@@ -1,0 +1,11 @@
+<input type="text" [(ngModel)]="query" [value]="query" 
+(keyup)="clearSelected($event)" style="width: 100%;" placeholder="ค้นหายา/เวชภัณฑ์..." 
+agxTypeahead 
+[taUrl]="searchGenericUrl"
+taApi="http" 
+[taItemTpl]="itemTpl"
+(taSelected)="handleResultSelected($event)">
+
+<ng-template #itemTpl let-result style="width: 100%">
+  <strong>{{ result.result.generic_name }}</strong>
+</ng-template>

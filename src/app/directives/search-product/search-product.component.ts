@@ -20,9 +20,7 @@ export class SearchProductComponent implements OnInit {
   query: any = null;
   searchProductUrl: any;
 
-  constructor(
-
-    @Inject('API_URL') private apiUrl: string) {
+  constructor(@Inject('API_URL') private apiUrl: string) {
 
     this.token = sessionStorage.getItem('token');
     this.searchProductUrl = `${this.apiUrl}/products/search-autocomplete?token=${this.token}`;
@@ -52,7 +50,7 @@ export class SearchProductComponent implements OnInit {
 
   handleResultSelected(event: any) {
     this.onSelect.emit(event);
-    this.query = event.generic_name;
+    this.query = event.product_name;
   }
 
 }

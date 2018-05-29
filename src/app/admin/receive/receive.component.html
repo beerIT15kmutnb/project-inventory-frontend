@@ -42,7 +42,7 @@
                 </select>
               </div>
             </div> -->
-            <div class="col-md-2  push-md-4" style="padding-top: 5px;">
+            <!-- <div class="col-md-2  push-md-4" style="padding-top: 5px;">
               <div style="float: right;">
                 <clr-dropdown>
                   <button type="button" [disabled]="!selectedApprove.length" class="btn btn-sm btn-primary" clrDropdownTrigger>
@@ -66,16 +66,16 @@
                   </clr-dropdown-menu>
                 </clr-dropdown>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
 
       <clr-datagrid (clrDgRefresh)="refresh($event)" style="padding-top: 5px; height: 83%;" [(clrDgSelected)]="selectedApprove">
         <clr-dg-column style="width: 150px;">วันที่</clr-dg-column>
-        <clr-dg-column style="width: 180px;">เลขที่รับ</clr-dg-column>
-        <clr-dg-column style="width: 180px;">เลขที่ใบประมาณการ</clr-dg-column>
-        <clr-dg-column style="width: 150px;"></clr-dg-column>
+        <clr-dg-column >เลขที่รับ</clr-dg-column>
+        <clr-dg-column >เลขที่ใบประมาณการ</clr-dg-column>
+        <clr-dg-column style="width: 200px;"></clr-dg-column>
         <clr-dg-placeholder>ไม่พบรายการ!</clr-dg-placeholder>
         <clr-dg-row *ngFor="let w of waitings" [clrDgItem]="w" [ngClass]="{'approve-status': w.is_approve === 'Y', 'isError': w.is_cancel === 'Y'}">
           <wm-product-detail *clrIfExpanded [receiveId]="w.receive_id" ngProjectAs="clr-dg-row-detail"></wm-product-detail>
@@ -84,12 +84,12 @@
           <clr-dg-cell *ngIf="!w.purchase_order_book_number">{{w.purchase_order_number}}</clr-dg-cell>
           <clr-dg-cell *ngIf="w.purchase_order_book_number">{{w.purchase_order_book_number}}</clr-dg-cell>
           <clr-dg-cell style="text-align: center;">
-            <div class="btn-group btn-success">
-              <button [disabled]="w.is_cancel === 'Y' || w.is_approve === 'Y'" title="แก้ไขข้อมูล/อนุมัติ/เอกสาร" class="btn btn-primary btn-icon btn-sm wm-small-btn"
+            <div class="btn-group ">
+              <button [disabled]="w.is_cancel === 'Y' || w.is_approve === 'Y'" title="แก้ไขข้อมูล" class="btn btn-primary  btn-sm "
                 [routerLink]="['/admin/receives/edit']" [queryParams]="{receiveId: w.receive_id}">
                 <clr-icon shape="note"></clr-icon>
               </button>
-              <button [disabled]="w.is_approve === 'Y' || w.is_cancel === 'Y'" title="ยกเลิกใบรับ" class="btn btn-danger btn-icon btn-sm wm-small-btn"
+              <button [disabled]="w.is_approve === 'Y' || w.is_cancel === 'Y'" title="ยกเลิกใบรับ" class="btn btn-danger  btn-sm "
                 (click)="removeReceive(w)">
                 <clr-icon shape="trash"></clr-icon>
               </button>

@@ -52,10 +52,11 @@ export class RequisitionNewComponent implements OnInit {
   // @ViewChild('searchGenericCmp') public searchGenericCmp: SearchGenericAutocompleteComponent;
 
   // public mask = [/\d/, /\d/, /\d/];
-
+  selectedProduct: any
   selectedProductName: string;
   selectedProductId: any;
   products = [];
+  packageItems: any = []
   issueDate = null;
   transactionId: null;
   issues: any = [];
@@ -66,12 +67,13 @@ export class RequisitionNewComponent implements OnInit {
   productName: any = null;
 
   reqQty: any = 0;
+  searchGeneric: any = []
   searchProduct: any = {
     small_qty: null,
     small_unit_name: null,
     large_unit_name: null
   };
-////////////////////////
+  ////////////////////////
 
   warehouses: any[] = [];
   tmpwareHouses: any[] = [];
@@ -164,7 +166,8 @@ export class RequisitionNewComponent implements OnInit {
             remain_qty: v.remainQty,
             large_unit_name: v.lm,
             small_qty: +v.small_qty,
-            small_unit_name: v.sm
+            small_unit_name: v.sm,
+            generic_name:v.generic_name
           }
         })
         // for (let v of this.products) {
@@ -214,18 +217,47 @@ export class RequisitionNewComponent implements OnInit {
       }
     } catch (error) {
       console.log(error);
-      
+
       this.alertService.error(error)
     }
 
   }
   changeSearchProduct(event) {
     if (event) {
-      this.productSearch.clearProductSearch();
-      this.clearForm();
+      // this.productSearch.clearProductSearch();
+      // this.clearForm();
     }
   }
 
+  async setSelectedGeneric(event: any) {
+    this.modalLoading.show()
+    try {
+      this.searchGeneric = event;
+      this.selectedGenericId = event ? event.generic_id : null;
+      if (this.selectedGenericId) {
+        const rs = await this.productService.getProductPackage(this.selectedGenericId)
+        if (rs.ok) {
+          this.packageItems = rs.rows[0]
+          console.log(this.packageItems);
+          this.modalLoading.hide()
+        } else {
+          this.alertService.error(rs.error)
+          this.modalLoading.hide()
+        }
+      }
+      // this.selectedProductName = event ? `${event.product_name}` : null;
+    } catch (error) {
+      console.log(error.message);
+      this.modalLoading.hide()
+    }
+
+  }
+
+  async addProductItem(p: any) {
+    console.log(p);
+    this.modalLoading.show()
+    this.setSelectedProduct(p)
+  }
   async setSelectedProduct(event: any) {
     try {
       this.searchProduct = event;
@@ -238,6 +270,7 @@ export class RequisitionNewComponent implements OnInit {
     } catch (error) {
       console.log(error.message);
     }
+    this.modalLoading.hide()
   }
 
 
@@ -261,6 +294,7 @@ export class RequisitionNewComponent implements OnInit {
         this.alertService.error('จำนวนจ่าย มากกว่าจำนวน คงเหลือ');
       } else {
         const obj: any = {};
+        obj.generic_name=this.searchGeneric.generic_name
         obj.requisition_qty = +this.reqQty;
         obj.product_id = this.selectedProductId;
         obj.product_name = this.selectedProductName;
@@ -325,6 +359,24 @@ export class RequisitionNewComponent implements OnInit {
     }
   }
 
+  changeQtyGrid(e) {
+    // console.log(e);
+
+    let total_base = 0;
+    e.forEach(v => {
+      total_base += (+v.qty);
+    });
+    console.log(e[0].product_id);
+
+    const idx = _.findIndex(this.products, { product_id: +e[0].product_id });
+    if (idx > -1) {
+      this.products[idx].requisition_qty = total_base;
+    }
+    console.log(idx);
+    console.log(this.products);
+    console.log(this.products[idx]);
+
+  }
 
   removeSelectedProduct(idx: any) {
     this.alertService.confirm('ต้องการลบรายการนี้ ใช่หรือไม่?')
@@ -334,6 +386,7 @@ export class RequisitionNewComponent implements OnInit {
   }
 
   clearForm() {
+    this.packageItems = []
     this.remainQty = 0;
     this.reqQty = '';
     this.selectedProductId = null;
@@ -353,7 +406,7 @@ export class RequisitionNewComponent implements OnInit {
         const order: any = {};
         // console.log(this.requisitionDate.date);
         order.requisition_date = reqDate;
-    //     order.requisition_type_id = this.requisitionTypeID;
+        //     order.requisition_type_id = this.requisitionTypeID;
         order.wm_requisition = 2 //this.wmRequisition;
         order.wm_withdraw = 1 //this.wmWithdraw;
 
@@ -368,8 +421,8 @@ export class RequisitionNewComponent implements OnInit {
         //     products.push(obj);
         //   }
         // });
-        console.log(this.products,order);
-        
+        console.log(this.products, order);
+
         if (!this.products.length) {
           this.alertService.error('กรุณาระบุจำนวนสินค้าที่ต้องการเบิก');
           // this.isSave = false;
@@ -379,7 +432,7 @@ export class RequisitionNewComponent implements OnInit {
             let rs: any;
             if (this.isUpdate) {
               console.log(21111);
-              
+
               rs = await this.requisitionService.updateRequisitionOrder(this.requisitionId, order, this.products);
             } else {
               rs = await this.requisitionService.saveRequisitionOrder(order, this.products);
@@ -408,68 +461,50 @@ export class RequisitionNewComponent implements OnInit {
 
   }
   async saveReqs() {
-  //   const issueDate = this.issueDate ? `${this.issueDate.date.year}-${this.issueDate.date.month}-${this.issueDate.date.day}` : null;
-  //   this.alertService.confirm('ต้องการบันทึกรายการ ตัดจ่าย ใช่หรือไม่?')
-  //     .then(() => {
-  //       this.modalLoading.show();
-  //       const summary: any = {};
-  //       summary.issueDate = this.issueDate ? `${this.issueDate.date.year}-${this.issueDate.date.month}-${this.issueDate.date.day}` : null;
-  //       summary.transactionId = this.transactionId;
-  //       summary.comment = this.comment;
-  //       let isError = false;
-  //       this.products.forEach(v => {
-  //         const totalReqs = v.requisition_qty;
-  //         if (totalReqs > v.remain_qty || v.requisition_qty <= 0) {
-  //           isError = true;
-  //         }
-  //       });
+    //   const issueDate = this.issueDate ? `${this.issueDate.date.year}-${this.issueDate.date.month}-${this.issueDate.date.day}` : null;
+    //   this.alertService.confirm('ต้องการบันทึกรายการ ตัดจ่าย ใช่หรือไม่?')
+    //     .then(() => {
+    //       this.modalLoading.show();
+    //       const summary: any = {};
+    //       summary.issueDate = this.issueDate ? `${this.issueDate.date.year}-${this.issueDate.date.month}-${this.issueDate.date.day}` : null;
+    //       summary.transactionId = this.transactionId;
+    //       summary.comment = this.comment;
+    //       let isError = false;
+    //       this.products.forEach(v => {
+    //         const totalReqs = v.requisition_qty;
+    //         if (totalReqs > v.remain_qty || v.requisition_qty <= 0) {
+    //           isError = true;
+    //         }
+    //       });
 
-  //       if (isError) {
-  //         this.alertService.error('มีจำนวนที่มียอดจ่ายมากกว่ายอดคงเหลือ หรือ ไม่ได้ระบุจำนวนจ่าย');
-  //         this.modalLoading.hide();
-  //       } else {
-  //         this.issueService.saveReqs(summary, this.products)
-  //           .then((results: any) => {
-  //             if (results.ok) {
-  //               this.alertService.success();
-  //               this.router.navigate(['/admin/issues']);
-  //             } else {
-  //               this.alertService.error(results.error);
-  //             }
-  //             this.modalLoading.hide();
-  //           })
-  //           .catch((error: any) => {
-  //             this.modalLoading.hide();
-  //             this.alertService.error(error.message);
-  //           });
-  //       }
-  //     }).catch(() => {
-  //       this.modalLoading.hide();
-  //     });
+    //       if (isError) {
+    //         this.alertService.error('มีจำนวนที่มียอดจ่ายมากกว่ายอดคงเหลือ หรือ ไม่ได้ระบุจำนวนจ่าย');
+    //         this.modalLoading.hide();
+    //       } else {
+    //         this.issueService.saveReqs(summary, this.products)
+    //           .then((results: any) => {
+    //             if (results.ok) {
+    //               this.alertService.success();
+    //               this.router.navigate(['/admin/issues']);
+    //             } else {
+    //               this.alertService.error(results.error);
+    //             }
+    //             this.modalLoading.hide();
+    //           })
+    //           .catch((error: any) => {
+    //             this.modalLoading.hide();
+    //             this.alertService.error(error.message);
+    //           });
+    //       }
+    //     }).catch(() => {
+    //       this.modalLoading.hide();
+    //     });
   }
 
-  setSelectedGeneric(e) {
-    this.products.push(e);
-  }
+  // setSelectedGeneric(e) {
+  //   this.products.push(e);
+  // }
 
-  changeQtyGrid(e) {
-    // console.log(e);
-
-    let total_base = 0;
-    e.forEach(v => {
-      total_base += (+v.qty);
-    });
-    console.log(e[0].product_id);
-
-    const idx = _.findIndex(this.products, { product_id: +e[0].product_id });
-    if (idx > -1) {
-      this.products[idx].requisition_qty = total_base;
-    }
-    console.log(idx);
-    console.log(this.products);
-    console.log(this.products[idx]);
-
-  }
   ///////////////////////////////////////////////////////
   async getTypes() {
     // this.modalLoading.show();
@@ -574,13 +609,13 @@ export class RequisitionNewComponent implements OnInit {
   }
 
   // setSelectedGeneric(generic: any) {
-    // this.selectedGenericId = generic.generic_id;
-    // this.selectedGenericName = generic.generic_name;
-    // this.selectedWorkingCode = generic.working_code;
-    // this.selectedRemainQty = generic.qty;
-    // this.selectedRequisitionQty = 1;
+  // this.selectedGenericId = generic.generic_id;
+  // this.selectedGenericName = generic.generic_name;
+  // this.selectedWorkingCode = generic.working_code;
+  // this.selectedRemainQty = generic.qty;
+  // this.selectedRequisitionQty = 1;
 
-    // this.selectUnits.getUnits(generic.generic_id);
+  // this.selectUnits.getUnits(generic.generic_id);
   // }
 
   onChangeUnit(event: any) {
@@ -607,21 +642,21 @@ export class RequisitionNewComponent implements OnInit {
   }
 
   // addProduct() {
-    // const idx = _.findIndex(this.products, { generic_id: this.selectedGenericId })
-    // if (idx > -1) {
-    //   this.alertService.error('รายการซ้ำกรุณาแก้ไขรายการเดิม')
-    // } else {
-    //   const product: IRequisitionOrderItem = {};
-    //   product.generic_id = this.selectedGenericId;
-    //   product.requisition_qty = this.selectedRequisitionQty;
-    //   product.generic_name = this.selectedGenericName;
-    //   product.to_unit_qty = this.selectedSmallQty;
-    //   product.unit_generic_id = this.selectedUnitGenericId;
-    //   product.working_code = this.selectedWorkingCode;
-    //   product.remain_qty = this.selectedRemainQty;
-    //   this.products.push(product);
-    //   this.clearItem();
-    // }
+  // const idx = _.findIndex(this.products, { generic_id: this.selectedGenericId })
+  // if (idx > -1) {
+  //   this.alertService.error('รายการซ้ำกรุณาแก้ไขรายการเดิม')
+  // } else {
+  //   const product: IRequisitionOrderItem = {};
+  //   product.generic_id = this.selectedGenericId;
+  //   product.requisition_qty = this.selectedRequisitionQty;
+  //   product.generic_name = this.selectedGenericName;
+  //   product.to_unit_qty = this.selectedSmallQty;
+  //   product.unit_generic_id = this.selectedUnitGenericId;
+  //   product.working_code = this.selectedWorkingCode;
+  //   product.remain_qty = this.selectedRemainQty;
+  //   this.products.push(product);
+  //   this.clearItem();
+  // }
   // }
 
   async getTemplateItems(templateId: any) {
@@ -688,7 +723,7 @@ export class RequisitionNewComponent implements OnInit {
     // }
   }
 
-  
+
 
   async getTemplates() {
     // try {

@@ -31,7 +31,8 @@ export class RequisitionOrderDetailComponent implements OnInit {
             remain_qty: v.remainQty,
             large_unit_name: v.lm,
             small_qty: +v.small_qty,
-            small_unit_name: v.sm
+            small_unit_name: v.sm,
+            generic_name: v.generic_name
           }
         })
       } else {

@@ -10,17 +10,17 @@ export class AlertExpiredService {
     private authHttp: AuthHttp
   ) { }
 
-  // getAllGenerics() {
-  //   return new Promise((resolve, reject) => {
-  //     this.authHttp.get(`${this.url}/alert-expired/generics`)
-  //       .map(res => res.json())
-  //       .subscribe(data => {
-  //         resolve(data);
-  //       }, error => {
-  //         reject(error);
-  //       });
-  //   });
-  // }
+  getAllProducts() {
+    return new Promise((resolve, reject) => {
+      this.authHttp.get(`${this.url}/products/productsExpired`)
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
 
   // getSelectGenerics(id:any) {
   //   return new Promise((resolve, reject) => {
@@ -107,15 +107,15 @@ export class AlertExpiredService {
   //   return resp.json();
   // }
 
-  // getProductExpired(){
-  //   return new Promise((resolve, reject) => {
-  //     this.authHttp.get(`${this.url}/alert-expired/products/expired`)
-  //       .map(res => res.json())
-  //       .subscribe(data => {
-  //         resolve(data);
-  //       }, error => {
-  //         reject(error);
-  //       });
-  //   });
-  // }
+  getProductExpired(){
+    return new Promise((resolve, reject) => {
+      this.authHttp.get(`${this.url}/products/expired`)
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
 }

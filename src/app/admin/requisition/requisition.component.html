@@ -20,10 +20,10 @@
     <clr-tab-content id="content1" *clrIfActive="selectedTab === 'waiting'">
       <clr-datagrid (clrDgRefresh)="refreshWaiting($event)" style="margin-top: -25px; height: 85%;">
         <clr-dg-column style="width: 20%;">วันที่เบิก</clr-dg-column>
-        <clr-dg-column style="width: 30%;">เลขที่เบิก</clr-dg-column>
+        <clr-dg-column >เลขที่เบิก</clr-dg-column>
         <clr-dg-column style="width: 30%;">ผู้เบิก</clr-dg-column>
         <!-- <clr-dg-column style="width: 100px;">ยา/เวชภัณฑ์ไม่พอจ่าย</clr-dg-column> -->
-        <clr-dg-column style="width: 20%;"></clr-dg-column>
+        <clr-dg-column style="width: 270px"></clr-dg-column>
         <clr-dg-placeholder>ไม่พบรายการ!</clr-dg-placeholder>
 
         <clr-dg-row *ngFor="let order of orders" [clrDgItem]="order" [ngClass]="{'isError': order.is_cancel === 'Y'}">
@@ -40,15 +40,15 @@
           <clr-dg-cell style="text-align: center;">
             <div class="btn-group">
 
-              <button class="btn btn-sm btn-icon btn-success" [disabled]="order.is_cancel === 'Y' || !order.total_remain || order.total_remain <= 0"
+              <button class="btn btn-sm  btn-success" [disabled]="order.is_cancel === 'Y' || !order.total_remain || order.total_remain <= 0"
                 [routerLink]="['/admin/requisition/confirm']" [queryParams]="{requisitionId: order.requisition_order_id}" title="จ่ายเวชภัณฑ์">
                 <clr-icon shape="success-standard"></clr-icon>
               </button>
-              <button class="btn btn-sm btn-icon btn-primary" [disabled]="order.is_cancel === 'Y'" [routerLink]="['/admin/requisition/edit/', order.requisition_order_id]"
+              <button class="btn btn-sm  btn-primary" [disabled]="order.is_cancel === 'Y'" [routerLink]="['/admin/requisition/edit/', order.requisition_order_id]"
                 title="แก้ไขใบเบิก">
                 <clr-icon shape="note"></clr-icon>
               </button>
-              <button class="btn btn-sm btn-icon btn-danger tooltip tooltip-sm tooltip-left" [disabled]="order.is_cancel === 'Y'" (click)="removeOrder(order)"
+              <button class="btn btn-sm  btn-danger" [disabled]="order.is_cancel === 'Y'" (click)="removeOrder(order)"
                 title="ยกเลิกใบเบิก">
                 <clr-icon shape="trash"></clr-icon>
               </button>
