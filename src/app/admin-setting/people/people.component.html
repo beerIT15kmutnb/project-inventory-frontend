@@ -1,0 +1,59 @@
+<nav class="breadcrumb">
+  <a class="breadcrumb-item" href="javascript://" routerLink="/admin-setting">หน้าหลัก</a>
+  <span class="breadcrumb-item active">จัดการบุคลากร</span>
+</nav>
+
+
+<button style="margin-bottom: 10px" class="btn btn-sm btn-success" (click)="addProduct()">
+  <clr-icon shape="plus"></clr-icon>
+  &nbsp;เพิ่มบุคลากร
+</button>
+
+<clr-datagrid style="margin-top: -28px" (clrDgRefresh)="refresh($event)">
+  <clr-dg-column style="width: 150px;">
+    <ng-container *clrDgHideableColumn="{hidden: false}">
+      คำนำหน้า
+    </ng-container>
+  </clr-dg-column>
+  <clr-dg-column>
+    <ng-container *clrDgHideableColumn="{hidden: false}">
+      ชื่อ
+    </ng-container>
+  </clr-dg-column>
+  <clr-dg-column>
+    <ng-container *clrDgHideableColumn="{hidden: false}">
+      นามสกุล
+    </ng-container>
+  </clr-dg-column>
+  <clr-dg-column style="width: 200px;"></clr-dg-column>
+  <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
+  <clr-dg-row *ngFor="let p of peoples">
+    <clr-dg-cell style="text-align: left;">
+      <span class="p4">{{p.title_name}}</span>
+    </clr-dg-cell>
+    <clr-dg-cell>
+      <span class="p4">{{p.fname}}</span>
+    </clr-dg-cell>
+    <clr-dg-cell>
+      <span class="p4">{{p.lname}}</span>
+    </clr-dg-cell>
+    <clr-dg-cell style="text-align: right;">
+      <div class="btn-group">
+        <button class="btn btn-sm btn-primary" (click)="editProduct(p)">
+          <clr-icon shape="note"></clr-icon>
+        </button>
+        <button class="btn btn-sm btn-danger " (click)="showStockCard(p)">
+          <clr-icon shape="trash"></clr-icon>
+        </button>
+      </div>
+    </clr-dg-cell>
+  </clr-dg-row>
+
+  <clr-dg-footer>
+    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1 | number}} จาก {{pagination.totalItems | number}} รายการ
+    <clr-dg-pagination #pagination [clrDgPage]="1" [clrDgPageSize]="perPage" [clrDgTotalItems]="peopleTotal"></clr-dg-pagination>
+  </clr-dg-footer>
+</clr-datagrid>
+
+
+<app-loading-modal #modalLoading></app-loading-modal>

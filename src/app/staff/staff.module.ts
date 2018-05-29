@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LayoutComponent } from './layout/layout.component';
-import { AdminSettingRoutingModule } from './admin-setting-routing.module';
-import { PeopleComponent } from './people/people.component';
+import { StaffRoutingModule } from './staff-routing.module';
+import { RequisitionComponent } from './requisition/requisition.component';
+import { RequisitionNewComponent } from './requisition-new/requisition-new.component';
 import { AuthModule } from 'angular2-jwt';
 import { HelperModule } from '../helper/helper.module';
 import { ClarityModule } from '@clr/angular';
@@ -13,12 +14,14 @@ import { MyDatePickerTHModule } from 'mydatepicker-th';
 import { GridDetailModule } from '../grid-detail/grid-detail.module';
 import { DirectivesModule } from '../directives/directives.module';
 import { AgxTypeaheadModule } from '@siteslave/agx-typeahead';
-import { PeopleService } from './people.service';
-import { UserComponent } from './user/user.component';
+import { RequisitionService } from './requisition.service';
+import { ProductsComponent } from './products/products.component';
+import { ProductsService } from './products.service';
+
 @NgModule({
   imports: [
     CommonModule,
-    CommonModule,
+    StaffRoutingModule,
     AuthModule,
     HelperModule,
     ClarityModule,
@@ -26,19 +29,23 @@ import { UserComponent } from './user/user.component';
     TextMaskModule,
     ModalsModule,
     MyDatePickerTHModule,
-    AdminSettingRoutingModule,
     GridDetailModule,
     DirectivesModule,
-    AgxTypeaheadModule
-    
+    AgxTypeaheadModule,
   ],
   declarations: [
     LayoutComponent,
-    PeopleComponent,
-    UserComponent
+    RequisitionComponent,
+    RequisitionNewComponent,
+    ProductsComponent
   ],
   providers:[
-    PeopleService
+    LayoutComponent,
+    RequisitionComponent,
+    RequisitionNewComponent,
+    ProductsComponent,
+    RequisitionService,
+    ProductsService
   ]
 })
-export class AdminSettingModule { }
+export class StaffModule { }

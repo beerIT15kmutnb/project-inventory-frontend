@@ -1,0 +1,69 @@
+<clr-main-container>
+  <clr-header class="header-4">
+    <div class="branding" style="padding-left: 0px;">
+      <a class="nav-link">
+        <div style="margin-left: 30px;margin-right: 10px;">
+          <img src="./assets/images/logo-icon.png" style="width: 40px; height: 40px;" alt="logo">
+        </div>
+        <span class="title">หน่วยบริการรักษาพยาบาล @ มจพ.ปจ.</span>
+        <br>
+      </a>
+    </div>
+    <div class="header-nav">
+      <a class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" href="javascript://" (click)="goHome()">
+        <clr-icon shape="home"></clr-icon>
+        <span class="tooltip-content">Home</span>
+      </a>
+      <!-- <a href="{{env.purchasingUrl}}" *ngIf="Purchasing" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip"aria-haspopup="true"> -->
+      <a href="" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip" aria-haspopup="true">
+        <clr-icon shape="shopping-cart"></clr-icon>
+        <span class="tooltip-content">อุกปรณ์สำนักงาน</span>
+      </a>
+      <!-- <a href="{{env.inventoryUrl}}" routerLink="{{env.inventoryUrl}}" routerLinkActive="active" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right"role="tooltip" aria-haspopup="true"> -->
+      <a href="" routerLink="/admin" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip" aria-haspopup="true">
+        <clr-icon shape="data-cluster"></clr-icon>
+        <span class="tooltip-content">ยา/เวชภัณฑ์</span>
+      </a>
+      <!-- <a href="{{env.umUrl}}" *ngIf="Administrator" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip"aria-haspopup="true"> -->
+      <a routerLink="/admin-setting" routerLinkActive="active" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right"
+        role="tooltip" aria-haspopup="true">
+        <clr-icon shape="administrator"></clr-icon>
+        <span class="tooltip-content">Administrator</span>
+      </a>
+    </div>
+    <div class="header-actions">
+      <clr-dropdown>
+        <button class="nav-text" clrDropdownTrigger>
+          {{fullname}} ({{ warehouseName }})
+          <clr-icon shape="caret down"></clr-icon>
+        </button>
+        <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+          <!-- <a href="javascript://" (click)="showManualStaff()" clrDropdownItem>คู่มือเจ้าหน้าที่หน่วยเบิก/รพ.สต.</a> -->
+          <a href="javascript://" (click)="openChangePasswordModal()" clrDropdownItem>เปลี่ยนรหัสผ่าน</a>
+          <a href="javascript://" (click)="logout()" clrDropdownItem>ออกจากระบบ</a>
+        </clr-dropdown-menu>
+      </clr-dropdown>
+    </div>
+  </clr-header>
+
+  <div class="content-container">
+    <div class="content-area">
+      <router-outlet></router-outlet>
+    </div>
+
+    <clr-vertical-nav class="is-collapsed" [clrVerticalNavCollapsible]="collapsible" [(clrVerticalNavCollapsed)]="collapse">
+      <a clrVerticalNavLink routerLink="/admin-setting/user" title="จัดการข้อมูลผู้ใช้งานระบบ" routerLinkActive="active">
+        <clr-icon clrVerticalNavIcon shape="administrator"></clr-icon>
+        จัดการข้อมูลผู้ใช้งานระบบ
+      </a>
+      <a clrVerticalNavLink routerLink="/admin-setting/people" title="จัดการข้อมูลบุคลากร" routerLinkActive="active">
+        <clr-icon clrVerticalNavIcon shape="user" class="is-solid"></clr-icon>
+        จัดการข้อมูลบุคลากร
+      </a>
+    </clr-vertical-nav>
+
+  </div>
+
+</clr-main-container>
+
+<!-- <wm-change-password-modal #modalChangePassword></wm-change-password-modal> -->

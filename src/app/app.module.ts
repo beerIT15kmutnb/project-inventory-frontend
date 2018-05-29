@@ -18,6 +18,8 @@ import { GridDetailModule } from './grid-detail/grid-detail.module';
 import { AuthModule } from 'angular2-jwt';
 import { DirectivesModule } from './directives/directives.module';
 import { TextMaskModule } from 'angular2-text-mask';
+import { AdminSettingModule } from './admin-setting/admin-setting.module';
+import { StaffModule } from './staff/staff.module';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import { TextMaskModule } from 'angular2-text-mask';
     AuthModule,
     LoginModule,
     AdminModule,
+    AdminSettingModule,
+    StaffModule,
     HelperModule,
     FormsModule,
     ClarityModule.forRoot(),
@@ -38,7 +42,7 @@ import { TextMaskModule } from 'angular2-text-mask';
     AppRoutingModule,
     GridDetailModule,
     DirectivesModule,
-    TextMaskModule
+    TextMaskModule,
   ],
   providers: [
     AlertService,
