@@ -1,22 +1,22 @@
 <nav class="breadcrumb">
   <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
-  <span class="breadcrumb-item active">จัดการประเภทยา/เวชภัณฑ์</span>
+  <span class="breadcrumb-item active">จัดการประเภทการตัดจ่าย</span>
 </nav>
 <div style="margin-top: 7px">
   <button class="btn btn-sm btn-success" (click)="add()">
-    <clr-icon shape="plus"></clr-icon>เพิ่มประเภทยา/เวชภัณฑ์
+    <clr-icon shape="plus"></clr-icon>เพิ่มประเภทการตัดจ่าย
   </button>
 </div>
 <clr-datagrid style="margin-top: -13px" [style.height.%]="85">
-  <clr-dg-column [clrDgField]="'generic_type_name'">ชื่อประเถทยา/เวชภัณฑ์</clr-dg-column>
-  <clr-dg-column [style.width.%]="15" [clrDgField]="'is_active'">สถานะใช้งาน</clr-dg-column>
+  <clr-dg-column [clrDgField]="'transection_name'">ชื่อประเถทการตัดจ่าย</clr-dg-column>
+  <clr-dg-column [clrDgField]="'is_active'" [style.width.%]="15">สถานะใช้งาน</clr-dg-column>
   <clr-dg-column [style.width.%]="15"></clr-dg-column>
   <clr-dg-placeholder>ไม่พบรายการ!</clr-dg-placeholder>
   <clr-dg-row *clrDgItems="let t of types;let idx = index" [clrDgItem]="t">
-    <clr-dg-cell>{{t.generic_type_name}}</clr-dg-cell>
+    <clr-dg-cell>{{t.transection_name}}</clr-dg-cell>
     <clr-dg-cell>
       <div class="toggle-switch">
-        <input type="checkbox" id="chk-{{idx}}" #active name="isActive" [checked]="t.is_active==='Y'" (change)="setisActive($event, t.generic_type_id)">
+        <input type="checkbox" id="chk-{{idx}}" #active name="isActive" [checked]="t.is_active==='Y'" (change)="setisActive($event, t.transection_id)">
         <label for="chk-{{idx}}"></label>
       </div>
     </clr-dg-cell>
@@ -35,8 +35,8 @@
 </clr-datagrid>
 
 <clr-modal [(clrModalOpen)]="openModal" [clrModalStaticBackdrop]="true" [clrModalSize]="'md'" [clrModalClosable]="false">
-  <h3 class="modal-title" *ngIf="items.generic_type_id">แก้ไขประเถทยา/เวชภัณฑ์</h3>
-  <h3 class="modal-title" *ngIf="!items.generic_type_id">เพิ่มประเถทยา/เวชภัณฑ์</h3>
+  <h3 class="modal-title" *ngIf="items.transection_id">แก้ไขประเถทการตัดจ่าย</h3>
+  <h3 class="modal-title" *ngIf="!items.transection_id">เพิ่มประเถทการตัดจ่าย</h3>
   <div class="modal-body">
     <div class="card">
       <div class="card-block">
@@ -44,12 +44,12 @@
           <section>
             <div class="form-group row">
               <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                <label class="required" for="productName">ชื่อประเถทยา/เวชภัณฑ์</label>
+                <label class="required" for="productName">ชื่อประเถทการตัดจ่าย</label>
               </div>
             </div>
             <div class="form-group row">
               <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-                <input class="form-control" type="text" name="productName" placeholder="" [(ngModel)]="items.generic_type_name">
+                <input class="form-control" type="text" name="productName" placeholder="" [(ngModel)]="items.transection_name">
               </div>
             </div>
             <div class="form-group row">
@@ -69,9 +69,9 @@
     </div>
   </div>
   <div class="modal-footer" style="padding-top: 24px;">
-    <button [disabled]="items.generic_type_name == ''" *ngIf="items.generic_type_id" type="button" class="btn btn-md btn-primary"
+    <button [disabled]="items.transection_name == ''" *ngIf="items.transection_id" type="button" class="btn btn-md btn-primary"
       (click)="saveEdit()">บันทึก</button>
-    <button [disabled]="items.generic_type_name == ''" *ngIf="!items.generic_type_id" type="button" class="btn btn-md btn-primary"
+    <button [disabled]="items.transection_name == ''" *ngIf="!items.transection_id" type="button" class="btn btn-md btn-primary"
       (click)="saveAdd()">บันทึก</button>
     <button type="button" class="btn btn-md btn-danger-outline" (click)="close()">ปิด</button>
   </div>

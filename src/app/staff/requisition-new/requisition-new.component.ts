@@ -58,7 +58,7 @@ export class RequisitionNewComponent implements OnInit {
   products = [];
   packageItems: any = []
   issueDate = null;
-  transactionId: null;
+  transectionId: null;
   issues: any = [];
   comment: any = null;
   remainQty = 0;
@@ -467,7 +467,7 @@ export class RequisitionNewComponent implements OnInit {
     //       this.modalLoading.show();
     //       const summary: any = {};
     //       summary.issueDate = this.issueDate ? `${this.issueDate.date.year}-${this.issueDate.date.month}-${this.issueDate.date.day}` : null;
-    //       summary.transactionId = this.transactionId;
+    //       summary.transectionId = this.transectionId;
     //       summary.comment = this.comment;
     //       let isError = false;
     //       this.products.forEach(v => {

@@ -15,6 +15,7 @@ import { RequisitionNewComponent } from './requisition-new/requisition-new.compo
 import { RequisitionConfirmComponent } from './requisition-confirm/requisition-confirm.component';
 import { UnitManagementComponent } from './unit-management/unit-management.component';
 import { TypeManagementComponent } from './type-management/type-management.component';
+import { TypeIssueComponent } from './type-issue/type-issue.component';
 
 const routes: Routes = [
   {
@@ -37,7 +38,8 @@ const routes: Routes = [
       { path: 'requisition/edit/:requisitionId', component: RequisitionNewComponent },
       { path: 'requisition/confirm', component: RequisitionConfirmComponent },
       { path: 'unit-management', component: UnitManagementComponent },
-      { path: 'type-management', component: TypeManagementComponent }
+      { path: 'type-management', component: TypeManagementComponent },
+      { path: 'type-issue', component: TypeIssueComponent }
     ]
   }
 ];

@@ -3,11 +3,11 @@ import { AlertService } from './../../alert.service';
 import { IssueService } from './../../admin/issue.service';
 
 @Component({
-  selector: 'wm-transaction-issue-detail',
-  templateUrl: './transaction-issue-detail.component.html',
-  styleUrls: ['./transaction-issue-detail.component.css']
+  selector: 'wm-transection-issue-detail',
+  templateUrl: './transection-issue-detail.component.html',
+  styleUrls: ['./transection-issue-detail.component.css']
 })
-export class TransactionIssuedetailComponent implements OnInit {
+export class transectionIssuedetailComponent implements OnInit {
   @Input() issueId: any;
   loading = false;
   products = [];

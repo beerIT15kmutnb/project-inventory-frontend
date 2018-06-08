@@ -344,7 +344,7 @@
                 <input type="text" disabled [value]="items.generic_code">
               </div>
               <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                <app-search-generics-box #genericSearch [setGeneric]="items.generic_name" (onChange)="changeSearchGeneric($event)" (onSelect)="setSelectedGeneric($event)"></app-search-generics-box>
+                <app-search-generics-box  #genericSearch [setAll]="true" [setGeneric]="items.generic_name" (onChange)="changeSearchGeneric($event)" (onSelect)="setSelectedGeneric($event)"></app-search-generics-box>
               </div>
             </div>
 

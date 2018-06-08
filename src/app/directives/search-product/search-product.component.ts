@@ -10,10 +10,10 @@ export class SearchProductComponent implements OnInit {
   @Output('onSelect') onSelect: EventEmitter<any> = new EventEmitter<any>();
   @Output('onChange') onChange: EventEmitter<any> = new EventEmitter<any>();
 
-  @Input('labelerId')
-  set setLabelerId(value: string) {
+  @Input('all')
+  set all(value:any) {
     // this._labelerId = value;
-    this.setApiUrl(value);
+    this.setApiUrl();
   }
 
   token: any;
@@ -32,9 +32,9 @@ export class SearchProductComponent implements OnInit {
   clearProductSearch() {
     this.query = null;
   }
-  setApiUrl(labelerId: any) {
+  setApiUrl() {
     // this.labelerId = labelerId;
-    this.searchProductUrl = `${this.apiUrl}/products/search-autocomplete?labelerId=${labelerId}&token=${this.token}`;
+    this.searchProductUrl = `${this.apiUrl}/products/search-all-autocomplete?&token=${this.token}`;
   }
   clearSelected(event: any) {
     if (event) {

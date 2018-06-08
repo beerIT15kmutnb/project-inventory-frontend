@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { ModalsModule } from '../modals/modals.module';
 import { IssueProductComponent } from './issue-product/issue-product.component';
 import { DirectivesModule } from '../directives/directives.module';
-import { TransactionIssuedetailComponent } from './transaction-issue-detail/transaction-issue-detail.component';
+import { transectionIssuedetailComponent } from './transection-issue-detail/transection-issue-detail.component';
 import { RequisitionOrderDetailComponent } from './requisition-order-detail/requisition-order-detail.component';
 
 @NgModule({
@@ -23,13 +23,13 @@ import { RequisitionOrderDetailComponent } from './requisition-order-detail/requ
   declarations: [
     ProductDetailComponent,
     IssueProductComponent,
-    TransactionIssuedetailComponent,
+    transectionIssuedetailComponent,
     RequisitionOrderDetailComponent
   ],
   exports:[
     ProductDetailComponent,
     IssueProductComponent,
-    TransactionIssuedetailComponent,
+    transectionIssuedetailComponent,
     RequisitionOrderDetailComponent
   ]
 })

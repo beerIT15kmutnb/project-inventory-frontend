@@ -26,7 +26,7 @@ export class IssuesEditComponent implements OnInit {
   selectedProductId: any;
   products = [];
   issueDate = null;
-  transactionId: null;
+  transectionId: null;
   issues: any = [];
   comment: any = null;
   remainQty = 0;
@@ -122,7 +122,7 @@ export class IssuesEditComponent implements OnInit {
         this.issueId = params.issueId;
       });
 
-    this.getTransactionaIssues();
+    this.gettransectionaIssues();
     this.setIssues();
     this.setIssueDetail()
 
@@ -184,7 +184,7 @@ export class IssuesEditComponent implements OnInit {
             day: moment(res.issue_date).get('date')
           }
         };
-        this.transactionId = res.transaction_issue_id;
+        this.transectionId = res.transection_issue_id;
         this.comment = res.comment
       } else {
         this.alertService.error(rs.error)
@@ -195,8 +195,8 @@ export class IssuesEditComponent implements OnInit {
 
   }
 
-  async getTransactionaIssues() {
-    const rs = await this.issueService.getTransactionIssues();
+  async gettransectionaIssues() {
+    const rs = await this.issueService.gettransectionIssues();
     console.log(rs.rows);
     this.issues = rs.rows;
   }
@@ -445,7 +445,7 @@ export class IssuesEditComponent implements OnInit {
         this.modalLoading.show();
         const summary: any = {};
         summary.issueDate = this.issueDate ? `${this.issueDate.date.year}-${this.issueDate.date.month}-${this.issueDate.date.day}` : null;
-        summary.transactionId = this.transactionId;
+        summary.transectionId = this.transectionId;
         summary.comment = this.comment;
         //       summary.refDocument = this.refDocument;
 
@@ -547,7 +547,7 @@ export class IssuesEditComponent implements OnInit {
     // this.isImport = true;
     // try {
     //   this.modalLoading.show();
-    //   const rs: any = await this.uploadingService.uploadIssueTransaction(this.file[0]);
+    //   const rs: any = await this.uploadingService.uploadIssuetransection(this.file[0]);
     //   this.modalLoading.hide();
     //   // clear products
     //   this.products = [];

@@ -23,11 +23,11 @@
           </div>
           <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
             <div class="select">
-              <select name="slStatus" [(ngModel)]="transactionId">
+              <select name="slStatus" [(ngModel)]="transectionId">
                 <option value="">
                   <กรุณาเลือกประเภท>
                 </option>
-                <option *ngFor="let s of issues" [value]="s.transaction_id">{{ s.transaction_name }}</option>
+                <option *ngFor="let s of issues" [value]="s.transection_id">{{ s.transection_name }}</option>
               </select>
             </div>
           </div>
@@ -130,7 +130,7 @@
 </clr-datagrid>
 
 <div>
-  <button class="btn btn-success btn-sm" (click)="saveIssue()" [disabled]="!transactionId || !issueDate || !products.length">
+  <button class="btn btn-success btn-sm" (click)="saveIssue()" [disabled]="!transectionId || !issueDate || !products.length">
     <clr-icon shape="floppy"></clr-icon>
     บันทึกตัดจ่ายยา/เวชภัณฑ์
   </button>

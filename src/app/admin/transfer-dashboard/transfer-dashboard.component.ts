@@ -17,7 +17,7 @@ export class TransferDashboardComponent implements OnInit {
   @ViewChild('htmlPreview') public htmlPreview: any;
   selectedApprove = [];
   generics: any = [];
-  transactions: any = [];
+  transections: any = [];
   histories: any = [];
   warehouses: any = [];
   perPage = 50;
@@ -57,7 +57,7 @@ export class TransferDashboardComponent implements OnInit {
   async getWaiting() {
     this.modalLoading.show();
     try {
-      const rs: any = await this.dashboardSevice.getTransaction(this.perPage,this.offset);
+      const rs: any = await this.dashboardSevice.gettransection(this.perPage,this.offset);
       if (rs.ok) {
         console.log(rs.rows);
         
@@ -72,10 +72,10 @@ export class TransferDashboardComponent implements OnInit {
     }
   }
 
-  async getTransactionHistory() {
+  async gettransectionHistory() {
     // this.modalLoading.show();
     // try {
-    //   const rs: any = await this.dashboardSevice.getTransactionHistory();
+    //   const rs: any = await this.dashboardSevice.gettransectionHistory();
     //   if (rs.ok) {
     //     this.histories = rs.rows;
     //   } else {
@@ -89,22 +89,22 @@ export class TransferDashboardComponent implements OnInit {
   }
 
   approve() {
-    // const transactionIds = [];
+    // const transectionIds = [];
     // _.forEach(this.selectedApprove, (v) => {
     //   if (v.status === 'OPEN') {
-    //     transactionIds.push(v.transaction_id);
+    //     transectionIds.push(v.transection_id);
     //   }
     // });
-    // if (transactionIds.length) {
-    //   this.alertService.confirm('คุณต้องการอนุมัติจำนวน ' + transactionIds.length + ' รายการ ใช่หรือไม่?')
+    // if (transectionIds.length) {
+    //   this.alertService.confirm('คุณต้องการอนุมัติจำนวน ' + transectionIds.length + ' รายการ ใช่หรือไม่?')
     //     .then(() => {
     //       this.modalLoading.show();
-    //       this.dashboardSevice.approveTransactions(transactionIds)
+    //       this.dashboardSevice.approvetransections(transectionIds)
     //         .then((rs: any) => {
     //           if (rs.ok) {
     //             this.alertService.success();
     //             this.selectedApprove = [];
-    //             this.getTransaction();
+    //             this.gettransection();
     //           } else {
     //             this.alertService.error(rs.error);
     //           }
@@ -120,15 +120,15 @@ export class TransferDashboardComponent implements OnInit {
     // }
   }
 
-  cancel(transaction: any) {
-    // this.alertService.confirm(`คุณต้องการลบรายการนี้ [${transaction.transaction_code}] ใช่หรือไม่?`)
+  cancel(transection: any) {
+    // this.alertService.confirm(`คุณต้องการลบรายการนี้ [${transection.transection_code}] ใช่หรือไม่?`)
     //   .then(() => {
     //     this.modalLoading.show();
-    //     this.dashboardSevice.cancelTransactions(transaction.transaction_id)
+    //     this.dashboardSevice.canceltransections(transection.transection_id)
     //       .then((rs: any) => {
     //         if (rs.ok) {
     //           this.alertService.success();
-    //           this.getTransaction();
+    //           this.gettransection();
     //         } else {
     //           this.alertService.error(JSON.stringify(rs.error));
     //         }
@@ -142,7 +142,7 @@ export class TransferDashboardComponent implements OnInit {
   }
   async printRefill(h: any) {
     // const token = sessionStorage.getItem('token');
-    // const url = `${this.apiUrl}/transfer-dashboard/print/transaction/${h.transaction_id}?token=${token}`;
+    // const url = `${this.apiUrl}/transfer-dashboard/print/transection/${h.transection_id}?token=${token}`;
     // this.htmlPreview.showReport(url);
   }
 }

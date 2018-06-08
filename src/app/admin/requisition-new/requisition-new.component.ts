@@ -52,13 +52,13 @@ export class RequisitionNewComponent implements OnInit {
   // @ViewChild('searchGenericCmp') public searchGenericCmp: SearchGenericAutocompleteComponent;
 
   // public mask = [/\d/, /\d/, /\d/];
-  selectedProduct: any
+  selectedProduct: any =[]
   selectedProductName: string;
   selectedProductId: any;
   products = [];
   packageItems: any = []
   issueDate = null;
-  transactionId: null;
+  transectionId: null;
   issues: any = [];
   comment: any = null;
   remainQty = 0;
@@ -167,7 +167,7 @@ export class RequisitionNewComponent implements OnInit {
             large_unit_name: v.lm,
             small_qty: +v.small_qty,
             small_unit_name: v.sm,
-            generic_name:v.generic_name
+            generic_name: v.generic_name
           }
         })
         // for (let v of this.products) {
@@ -232,6 +232,7 @@ export class RequisitionNewComponent implements OnInit {
   async setSelectedGeneric(event: any) {
     this.modalLoading.show()
     try {
+      this.clearForm()
       this.searchGeneric = event;
       this.selectedGenericId = event ? event.generic_id : null;
       if (this.selectedGenericId) {
@@ -294,7 +295,7 @@ export class RequisitionNewComponent implements OnInit {
         this.alertService.error('จำนวนจ่าย มากกว่าจำนวน คงเหลือ');
       } else {
         const obj: any = {};
-        obj.generic_name=this.searchGeneric.generic_name
+        obj.generic_name = this.searchGeneric.generic_name
         obj.requisition_qty = +this.reqQty;
         obj.product_id = this.selectedProductId;
         obj.product_name = this.selectedProductName;
@@ -391,11 +392,8 @@ export class RequisitionNewComponent implements OnInit {
     this.reqQty = '';
     this.selectedProductId = null;
     this.selectedProductName = null;
-    this.searchProduct = {
-      small_qty: null,
-      small_unit_name: null,
-      large_unit_name: null
-    };
+    this.searchProduct = []
+    this.selectedProduct = []
     this.productSearch.clearProductSearch();
   }
   async save() {
@@ -467,7 +465,7 @@ export class RequisitionNewComponent implements OnInit {
     //       this.modalLoading.show();
     //       const summary: any = {};
     //       summary.issueDate = this.issueDate ? `${this.issueDate.date.year}-${this.issueDate.date.month}-${this.issueDate.date.day}` : null;
-    //       summary.transactionId = this.transactionId;
+    //       summary.transectionId = this.transectionId;
     //       summary.comment = this.comment;
     //       let isError = false;
     //       this.products.forEach(v => {

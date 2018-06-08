@@ -27,7 +27,9 @@ export class TypeManagementComponent implements OnInit {
   async edit(item: any) {
     this.items = item
     this.openModal = true
-   
+  }
+  changActiveGeneric(event: any) {
+    this.items.is_active = event.target.checked ? 'Y' : 'N';
   }
   async saveEdit(){
     console.log(this.items);
@@ -72,5 +74,21 @@ export class TypeManagementComponent implements OnInit {
       this.alertService.error(rs.error)
     }
   }
-
+  setisActive(active: any, id: any) {
+    const status = active.target.checked ? 'Y' : 'N';
+    this.modalLoading.show();
+    this.genericsService.isActive(id, status)
+      .then((result: any) => {
+        if (result.ok) {
+          this.alertService.success();
+        } else {
+          this.alertService.error('เกิดข้อผิดพลาด : ' + JSON.stringify(result.error));
+        }
+        this.modalLoading.hide();
+      })
+      .catch(() => {
+        this.modalLoading.hide();
+        this.alertService.serverError();
+      });
+  }
 }

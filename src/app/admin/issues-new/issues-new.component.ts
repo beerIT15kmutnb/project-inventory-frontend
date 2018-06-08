@@ -20,7 +20,7 @@ export class IssuesNewComponent implements OnInit {
   selectedProductId: any;
   products = [];
   issueDate = null;
-  transactionId: null;
+  transectionId: null;
   issues: any = [];
   comment: any = null;
   remainQty = 0;
@@ -72,11 +72,11 @@ export class IssuesNewComponent implements OnInit {
       }
     };
 
-    this.getTransactionaIssues();
+    this.gettransectionaIssues();
   }
 
-  async getTransactionaIssues() {
-    const rs = await this.issueService.getTransactionIssues();
+  async gettransectionaIssues() {
+    const rs = await this.issueService.gettransectionIssues();
     this.issues = rs.rows;
   }
 
@@ -214,7 +214,7 @@ export class IssuesNewComponent implements OnInit {
         this.modalLoading.show();
         const summary: any = {};
         summary.issueDate = this.issueDate ? `${this.issueDate.date.year}-${this.issueDate.date.month}-${this.issueDate.date.day}` : null;
-        summary.transactionId = this.transactionId;
+        summary.transectionId = this.transectionId;
         summary.comment = this.comment;
         let isError = false;
         this.products.forEach(v => {

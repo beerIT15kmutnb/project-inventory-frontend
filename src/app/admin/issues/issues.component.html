@@ -41,10 +41,10 @@
   <clr-dg-column style="width: 200px;"></clr-dg-column>
   <clr-dg-placeholder>ไม่พบรายการ!</clr-dg-placeholder>
   <clr-dg-row *ngFor="let s of issues" [clrDgItem]="s" [ngClass]="{'isSuccess': s.is_approve === 'Y', 'isError': s.is_cancel === 'Y'}">
-    <wm-transaction-issue-detail *clrIfExpanded [issueId]="s.issue_id" ngProjectAs="clr-dg-row-detail"></wm-transaction-issue-detail>
+    <wm-transection-issue-detail *clrIfExpanded [issueId]="s.issue_id" ngProjectAs="clr-dg-row-detail"></wm-transection-issue-detail>
     <clr-dg-cell style="text-align: center;">{{s.issue_date | toThaiDate}}</clr-dg-cell>
     <clr-dg-cell style="text-align: center;">{{s.issue_code}}</clr-dg-cell>
-    <clr-dg-cell>{{s.transaction_name}}</clr-dg-cell>
+    <clr-dg-cell>{{s.transection_name}}</clr-dg-cell>
     <!-- <clr-dg-cell style="text-align: right;">{{s.total | number}}</clr-dg-cell> -->
     <clr-dg-cell>{{s.comment}}</clr-dg-cell>
     <clr-dg-cell style="text-align: center;">

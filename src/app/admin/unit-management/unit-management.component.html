@@ -10,19 +10,22 @@
   <clr-datagrid style="margin-top: -13px" [style.height.%]="85">
     <!-- <clr-dg-column [style.width.%]="10">รหัสหน่วย</clr-dg-column> -->
     <clr-dg-column [clrDgField]="'unit_name'">ชื่อหน่วย</clr-dg-column>
-    <clr-dg-column [style.width.%]="30"></clr-dg-column>
-  
+    <clr-dg-column [style.width.%]="15" [clrDgField]="'is_active'">สถานะใช้งาน</clr-dg-column>
+    <clr-dg-column [style.width.%]="15"></clr-dg-column>
     <clr-dg-placeholder>ไม่พบรายการ!</clr-dg-placeholder>
     <clr-dg-row *clrDgItems="let t of units;let idx = index" [clrDgItem]="t">
       <!-- <clr-dg-cell >{{t.generic_type_code}}</clr-dg-cell> -->
       <clr-dg-cell>{{t.unit_name}}</clr-dg-cell>
+      <clr-dg-cell>
+          <div class="toggle-switch">
+            <input type="checkbox" id="chk-{{idx}}" #active name="isActive" [checked]="t.is_active==='Y'" (change)="setisActive($event, t.unit_id)">
+            <label for="chk-{{idx}}"></label>
+          </div>
+        </clr-dg-cell>
       <clr-dg-cell style="text-align: center">
         <div class="btn-group">
           <button class="btn btn-sm btn-primary" (click)="edit(t)">
             <clr-icon shape="note"></clr-icon>
-          </button>
-          <button class="btn btn-sm btn-danger" (click)="remove(t)">
-            <clr-icon shape="trash"></clr-icon>
           </button>
         </div>
       </clr-dg-cell>

@@ -13,11 +13,19 @@ export class SearchGenericsBoxComponent implements OnInit {
   searchGenericUrl: any;
   @Input('setGeneric')
   set setGeneric(value: string) {
-    console.log(value);
+    // console.log(value);
     this.query = value
     // this._labelerId = value;
-    // this.setApiUrl(value);
+    // this.setApiUrl();
   }
+  @Input('setAll')
+  set setAll(value: string) {
+    // console.log(value);
+    // this.query = value
+    // // this._labelerId = value;
+    this.setApiUrl();
+  }
+
   constructor(
     @Inject('API_URL') private apiUrl: string
   ) {
@@ -30,8 +38,13 @@ export class SearchGenericsBoxComponent implements OnInit {
   clearProductSearch() {
     this.query = null;
   }
+
+  setApiUrl() {
+    this.searchGenericUrl = `${this.apiUrl}/products/generic-all-search-autocomplete?&token=${this.token}`;
+  }
+
   clearSelected(event: any) {
-    console.log(event);
+    // console.log(event);
     if (event) {
       if (event.keyCode === 13 || event.keyCode === 37 || event.keyCode === 38 || event.keyCode === 39 || event.keyCode === 40) {
         this.onChange.emit(false);
@@ -44,7 +57,7 @@ export class SearchGenericsBoxComponent implements OnInit {
   }
 
   handleResultSelected(event: any) {
-    console.log(event);
+    // console.log(event);
     this.onSelect.emit(event);
     this.query = event.generic_name;
     // console.log(this.query);

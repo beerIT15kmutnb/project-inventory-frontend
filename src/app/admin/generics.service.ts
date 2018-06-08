@@ -24,4 +24,11 @@ export class GenericsService {
     }).toPromise();
     return rs.json();
   }
+  async isActive(id: any, isActive: any) {
+    let res = await this.authHttp.put(`${this.url}/issues/isactive`, {
+      id: id,
+      is_active: isActive
+    }).toPromise();
+    return res.json();
+  }
 }

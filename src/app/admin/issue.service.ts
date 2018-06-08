@@ -17,7 +17,29 @@ export class IssueService {
     }).toPromise();
     return rs.json();
   }
-
+  async isActive(id: any, isActive: any) {
+    let res = await this.authHttp.put(`${this.url}/issues/isactive`, {
+      id: id,
+      is_active: isActive
+    }).toPromise();
+    return res.json();
+  }
+  async addType(items:any){
+    let rs:any =  await this.authHttp.post(`${this.url}/issues/addType`,{
+      items:items
+    }).toPromise();
+    return rs.json();
+  }
+  async editType(items:any){
+    let rs:any =  await this.authHttp.put(`${this.url}/issues/editType`,{
+      items:items
+    }).toPromise();
+    return rs.json();
+  }
+  async getType() {
+    const rs = await this.authHttp.get(`${this.url}/issues/getType`).toPromise();
+    return rs.json();
+  }
   async list(limit: number, offset: number, status: any = '') {
     const rs = await this.authHttp.get(`${this.url}/issues?limit=${limit}&offset=${offset}&status=${status}`).toPromise();
     return rs.json();
@@ -27,8 +49,8 @@ export class IssueService {
     return rs.json();
   }
 
-  async getTransactionIssues() {
-    const rs = await this.authHttp.get(`${this.url}/issues/getTransactionIssues`).toPromise();
+  async gettransectionIssues() {
+    const rs = await this.authHttp.get(`${this.url}/issues/gettransectionIssues`).toPromise();
     return rs.json();
   }
   async approveIssue(issueId:any){

@@ -85,7 +85,7 @@
 
   <clr-dg-row class="newLine">
     <clr-dg-cell>
-      <wm-search-product #productSearch (onSelect)="setSelectedProduct($event)" (onChange)="changeSearchProduct($event)"></wm-search-product>
+      <wm-search-product [all]="true" #productSearch (onSelect)="setSelectedProduct($event)" (onChange)="changeSearchProduct($event)"></wm-search-product>
     </clr-dg-cell>
     <clr-dg-cell>
       <input type="text" class="wm-edit-box-number" style="background-color: #FFF9C4" [disabled]="!selectedProductId" [(ngModel)]="selectedReceiveQty"

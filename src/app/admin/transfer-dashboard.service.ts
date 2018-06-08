@@ -39,33 +39,33 @@ export class TransferDashboardService {
     return resp.json();
   }
 
-  async getTransaction(limit: number = 50, offset: number = 0) {
-    const resp = await this.authHttp.post(`${this.url}/products/transaction/list`, {
+  async gettransection(limit: number = 50, offset: number = 0) {
+    const resp = await this.authHttp.post(`${this.url}/products/transection/list`, {
       limit: limit,
       offset: offset
     }).toPromise();
     return resp.json();
   }
 
-  async getTransactionHistory(limit: number = 10, offset: number = 0) {
-    const resp = await this.authHttp.post(`${this.url}/transfer-dashboard/transaction/history`, {
+  async gettransectionHistory(limit: number = 10, offset: number = 0) {
+    const resp = await this.authHttp.post(`${this.url}/transfer-dashboard/transection/history`, {
       limit: limit,
       offset: offset
     }).toPromise();
     return resp.json();
   }
 
-  async getTransactionInfo(transactionId: any) {
-    const resp = await this.authHttp.get(`${this.url}/transfer-dashboard/transaction/info/${transactionId}`).toPromise();
+  async gettransectionInfo(transectionId: any) {
+    const resp = await this.authHttp.get(`${this.url}/transfer-dashboard/transection/info/${transectionId}`).toPromise();
     return resp.json();
   }
 
-  async getTransactionProduct(transactionId: any, genericId: any) {
-    const resp = await this.authHttp.get(`${this.url}/transfer-dashboard/transaction/product/${transactionId}/${genericId}`).toPromise();
+  async gettransectionProduct(transectionId: any, genericId: any) {
+    const resp = await this.authHttp.get(`${this.url}/transfer-dashboard/transection/product/${transectionId}/${genericId}`).toPromise();
     return resp.json();
   }
 
-  async saveTransaction(header: any, detail: any[]) {
+  async savetransection(header: any, detail: any[]) {
     const resp = await this.authHttp.post(`${this.url}/transfer-dashboard`, {
       header: header,
       data: detail
@@ -73,7 +73,7 @@ export class TransferDashboardService {
     return resp.json();
   }
 
-  async updateTransaction(header: any, detail: any[]) {
+  async updatetransection(header: any, detail: any[]) {
     const res = await this.authHttp.put(`${this.url}/transfer-dashboard`, {
       header: header,
       data: detail
@@ -81,16 +81,16 @@ export class TransferDashboardService {
     return res.json();
   }
 
-  async approveTransactions(transactionIds: any[]) {
-    const res = await this.authHttp.post(`${this.url}/transfer-dashboard/transaction/approve`, {
-      transactionIds: transactionIds
+  async approvetransections(transectionIds: any[]) {
+    const res = await this.authHttp.post(`${this.url}/transfer-dashboard/transection/approve`, {
+      transectionIds: transectionIds
     }).toPromise();
     return res.json();
   }
 
-  async cancelTransactions(transactionId: any) {
-    const res = await this.authHttp.post(`${this.url}/transfer-dashboard/transaction/cancel`, {
-      transactionId: transactionId
+  async canceltransections(transectionId: any) {
+    const res = await this.authHttp.post(`${this.url}/transfer-dashboard/transection/cancel`, {
+      transectionId: transectionId
     }).toPromise();
     return res.json();
   }

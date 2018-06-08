@@ -36,6 +36,7 @@ import { ProductsNewComponent } from './products-new/products-new.component';
 import { UnitManagementComponent } from './unit-management/unit-management.component';
 import { TypeManagementComponent } from './type-management/type-management.component';
 import { GenericsService } from './generics.service';
+import { TypeIssueComponent } from './type-issue/type-issue.component';
 
 
 @NgModule({
@@ -70,7 +71,8 @@ import { GenericsService } from './generics.service';
     RequisitionConfirmComponent,
     ProductsNewComponent,
     UnitManagementComponent,
-    TypeManagementComponent
+    TypeManagementComponent,
+    TypeIssueComponent
   ],
   providers:[
     ToThaiDatePipe,

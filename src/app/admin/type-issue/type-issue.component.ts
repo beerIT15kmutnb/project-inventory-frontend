@@ -1,51 +1,60 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { AlertService } from "../../alert.service";
-import { ProductsService } from "../products.service"
+import { IssueService } from '../issue.service';
 @Component({
-  selector: 'app-unit-management',
-  templateUrl: './unit-management.component.html',
-  styleUrls: ['./unit-management.component.css']
+  selector: 'app-type-issue',
+  templateUrl: './type-issue.component.html',
+  styleUrls: ['./type-issue.component.css']
 })
-export class UnitManagementComponent implements OnInit {
+export class TypeIssueComponent implements OnInit {
   @ViewChild('modalLoading') public modalLoading: any;
   items: any = []
-  units: any = []
+  types: any = []
   openModal = false
-  constructor(
-    @Inject('API_URL') private apiUrl: string,
-    private alertService: AlertService,
-    private productsService: ProductsService
-  ) {
-    // private 
-  }
+  constructor(    @Inject('API_URL') private apiUrl: string,
+  private alertService: AlertService,
+  private issueService: IssueService) { }
+
   ngOnInit() {
-    this.getUnit()
+    this.getType()
   }
   async edit(item: any) {
     this.items = item
     this.openModal = true
-   
   }
-  async saveEdit(){
-    console.log(this.items);
-    let rs:any = await this.productsService.editUnit(this.items)
-    if(rs.ok){
-      this.openModal = false
-      this.items = []
-      this.alertService.success()
-      this.getUnit()
+  async getType() {
+    let rs: any = await this.issueService.getType()
+    if (rs.ok) {
+      console.log(rs.rows);
+      
+      this.types = rs.rows
     } else {
       this.alertService.error(rs.error)
     }
   }
-  async saveAdd(){
+  async saveEdit(){
     console.log(this.items);
-    let rs:any = await this.productsService.addUnit(this.items)
+    let rs:any = await this.issueService.editType(this.items)
     if(rs.ok){
       this.openModal = false
       this.items = []
       this.alertService.success()
-      this.getUnit()
+      this.getType()
+    } else {
+      this.alertService.error(rs.error)
+    }
+  }
+  changActiveGeneric(event: any) {
+    this.items.is_active = event.target.checked ? 'Y' : 'N';
+  }
+  async saveAdd(){
+    console.log(this.items);
+    let rs:any = await this.issueService.addType(this.items)
+    if(rs.ok){
+      this.openModal = false
+      this.items = []
+      this.alertService.success()
+      this.getType()
     } else {
       this.alertService.error(rs.error)
     }
@@ -53,7 +62,7 @@ export class UnitManagementComponent implements OnInit {
   async add() {
     this.openModal = true
     this.items = {
-      unit_name: '',
+      transection_name: '',
       is_active: 'Y'
     }
   }
@@ -61,18 +70,10 @@ export class UnitManagementComponent implements OnInit {
     this.items = []
     this.openModal = false
   }
-  async getUnit() {
-    let rs: any = await this.productsService.getUnit()
-    if (rs.ok) {
-      this.units = rs.rows
-    } else {
-      this.alertService.error(rs.error)
-    }
-  }
   setisActive(active: any, id: any) {
     const status = active.target.checked ? 'Y' : 'N';
     this.modalLoading.show();
-    this.productsService.isActive(id, status)
+    this.issueService.isActive(id, status)
       .then((result: any) => {
         if (result.ok) {
           this.alertService.success();
@@ -87,4 +88,3 @@ export class UnitManagementComponent implements OnInit {
       });
   }
 }
-
