@@ -264,6 +264,40 @@ export class ProductsComponent implements OnInit {
 
     }
   }
+  setisActiveGen(active: any, id: any) {
+    const status = active.target.checked ? 'Y' : 'N';
+    this.modalLoading.show();
+    this.productService.isActiveGeneric(id, status)
+      .then((result: any) => {
+        if (result.ok) {
+          this.alertService.success();
+        } else {
+          this.alertService.error('เกิดข้อผิดพลาด : ' + JSON.stringify(result.error));
+        }
+        this.modalLoading.hide();
+      })
+      .catch(() => {
+        this.modalLoading.hide();
+        this.alertService.serverError();
+      });
+  }
+  setisActive(active: any, id: any) {
+    const status = active.target.checked ? 'Y' : 'N';
+    this.modalLoading.show();
+    this.productService.isActiveProduct(id, status)
+      .then((result: any) => {
+        if (result.ok) {
+          this.alertService.success();
+        } else {
+          this.alertService.error('เกิดข้อผิดพลาด : ' + JSON.stringify(result.error));
+        }
+        this.modalLoading.hide();
+      })
+      .catch(() => {
+        this.modalLoading.hide();
+        this.alertService.serverError();
+      });
+  }
   clearForm() {
     this.genericSearch.clearProductSearch();
   }

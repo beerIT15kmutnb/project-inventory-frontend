@@ -34,32 +34,32 @@ export class AlertExpiredService {
   //   });
   // }
 
-  // getUnsetProducts() {
-  //   return new Promise((resolve, reject) => {
-  //     this.authHttp.get(`${this.url}/alert-expired/products/unset`)
-  //       .map(res => res.json())
-  //       .subscribe(data => {
-  //         resolve(data);
-  //       }, error => {
-  //         reject(error);
-  //       });
-  //   });
-  // }
+  getUnsetProducts() {
+    return new Promise((resolve, reject) => {
+      this.authHttp.get(`${this.url}/products/productsExpired/unset`)
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
 
-  // saveExpiredCount(ids: any[], numDays: number) {
-  //   return new Promise((resolve, reject) => {
-  //     this.authHttp.post(`${this.url}/alert-expired`, {
-  //       ids: ids,
-  //       numDays: +numDays
-  //     })
-  //       .map(res => res.json())
-  //       .subscribe(data => {
-  //         resolve(data);
-  //       }, error => {
-  //         reject(error);
-  //       });
-  //   });
-  // }
+  saveExpiredCount(ids: any[], numDays: number) {
+    return new Promise((resolve, reject) => {
+      this.authHttp.post(`${this.url}/products/alert-expired`, {
+        ids: ids,
+        numDays: +numDays
+      })
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
 
   // saveStatus(status: string) {
   //   return new Promise((resolve, reject) => {

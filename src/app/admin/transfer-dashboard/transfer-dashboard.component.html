@@ -2,42 +2,74 @@
   <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
   <span class="breadcrumb-item active">เวชภัณฑ์ถึงจุดเบิก</span>
 </nav>
-    <div style="padding-top: 10px">
-      <button  class='btn btn-sm btn-primary'>พิมพ์ใบประมาณการ</button>
-    </div>
-     
-      <div [clrLoading]="loading">
-        <clr-datagrid (clrDgRefresh)="refresh($event)" style="margin-top: -10px;" [(clrDgSelected)]="selectedApprove">
-          <clr-dg-column [clrDgField]="'product_name'">ชื่อยา/เวชภัณฑ์</clr-dg-column>
-          <clr-dg-column [style.width.px]="100">จำนวนต่ำสุด</clr-dg-column>
-          <clr-dg-column [style.width.px]="100">จำนวนสูงสุด</clr-dg-column>
-          <clr-dg-column [style.width.px]="100">คงเหลือ</clr-dg-column>
-          <clr-dg-column [style.width.px]="100">หน่วย</clr-dg-column>
-          <!-- <clr-dg-column></clr-dg-column> -->
-          <clr-dg-placeholder>ไม่พบรายการ</clr-dg-placeholder>
-          <clr-dg-row *clrDgItems="let g of products" [clrDgItem]="g">
-            <clr-dg-cell>{{g.generic_name}}</clr-dg-cell>
-            <clr-dg-cell style="text-align: right;">{{g.min_qty | number}}</clr-dg-cell>
-            <clr-dg-cell style="text-align: right;">{{g.max_qty | number}}</clr-dg-cell>
-            <clr-dg-cell style="text-align: right;">{{g.qty | number}}</clr-dg-cell>
-            <clr-dg-cell style="text-align: center;">{{g.unit_name}}</clr-dg-cell>
-            <!-- <clr-dg-cell>
-              <div class="btn-group btn-sm">
-                <button title="เติมเฉพาะเวชภัณฑ์นี้" class="btn btn-success btn-icon" (click)="linkToDashboardGeneric(g.generic_id)">
-                  <clr-icon shape="clipboard"></clr-icon>
-                </button>
-                <button title="เติมเวชภัณฑ์ทั้งหมดในคลัง" class="btn btn-outline-success btn-icon" (click)="linkToDashboardWarehouse(g.dst_warehouse_id)">
-                  <clr-icon shape="list"></clr-icon>
-                </button>
-              </div>
-            </clr-dg-cell> -->
-          </clr-dg-row>
-          <clr-dg-footer>
-            {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} จาก {{pagination.totalItems}} รายการ
-            <clr-dg-pagination #pagination [(clrDgPage)]="currentPage" [clrDgPageSize]="perPage"  [clrDgPageSize]="50"></clr-dg-pagination>
-          </clr-dg-footer>
-        </clr-datagrid>
-      </div>
+<div style="padding-top: 0px">
+  <button class='btn btn-sm btn-primary' (click)="addition()">
+    สร้างรายการประมาณการ
+  </button>
+</div>
+<clr-tabs>
+  <clr-tab>
+    <button clrTabLink id="link1" (click)="getWaiting()">
+      <clr-icon shape="file"></clr-icon>
+      รายการถึงจุดเบิก
+    </button>
+    <clr-tab-content>
+      <clr-datagrid (clrDgRefresh)="refresh($event)" style="margin-top: -24px;" [(clrDgSelected)]="selectedApprove">
+        <clr-dg-column [clrDgField]="'product_name'">ชื่อยา/เวชภัณฑ์</clr-dg-column>
+        <clr-dg-column [style.width.px]="100">จำนวนต่ำสุด</clr-dg-column>
+        <clr-dg-column [style.width.px]="100">จำนวนสูงสุด</clr-dg-column>
+        <clr-dg-column [style.width.px]="100">คงเหลือ</clr-dg-column>
+        <clr-dg-column [style.width.px]="100">หน่วย</clr-dg-column>
+        <clr-dg-placeholder>ไม่พบรายการ</clr-dg-placeholder>
+        <clr-dg-row *clrDgItems="let g of products" [clrDgItem]="g">
+          <clr-dg-cell>{{g.generic_name}}</clr-dg-cell>
+          <clr-dg-cell style="text-align: right;">{{g.min_qty | number}}</clr-dg-cell>
+          <clr-dg-cell style="text-align: right;">{{g.max_qty | number}}</clr-dg-cell>
+          <clr-dg-cell style="text-align: right;">{{g.qty | number}}</clr-dg-cell>
+          <clr-dg-cell style="text-align: center;">{{g.unit_name}}</clr-dg-cell>
+        </clr-dg-row>
+        <clr-dg-footer>
+          {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} จาก {{pagination.totalItems}} รายการ
+          <clr-dg-pagination #pagination [(clrDgPage)]="currentPage" [clrDgPageSize]="perPage" [clrDgPageSize]="50"></clr-dg-pagination>
+        </clr-dg-footer>
+      </clr-datagrid>
+    </clr-tab-content>
+  </clr-tab>
 
+
+  <clr-tab>
+    <button clrTabLink id="link1" (click)="getWaitingList()">
+      <clr-icon shape="file"></clr-icon>
+      รายการขอเบิก
+      <!-- <span class="badge badge-info">{{totalWaiting | number}}</span> -->
+    </button>
+    <clr-tab-content>
+      <clr-datagrid (clrDgRefresh)="refreshList($event)" style="margin-top: -24px;" [(clrDgSelected)]="selectedAddition">
+
+        <clr-dg-column [style.width.px]="200">วันที่เบิก</clr-dg-column>
+        <clr-dg-column>เลขที่เบิก</clr-dg-column>
+        <clr-dg-column [style.width.px]="200"></clr-dg-column>
+        <clr-dg-placeholder>ไม่พบรายการ!</clr-dg-placeholder>
+
+        <clr-dg-row *clrDgItems="let order of orders" [clrDgItem]="order" [ngClass]="{'isError': order.is_cancel === 'Y'}">
+          <app-addition-order-detail *clrIfExpanded [additionId]="order.addition_id" ngProjectAs="clr-dg-row-detail"></app-addition-order-detail>
+          <clr-dg-cell>
+            {{order.addition_date | toThaiDate}}
+          </clr-dg-cell>
+          <clr-dg-cell>{{order.addition_code}}</clr-dg-cell>
+          <clr-dg-cell style="text-align: center">
+            <button class="btn btn-sm btn-success wm-small-btn"  title="ส่งออก Excel">
+              <clr-icon shape="printer"></clr-icon>
+            </button>
+          </clr-dg-cell>
+        </clr-dg-row>
+        <clr-dg-footer>
+          {{pageWorking.firstItem + 1}} - {{pageWorking.lastItem + 1}} จาก {{pageWorking.totalItems}} รายการ
+          <clr-dg-pagination #pageWorking [(clrDgPage)]="currentPage" [clrDgPageSize]="perPage" [clrDgTotalItems]="orders.length"></clr-dg-pagination>
+        </clr-dg-footer>
+      </clr-datagrid>
+    </clr-tab-content>
+  </clr-tab>
+</clr-tabs>
 <app-loading-modal #modalLoading></app-loading-modal>
 <app-html-preview #htmlPreview></app-html-preview>

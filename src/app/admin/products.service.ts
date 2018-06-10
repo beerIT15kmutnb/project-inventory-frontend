@@ -18,6 +18,20 @@ export class ProductsService {
     const rs = await this.authHttp.get(`${this.url}/products/getUnit`).toPromise();
     return rs.json();
   }
+  async isActiveProduct(id: any, isActive: any) {
+    let res = await this.authHttp.put(`${this.url}/products/is-active-product`, {
+      id: id,
+      is_active: isActive
+    }).toPromise();
+    return res.json();
+  }
+  async isActiveGeneric(id: any, isActive: any) {
+    let res = await this.authHttp.put(`${this.url}/products/is-active-generic`, {
+      id: id,
+      is_active: isActive
+    }).toPromise();
+    return res.json();
+  }
   async isActive(id: any, isActive: any) {
     let res = await this.authHttp.put(`${this.url}/issues/isactive`, {
       id: id,

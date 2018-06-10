@@ -7,17 +7,18 @@
     <button type="button" class="btn btn-sm btn-success" routerLink="/admin/issues/new">
       <clr-icon shape="plus"></clr-icon> บันทึกจ่าย
     </button>
-  </div>
-  <div class="col-md-6">
-    <div style="float:right;">
-      <div class="btn-group" style="margin: 9px 0px 0px 0px;display:inline-block">
-        <button type="button" class="btn btn-sm btn-primary" (click)="showReport('')" [disabled]="!selectedApprove.length">
+    <!-- <div class="btn-group" style="margin: 9px 0px 0px 0px;display:inline-block"> -->
+        <!-- <button type="button" class="btn btn-sm btn-primary" (click)="showReport('')" [disabled]="!selectedApprove.length">
           <clr-icon shape="printer"></clr-icon> พิมรายงานตัดจ่าย
-        </button>
+        </button> -->
         <button type="button" class="btn btn-sm btn-success" (click)="approveIssue()" [disabled]="!selectedApprove.length">
           <clr-icon shape="note"></clr-icon> อนุมัติตัดจ่าย
         </button>
-      </div>
+      <!-- </div> -->
+  </div>
+  <div class="col-md-6">
+    <div style=" margin-top: 5px; float:right;">
+      
       &nbsp;&nbsp;&nbsp;
       <div style="display:inline-block">
         <div class="select">
@@ -32,15 +33,15 @@
   </div>
 </div>
 
-<clr-datagrid (clrDgRefresh)="refresh($event)" style="padding-top: 5px;" [(clrDgSelected)]="selectedApprove">
+<clr-datagrid (clrDgRefresh)="refresh($event)" style="margin-top: -23px;" [(clrDgSelected)]="selectedApprove">
   <clr-dg-column style="width: 150px;">วันที่</clr-dg-column>
-  <clr-dg-column style="width: 150px;">เลขที่</clr-dg-column>
+  <clr-dg-column style="width: 150px;" [clrDgField]="'issue_code'">เลขที่</clr-dg-column>
   <clr-dg-column>ประเภท</clr-dg-column>
   <!-- <clr-dg-column style="width: 180px;">จำนวนรายการ</clr-dg-column> -->
   <clr-dg-column>หมายเหตุ</clr-dg-column>
   <clr-dg-column style="width: 200px;"></clr-dg-column>
   <clr-dg-placeholder>ไม่พบรายการ!</clr-dg-placeholder>
-  <clr-dg-row *ngFor="let s of issues" [clrDgItem]="s" [ngClass]="{'isSuccess': s.is_approve === 'Y', 'isError': s.is_cancel === 'Y'}">
+  <clr-dg-row *clrDgItems="let s of issues;let idx = index" [clrDgItem]="s" [ngClass]="{'isSuccess': s.is_approve === 'Y', 'isError': s.is_cancel === 'Y'}">
     <wm-transection-issue-detail *clrIfExpanded [issueId]="s.issue_id" ngProjectAs="clr-dg-row-detail"></wm-transection-issue-detail>
     <clr-dg-cell style="text-align: center;">{{s.issue_date | toThaiDate}}</clr-dg-cell>
     <clr-dg-cell style="text-align: center;">{{s.issue_code}}</clr-dg-cell>

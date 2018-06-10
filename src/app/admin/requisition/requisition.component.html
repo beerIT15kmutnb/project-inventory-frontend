@@ -20,23 +20,16 @@
     <clr-tab-content id="content1" *clrIfActive="selectedTab === 'waiting'">
       <clr-datagrid (clrDgRefresh)="refreshWaiting($event)" style="margin-top: -25px; height: 85%;">
         <clr-dg-column style="width: 20%;">วันที่เบิก</clr-dg-column>
-        <clr-dg-column >เลขที่เบิก</clr-dg-column>
+        <clr-dg-column  [clrDgField]="'requisition_code'">เลขที่เบิก</clr-dg-column>
         <clr-dg-column style="width: 30%;">ผู้เบิก</clr-dg-column>
-        <!-- <clr-dg-column style="width: 100px;">ยา/เวชภัณฑ์ไม่พอจ่าย</clr-dg-column> -->
         <clr-dg-column style="width: 270px"></clr-dg-column>
         <clr-dg-placeholder>ไม่พบรายการ!</clr-dg-placeholder>
 
-        <clr-dg-row *ngFor="let order of orders" [clrDgItem]="order" [ngClass]="{'isError': order.is_cancel === 'Y'}">
+        <clr-dg-row *clrDgItems="let order of orders;let idx = index"  [clrDgItem]="order" [ngClass]="{'isError': order.is_cancel === 'Y'}">
           <app-requisition-order-detail *clrIfExpanded [requisitionId]="order.requisition_order_id" ngProjectAs="clr-dg-row-detail"></app-requisition-order-detail>
           <clr-dg-cell>{{order.requisition_date | toThaiDate}}</clr-dg-cell>
           <clr-dg-cell>{{order.requisition_code}}</clr-dg-cell>
           <clr-dg-cell>{{order.fullName}}</clr-dg-cell>
-          <!-- <clr-dg-cell style="text-align: center;">
-            <clr-icon shape="check" class="is-danger" *ngIf="!order.total_remain || order.total_remain <=0"></clr-icon>
-          </clr-dg-cell>
-          <clr-dg-cell style="text-align: center;">
-            <clr-icon shape="check" *ngIf="order.is_cancel === 'Y'" class="is-danger"></clr-icon>
-          </clr-dg-cell> -->
           <clr-dg-cell style="text-align: center;">
             <div class="btn-group">
 
@@ -53,14 +46,8 @@
                 <clr-icon shape="trash"></clr-icon>
               </button>
             </div>
-            <!-- <button [disabled]="order.is_cancel === 'Y'" title="จ่ายเวชภัณฑ์" class="btn btn-success btn-icon btn-sm wm-small-btn" [routerLink]="['/admin/requisition/confirm']" [queryParams]="{requisitionId: order.requisition_order_id}">
-              <clr-icon shape="note"></clr-icon>
-            </button> -->
-
           </clr-dg-cell>
-
         </clr-dg-row>
-
         <clr-dg-footer>
           {{pageWorking.firstItem + 1}} - {{pageWorking.lastItem + 1}} จาก {{pageWorking.totalItems}} รายการ
           <clr-dg-pagination #pageWorking [(clrDgPage)]="currentPage" [clrDgPageSize]="perPage" [clrDgTotalItems]="totalWaiting"></clr-dg-pagination>

@@ -93,27 +93,27 @@ export class IssuesComponent implements OnInit {
   }
 
   removeIssue(s: any) {
-    // this.alertService.confirm(`ต้องการลบรายการนี้ [${s.issue_code}] ใช่หรือไม่?`)
-    //   .then(async () => {
-    //     try {
-    //       this.modalLoading.show();
-    //       const rs: any = await this.issueService.removeIssue(s.issue_id);
-    //       if (rs.ok) {
-    //         this.alertService.success();
-    //         await this.getIssues();
-    //       } else {
-    //         this.alertService.error(rs.error);
-    //       }
+    this.alertService.confirm(`ต้องการลบรายการนี้ [${s.issue_code}] ใช่หรือไม่?`)
+      .then(async () => {
+        try {
+          this.modalLoading.show();
+          const rs: any = await this.issueService.removeIssue(s.issue_id);
+          if (rs.ok) {
+            this.alertService.success();
+            await this.getIssues();
+          } else {
+            this.alertService.error(rs.error);
+          }
 
-    //       this.modalLoading.hide();
-    //     } catch (error) {
-    //       this.modalLoading.hide();
-    //       this.alertService.error(error.error);
-    //     }
-    //   })
-    //   .catch(() => {
-    //     this.modalLoading.hide();
-    //   })
+          this.modalLoading.hide();
+        } catch (error) {
+          this.modalLoading.hide();
+          this.alertService.error(error.error);
+        }
+      })
+      .catch(() => {
+        this.modalLoading.hide();
+      })
   }
 
   async approveIssueCheck() {
@@ -151,7 +151,7 @@ export class IssuesComponent implements OnInit {
   approveIssue() {
     const issueIds = [];
     this.selectedApprove.forEach((v: any) => {
-      if (v.approved !== 'Y' && v.is_cancel !== 'Y') {
+      if (v.is_approve !== 'Y' && v.is_cancel !== 'Y') {
         issueIds.push(v.issue_id);
       }
     });

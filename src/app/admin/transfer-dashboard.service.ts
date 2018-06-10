@@ -8,7 +8,10 @@ export class TransferDashboardService {
     @Inject('API_URL') private url: string,
     private authHttp: AuthHttp
   ) { }
-
+  async setAddDetail(additionId: any) {
+    const resp = await this.authHttp.get(`${this.url}/products/addition-detail/${additionId}`).toPromise();
+    return resp.json();
+  }
   async getWarehouse() {
     const resp = await this.authHttp.get(`${this.url}/transfer-dashboard/warehouse`).toPromise();
     return resp.json();
@@ -20,7 +23,7 @@ export class TransferDashboardService {
   }
 
   async getGenericDetail(genericId: any) {
-    const resp = await this.authHttp.get(`${this.url}/transfer-dashboard/generic/detail/${genericId}`).toPromise();
+    const resp = await this.authHttp.get(`${this.url}/generics/detail/${genericId}`).toPromise();
     return resp.json();
   }
 
@@ -39,6 +42,13 @@ export class TransferDashboardService {
     return resp.json();
   }
 
+  async getWaitingList(limit: number = 50, offset: number = 0) {
+    const resp = await this.authHttp.post(`${this.url}/products/addition/list`, {
+      limit: limit,
+      offset: offset
+    }).toPromise();
+    return resp.json();
+  }
   async gettransection(limit: number = 50, offset: number = 0) {
     const resp = await this.authHttp.post(`${this.url}/products/transection/list`, {
       limit: limit,

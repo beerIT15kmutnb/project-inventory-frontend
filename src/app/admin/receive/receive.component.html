@@ -6,107 +6,64 @@
   <progress></progress>
 </div>
 
-  <button type="padding-top: 5px;" routerLink="/admin/receives/purchase" class="btn btn-sm btn-success" >
-    + รับยา/เวชภัณฑ์เข้าคลัง
-  </button>
-<!-- <button style="float: right;" class="btn btn-primary btn-sm btn-icon" (click)="printSelecOption()">
-  <clr-icon shape="printer"></clr-icon> พิมพ์ใบนำส่ง
-</button> -->
-<!-- <button *ngIf="tab === 'receive' || tab === 'receiveOther'" style="float: right;" class="btn btn-primary btn-sm btn-icon"
-  (click)="printSelecOption()">
-  <clr-icon shape="printer"></clr-icon> พิมพ์ใบนำส่ง (แบบมีเงื่อนไข)
-</button> -->
-<button  class="btn btn-primary btn-sm btn-icon" (click)="saveApprove()">
-    <clr-icon shape="tasks"></clr-icon> ยืนยันรับยา/เวชภัณฑ์
-  </button>
-<!-- <clr-tabs>
-  <clr-tab>
-    <button clrTabLink (click)="clearSelectedApproved();selectTabReceive()">
-      <clr-icon shape="tasks"></clr-icon> รับยา/เวชภัณฑ์เข้าคลัง
+<div class="row wid99">
+  <div class="col-md-6">
+    <button type="padding-top: 5px;" routerLink="/admin/receives/purchase" class="btn btn-sm btn-success">
+      <clr-icon shape="plus"></clr-icon> รับยา/เวชภัณฑ์เข้าคลัง
     </button>
-    <clr-tab-content *clrIfActive="tab === 'receive'"> -->
-      <div class="card">
-        <div class="card-block" style="padding: 0px 5px 5px 5px;">
-          <div class="row">
-            <div class="col-md-6" style="padding-top: 5px;">
-              <label for="">ค้นหา</label>
-              <input type="text" (keyup)="searchReceive($event)" name="query" [(ngModel)]="query" placeholder="เลขที่ใบสั่งซื้อ, เลขที่ใบรับ"
-                style="width: 90%;">
-            </div>
-            <!-- <div class="col-md-2" style="padding-top: 5px;">
-              <div class="select">
-                <select [(ngModel)]="fillterApprove" (change)="changeFillterApprove()">
-                  <option value="all">ทั้งหมด</option>
-                  <option value="approve">อนุมัติ</option>
-                  <option value="Napprove">ยังไม่ได้อนุมัติ</option>
-                </select>
-              </div>
-            </div> -->
-            <!-- <div class="col-md-2  push-md-4" style="padding-top: 5px;">
-              <div style="float: right;">
-                <clr-dropdown>
-                  <button type="button" [disabled]="!selectedApprove.length" class="btn btn-sm btn-primary" clrDropdownTrigger>
-                    ดำเนินการ...
-                    <clr-icon shape="caret down"></clr-icon>
-                  </button>
-                  <clr-dropdown-menu clrPosition="bottom-right" *clrIfOpen>
-                    <label class="dropdown-header">เมนูใช้งาน ({{selectedApprove.length | number}} รายการที่ถูกเลือก)</label>
-                    <button type="button" clrDropdownItem (click)="approveReceiveCheck(1)">
-                      <clr-icon class="is-success" shape="check"></clr-icon> อนุมัติใบรับ</button>
-                    <div class="dropdown-divider"></div>
-                    <button type="button" clrDropdownItem (click)="printDeliveryNote()">
-                      <clr-icon shape="printer"></clr-icon> พิมพ์ใบนำส่ง</button>
-                    <button type="button" clrDropdownItem (click)="printProductRecive()">
-                      <clr-icon shape="printer"></clr-icon> พิมพ์รายงานเวชภัณฑ์ที่รับจากการสั่งซื้อ</button>
-                    <button type="button" clrDropdownItem (click)="printReceive()">
-                      <clr-icon shape="printer"></clr-icon> พิมพ์ใบตรวจรับ</button>
-                    <button type="button" clrDropdownItem (click)="printreceiveApprovePO()">
-                      <clr-icon shape="printer"></clr-icon> พิมพ์ใบตรวจรับตามใบสั่งซื้อ</button>
+    <button class="btn btn-primary btn-sm btn-icon" (click)="saveApprove()">
+      <clr-icon shape="tasks"></clr-icon> ยืนยันรับยา/เวชภัณฑ์
+    </button>
+  </div>
+  <div style="margin-top: 5px" class="col-md-6">
+    <div style="float:right;">
 
-                  </clr-dropdown-menu>
-                </clr-dropdown>
-              </div>
-            </div> -->
-          </div>
-        </div>
+      <div style="display:inline-block" class="select">
+        <select [(ngModel)]="status" name="status" (change)="changeStatus()">
+          <option value="">ทั้งหมด</option>
+          <option value="Y">อนุมัติแล้ว</option>
+          <option value="N">รออนุมัติ</option>
+        </select>
       </div>
+    </div>
+  </div>
+</div>
 
-      <clr-datagrid (clrDgRefresh)="refresh($event)" style="padding-top: 5px; height: 83%;" [(clrDgSelected)]="selectedApprove">
-        <clr-dg-column style="width: 150px;">วันที่</clr-dg-column>
-        <clr-dg-column >เลขที่รับ</clr-dg-column>
-        <clr-dg-column >เลขที่ใบประมาณการ</clr-dg-column>
-        <clr-dg-column style="width: 200px;"></clr-dg-column>
-        <clr-dg-placeholder>ไม่พบรายการ!</clr-dg-placeholder>
-        <clr-dg-row *ngFor="let w of waitings" [clrDgItem]="w" [ngClass]="{'approve-status': w.is_approve === 'Y', 'isError': w.is_cancel === 'Y'}">
-          <wm-product-detail *clrIfExpanded [receiveId]="w.receive_id" ngProjectAs="clr-dg-row-detail"></wm-product-detail>
-          <clr-dg-cell style="text-align: center;">{{w.receive_date | toThaiDate}}</clr-dg-cell>
-          <clr-dg-cell>{{w.receive_code || w.receive_tmp_code}}</clr-dg-cell>
-          <clr-dg-cell *ngIf="!w.purchase_order_book_number">{{w.purchase_order_number}}</clr-dg-cell>
-          <clr-dg-cell *ngIf="w.purchase_order_book_number">{{w.purchase_order_book_number}}</clr-dg-cell>
-          <clr-dg-cell style="text-align: center;">
-            <div class="btn-group ">
-              <button [disabled]="w.is_cancel === 'Y' || w.is_approve === 'Y'" title="แก้ไขข้อมูล" class="btn btn-primary  btn-sm "
-                [routerLink]="['/admin/receives/edit']" [queryParams]="{receiveId: w.receive_id}">
-                <clr-icon shape="note"></clr-icon>
-              </button>
-              <button [disabled]="w.is_approve === 'Y' || w.is_cancel === 'Y'" title="ยกเลิกใบรับ" class="btn btn-danger  btn-sm "
-                (click)="removeReceive(w)">
-                <clr-icon shape="trash"></clr-icon>
-              </button>
-            </div>
-          </clr-dg-cell>
-        </clr-dg-row>
+<clr-datagrid  (clrDgRefresh)="refresh($event)" style="margin-top: -15px; height: 83%;" [(clrDgSelected)]="selectedApprove">
+  <clr-dg-column style="width: 150px;">วันที่</clr-dg-column>
+  <clr-dg-column [clrDgField]="'receive_code'">เลขที่รับ</clr-dg-column>
+  <clr-dg-column>เลขที่ใบประมาณการ</clr-dg-column>
+  <clr-dg-column style="width: 200px;"></clr-dg-column>
+  <clr-dg-placeholder>ไม่พบรายการ!</clr-dg-placeholder>
+  <clr-dg-row *clrDgItems="let w of waitings;let idx = index" [clrDgItem]="w" [ngClass]="{'approve-status': w.is_approve === 'Y', 'isError': w.is_cancel === 'Y'}">
+    <wm-product-detail *clrIfExpanded [receiveId]="w.receive_id" ngProjectAs="clr-dg-row-detail"></wm-product-detail>
+    <clr-dg-cell style="text-align: center;">{{w.receive_date | toThaiDate}}</clr-dg-cell>
+    <clr-dg-cell>{{w.receive_code || w.receive_tmp_code}}</clr-dg-cell>
+    <clr-dg-cell *ngIf="!w.purchase_order_book_number">{{w.purchase_order_number}}</clr-dg-cell>
+    <clr-dg-cell *ngIf="w.purchase_order_book_number">{{w.purchase_order_book_number}}</clr-dg-cell>
+    <clr-dg-cell style="text-align: center;">
+      <div class="btn-group ">
+        <button [disabled]="w.is_cancel === 'Y' || w.is_approve === 'Y'" title="แก้ไขข้อมูล" class="btn btn-primary  btn-sm " [routerLink]="['/admin/receives/edit']"
+          [queryParams]="{receiveId: w.receive_id}">
+          <clr-icon shape="note"></clr-icon>
+        </button>
+        <button [disabled]="w.is_approve === 'Y' || w.is_cancel === 'Y'" title="ยกเลิกใบรับ" class="btn btn-danger  btn-sm " (click)="removeReceive(w)">
+          <clr-icon shape="trash"></clr-icon>
+        </button>
+      </div>
+    </clr-dg-cell>
+  </clr-dg-row>
 
-        <clr-dg-footer>
-          คำชี้แจง:
-          <span class="badge badge-danger">ยกเลิก</span>
-          <span class="badge badge-white">รออนุมัติ</span>
-          <span class="badge badge-success">อนุมัติแล้ว</span>
-          | {{pageWait.firstItem + 1 | number}} - {{pageWait.lastItem + 1 | number}} จาก {{pageWait.totalItems | number}} รายการ
-          <clr-dg-pagination #pageWait [(clrDgPage)]="currentPage" [clrDgPageSize]="perPage" [clrDgTotalItems]="totalReceive"></clr-dg-pagination>
-        </clr-dg-footer>
-      </clr-datagrid>
-    <!-- </clr-tab-content>
+  <clr-dg-footer>
+    คำชี้แจง:
+    <span class="badge badge-danger">ยกเลิก</span>
+    <span class="badge badge-white">รออนุมัติ</span>
+    <span class="badge badge-success">อนุมัติแล้ว</span>
+    | {{pageWait.firstItem + 1 | number}} - {{pageWait.lastItem + 1 | number}} จาก {{pageWait.totalItems | number}} รายการ
+    <clr-dg-pagination #pageWait [(clrDgPage)]="currentPage" [clrDgPageSize]="perPage" [clrDgTotalItems]="totalReceive"></clr-dg-pagination>
+  </clr-dg-footer>
+</clr-datagrid>
+<!-- </clr-tab-content>
   </clr-tab>
 </clr-tabs> -->
 

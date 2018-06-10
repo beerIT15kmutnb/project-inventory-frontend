@@ -37,6 +37,8 @@ import { UnitManagementComponent } from './unit-management/unit-management.compo
 import { TypeManagementComponent } from './type-management/type-management.component';
 import { GenericsService } from './generics.service';
 import { TypeIssueComponent } from './type-issue/type-issue.component';
+import { AdditionComponent } from './addition/addition.component';
+import { AdditionService } from './addition.service';
 
 
 @NgModule({
@@ -72,7 +74,8 @@ import { TypeIssueComponent } from './type-issue/type-issue.component';
     ProductsNewComponent,
     UnitManagementComponent,
     TypeManagementComponent,
-    TypeIssueComponent
+    TypeIssueComponent,
+    AdditionComponent
   ],
   providers:[
     ToThaiDatePipe,
@@ -82,7 +85,8 @@ import { TypeIssueComponent } from './type-issue/type-issue.component';
     AlertExpiredService,
     TransferDashboardService,
     RequisitionService,
-    GenericsService
+    GenericsService,
+    AdditionService
   ]
 })
 export class AdminModule { }

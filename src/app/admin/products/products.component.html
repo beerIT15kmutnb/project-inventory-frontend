@@ -15,7 +15,7 @@
       <!-- <span class="badge badge-info">{{totalWaiting | number}}</span> -->
     </button>
     <clr-tab-content id="content1" *clrIfActive="selectedTab === 'product'">
-      <div class="card">
+      <div class="card" style="margin-top: 0.3px">
         <div class="card-block" style="padding: 0px 5px 5px 5px;">
           <div class="row" style="padding-top: 5px;">
             <div class="col-md-1">
@@ -33,7 +33,7 @@
           </div>
         </div>
       </div>
-      <clr-datagrid (clrDgRefresh)="refresh($event)">
+      <clr-datagrid style="margin-top: -10px" (clrDgRefresh)="refresh($event)">
         <clr-dg-column style="width: 150px;">
           <ng-container *clrDgHideableColumn="{hidden: false}">
             รหัสสินค้า
@@ -49,7 +49,7 @@
             คงเหลือ
           </ng-container>
         </clr-dg-column>
-        <clr-dg-column style="width: 200px;">
+        <clr-dg-column style="width: 170px;">
           <ng-container *clrDgHideableColumn="{hidden: false}">
             หน่วย
           </ng-container>
@@ -59,10 +59,13 @@
             จำนวน Lot.
           </ng-container>
         </clr-dg-column>
-        <clr-dg-column style="width: 200px;">
+        <clr-dg-column style="width: 100px;">
+          สถานะใช้งาน
+        </clr-dg-column>
+        <clr-dg-column style="width: 100px;">
         </clr-dg-column>
         <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
-        <clr-dg-row *ngFor="let p of products">
+        <clr-dg-row *ngFor="let p of products;let idx = index" [clrDgItem]="p">
           <!-- <wm-product-stock-remain *clrIfExpanded ngProjectAs="clr-dg-row-detail" [productId]="p.product_id"></wm-product-stock-remain> -->
           <clr-dg-cell style="text-align: left;">
             <span class="p4">{{p.product_code}}</span>
@@ -70,16 +73,19 @@
           <clr-dg-cell>
             <span class="p4">{{p.product_name}}</span>
           </clr-dg-cell>
-          <clr-dg-cell style="text-align: right;" >{{p.qty | number}}</clr-dg-cell>
+          <clr-dg-cell style="text-align: right;">{{p.qty | number}}</clr-dg-cell>
           <clr-dg-cell style="text-align: left;">{{p.large_unit}}({{p.small_qty | number}} {{p.small_unit}})</clr-dg-cell>
           <clr-dg-cell>{{p.amLot}}</clr-dg-cell>
+          <clr-dg-cell>
+            <div class="toggle-switch">
+              <input type="checkbox" id="chk-{{idx}}" #active name="isActive" [checked]="p.is_active==='Y'" (change)="setisActive($event, p.product_id)">
+              <label for="chk-{{idx}}"></label>
+            </div>
+          </clr-dg-cell>
           <clr-dg-cell style="text-align: right;">
             <div class="btn-group">
               <button class="btn btn-sm btn-primary" (click)="editProduct(p)">
                 <clr-icon shape="note"></clr-icon>
-              </button>
-              <button class="btn btn-sm btn-danger " (click)="showStockCard(p)">
-                <clr-icon shape="trash"></clr-icon>
               </button>
             </div>
           </clr-dg-cell>
@@ -101,7 +107,7 @@
       <!-- <span class="badge badge-info">{{totalWaiting | number}}</span> -->
     </button>
     <clr-tab-content id="content2" *clrIfActive="selectedTab === 'generic'">
-      <div class="card">
+      <div class="card" style="margin-top: 0.3px">
         <div class="card-block" style="padding: 0px 5px 5px 5px;">
           <div class="row" style="padding-top: 5px;">
             <div class="col-md-1">
@@ -119,7 +125,7 @@
           </div>
         </div>
       </div>
-      <clr-datagrid (clrDgRefresh)="refreshGenerics($event)">
+      <clr-datagrid style="margin-top: -10px" (clrDgRefresh)="refreshGenerics($event)">
         <clr-dg-column style="width: 150px;">
           <ng-container *clrDgHideableColumn="{hidden: false}">
             รหัสยา/เวชภัณฑ์
@@ -135,13 +141,13 @@
             ประเภท
           </ng-container>
         </clr-dg-column>
-        <clr-dg-column  style="text-align: right;"> 
-            <ng-container *clrDgHideableColumn="{hidden: false}">
-              หน่วย
-            </ng-container>
-          </clr-dg-column>
+        <clr-dg-column style="text-align: right;">
+          <ng-container *clrDgHideableColumn="{hidden: false}">
+            หน่วย
+          </ng-container>
+        </clr-dg-column>
         <clr-dg-column>
-          <ng-container   style="text-align: right;" *clrDgHideableColumn="{hidden: false}">
+          <ng-container style="text-align: right;" *clrDgHideableColumn="{hidden: false}">
             Min/Max
           </ng-container>
         </clr-dg-column>
@@ -150,10 +156,13 @@
             จำนวนสินค้า
           </ng-container>
         </clr-dg-column>
-        <clr-dg-column style="width: 200px;">
+        <clr-dg-column style="width: 100px;">
+          สถานะใช้งาน
+        </clr-dg-column>
+        <clr-dg-column style="width: 100px;">
         </clr-dg-column>
         <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
-        <clr-dg-row *ngFor="let p of generics">
+        <clr-dg-row *ngFor="let p of generics;let idx = index"[clrDgItem]="p">
           <!-- <wm-product-stock-remain *clrIfExpanded ngProjectAs="clr-dg-row-detail" [productId]="p.product_id"></wm-product-stock-remain> -->
           <clr-dg-cell style="text-align: left;">
             <span class="p4">{{p.generic_code}}</span>
@@ -164,20 +173,23 @@
           <clr-dg-cell>
             <span>{{p.generic_type_name}}</span>
           </clr-dg-cell>
-          <clr-dg-cell  style="text-align: right;">
-              <span>{{p.small_unit}}</span>
-            </clr-dg-cell>
+          <clr-dg-cell style="text-align: right;">
+            <span>{{p.small_unit}}</span>
+          </clr-dg-cell>
           <clr-dg-cell style="text-align: right;">
             <span>{{p.min_qty | number}}/{{p.max_qty | number}}</span>
           </clr-dg-cell>
           <clr-dg-cell style="text-align: right;">{{p.amLot}}</clr-dg-cell>
+          <clr-dg-cell>
+              <div class="toggle-switch">
+                <input type="checkbox" id="chki-{{idx}}" #active name="isActives" [checked]="p.is_active==='Y'" (change)="setisActiveGen($event, p.generic_id)">
+                <label for="chki-{{idx}}"></label>
+              </div>
+            </clr-dg-cell>
           <clr-dg-cell style="text-align: right;">
             <div class="btn-group">
               <button class="btn btn-sm btn-primary" (click)="editGeneric(p)">
                 <clr-icon shape="note"></clr-icon>
-              </button>
-              <button class="btn btn-sm btn-danger " (click)="showStockCard(p)">
-                <clr-icon shape="trash"></clr-icon>
               </button>
             </div>
           </clr-dg-cell>
@@ -344,7 +356,8 @@
                 <input type="text" disabled [value]="items.generic_code">
               </div>
               <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                <app-search-generics-box  #genericSearch [setAll]="true" [setGeneric]="items.generic_name" (onChange)="changeSearchGeneric($event)" (onSelect)="setSelectedGeneric($event)"></app-search-generics-box>
+                <app-search-generics-box #genericSearch [setAll]="true" [setGeneric]="items.generic_name" (onChange)="changeSearchGeneric($event)"
+                  (onSelect)="setSelectedGeneric($event)"></app-search-generics-box>
               </div>
             </div>
 

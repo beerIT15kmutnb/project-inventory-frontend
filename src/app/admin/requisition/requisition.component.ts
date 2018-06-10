@@ -156,24 +156,24 @@ export class RequisitionComponent implements OnInit {
   }
 
   async removeOrder(order: any) {
-    // this.alertService.confirm('ต้องการลบรายการนี้ [' + order.requisition_code + ']')
-    //   .then(async () => {
-    //     this.modalLoading.show();
-    //     try {
-    //       const rs: any = await this.requisitionService.removeRequisitionOrder(order.requisition_order_id);
-    //       this.modalLoading.hide();
-    //       if (rs.ok) {
-    //         this.alertService.success();
-    //         this.getWaiting();
-    //       } else {
-    //         this.alertService.error(rs.error);
-    //       }
-    //     } catch (error) {
-    //       this.alertService.error(error.message);
-    //     }
-    //   }).catch(() => {
-    //     this.modalLoading.hide();
-    //   });
+    this.alertService.confirm('ต้องการลบรายการนี้ [' + order.requisition_code + ']')
+      .then(async () => {
+        this.modalLoading.show();
+        try {
+          const rs: any = await this.requisitionService.removeRequisitionOrder(order.requisition_order_id);
+          this.modalLoading.hide();
+          if (rs.ok) {
+            this.alertService.success();
+            this.getWaiting();
+          } else {
+            this.alertService.error(rs.error);
+          }
+        } catch (error) {
+          this.alertService.error(error.message);
+        }
+      }).catch(() => {
+        this.modalLoading.hide();
+      });
   }
 
 

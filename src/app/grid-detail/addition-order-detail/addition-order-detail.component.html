@@ -1,0 +1,19 @@
+<div [clrLoading]="loading">
+    <clr-datagrid>
+      <clr-dg-column>ชื่อยา/เวชภัณฑ์</clr-dg-column>
+      <clr-dg-column style="text-align: right;">จำนวนเบิก</clr-dg-column>
+      <clr-dg-column style="text-align: right;">หน่วย</clr-dg-column>
+      <clr-dg-row *ngFor="let product of products;let idx = index;">
+        <clr-dg-cell> {{idx + 1}}. {{product.generic_name}}
+        </clr-dg-cell>
+        <clr-dg-cell style="text-align: right;">
+          {{ product.requisition_qty | number }}
+        </clr-dg-cell>
+        <clr-dg-cell style="text-align: right;">
+         {{product.small_unit_name}}
+        </clr-dg-cell>
+      </clr-dg-row>
+      <clr-dg-footer>{{products.length}} รายการ</clr-dg-footer>
+    </clr-datagrid>
+  </div>
+  

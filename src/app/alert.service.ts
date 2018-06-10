@@ -19,7 +19,7 @@ export class AlertService {
 
   }
 
-  success(title = 'ดำเนินการเสร็จเรียบร้อย', text = '') {
+  async success(title = 'ดำเนินการเสร็จเรียบร้อย', text = '') {
 
     const option: SweetAlertOptions = {
       title: title,
@@ -29,7 +29,7 @@ export class AlertService {
       showConfirmButton : false,
       confirmButtonText: 'ตกลง'
     };
-    swal(option)
+    await swal(option)
       .then(
       function () { },
       // handling the promise rejection

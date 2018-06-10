@@ -30,6 +30,7 @@ export class ReceiveComponent implements OnInit {
   @ViewChild('htmlPreview') public htmlPreview: any;
   @ViewChild('modalLoading') public modalLoading: any;
   // @ViewChild('pageWait') pageWait: any;
+  status:string = ''
   expired = [];
   otherExpired = [];
   waitings: any = [];
@@ -181,29 +182,29 @@ export class ReceiveComponent implements OnInit {
   }
 
   removeReceive(w) {
-    // this.alertService.confirm('คุณต้องการลบรายการรับยา/เวชภัณฑ์นี้ [' + w.receive_code + '] ใช่หรือไม่?')
-    //   .then(async () => {
-    //     try {
-    //       this.modalLoading.show();
-    //       const rs: any = await this.receiveService.removeReceive(w.receive_id);
-    //       if (rs.ok) {
-    //         this.alertService.success();
-    //         const idx = _.findIndex(this.waitings, { receive_id: w.receive_id });
-    //         if (idx > -1) {
-    //           this.waitings.splice(idx, 1);
-    //         }
-    //       } else {
-    //         this.alertService.error();
-    //       }
-    //       this.modalLoading.hide();
-    //     } catch (error) {
-    //       this.modalLoading.hide();
-    //       this.alertService.serverError();
-    //     }
-    //   })
-    //   .catch(() => {
-    //     this.modalLoading.hide();
-    //   });
+    this.alertService.confirm('คุณต้องการลบรายการรับยา/เวชภัณฑ์นี้ [' + w.receive_code + '] ใช่หรือไม่?')
+      .then(async () => {
+        try {
+          this.modalLoading.show();
+          const rs: any = await this.receiveService.removeReceive(w.receive_id);
+          if (rs.ok) {
+            this.alertService.success();
+            const idx = _.findIndex(this.waitings, { receive_id: w.receive_id });
+            if (idx > -1) {
+              this.waitings.splice(idx, 1);
+            }
+          } else {
+            this.alertService.error();
+          }
+          this.modalLoading.hide();
+        } catch (error) {
+          this.modalLoading.hide();
+          this.alertService.serverError();
+        }
+      })
+      .catch(() => {
+        this.modalLoading.hide();
+      });
   }
 
   
@@ -211,12 +212,14 @@ export class ReceiveComponent implements OnInit {
     // this.selectedApprove = [];
     // this.selectedOtherApprove = [];
   }
-
+  changeStatus() {
+    this.getWaitingList()
+  }
   async getWaitingList() {
     try {
       this.loading = true;
       this.selectedApprove = [];
-      const rs = await this.receiveService.getReceiveStatus(this.perPage, this.offset);
+      const rs = await this.receiveService.getReceiveStatus(this.perPage, this.offset,this.status);
       if (rs.ok) {
         this.waitings = rs.rows;
         this.totalReceive = rs.total;

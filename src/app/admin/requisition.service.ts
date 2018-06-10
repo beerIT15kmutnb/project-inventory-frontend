@@ -52,5 +52,9 @@ export class RequisitionService {
     const rs: any = await this.authHttp.get(`${this.url}/requisition/orders/setReqsProductDetail/${id}`).toPromise();
     return rs.json();
   }
-
+  
+  async removeRequisitionOrder(Id) {
+    const res = await this.authHttp.delete(`${this.url}/requisition/remove?requisitionId=${Id}`).toPromise();
+    return res.json();
+  }
 }

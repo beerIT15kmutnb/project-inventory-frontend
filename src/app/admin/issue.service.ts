@@ -40,6 +40,11 @@ export class IssueService {
     const rs = await this.authHttp.get(`${this.url}/issues/getType`).toPromise();
     return rs.json();
   }
+  
+  async removeIssue(issueId) {
+    const res = await this.authHttp.delete(`${this.url}/issues/remove?issues=${issueId}`).toPromise();
+    return res.json();
+  }
   async list(limit: number, offset: number, status: any = '') {
     const rs = await this.authHttp.get(`${this.url}/issues?limit=${limit}&offset=${offset}&status=${status}`).toPromise();
     return rs.json();

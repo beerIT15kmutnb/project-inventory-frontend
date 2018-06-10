@@ -9,6 +9,7 @@ import { IssueProductComponent } from './issue-product/issue-product.component';
 import { DirectivesModule } from '../directives/directives.module';
 import { transectionIssuedetailComponent } from './transection-issue-detail/transection-issue-detail.component';
 import { RequisitionOrderDetailComponent } from './requisition-order-detail/requisition-order-detail.component';
+import { AdditionOrderDetailComponent } from './addition-order-detail/addition-order-detail.component';
 
 @NgModule({
   imports: [
@@ -24,13 +25,15 @@ import { RequisitionOrderDetailComponent } from './requisition-order-detail/requ
     ProductDetailComponent,
     IssueProductComponent,
     transectionIssuedetailComponent,
-    RequisitionOrderDetailComponent
+    RequisitionOrderDetailComponent,
+    AdditionOrderDetailComponent
   ],
   exports:[
     ProductDetailComponent,
     IssueProductComponent,
     transectionIssuedetailComponent,
-    RequisitionOrderDetailComponent
+    RequisitionOrderDetailComponent,
+    AdditionOrderDetailComponent
   ]
 })
 export class GridDetailModule { }

@@ -467,10 +467,11 @@ export class ReceiveService {
     return res.json();
   }
   //use
-  async getReceiveStatus(limit: number = 15, offset: number = 0) {
+  async getReceiveStatus(limit: number = 15, offset: number = 0,status:string = '') {
     const res = await this.authHttp.post(`${this.url}/receives/status`, {
       limit: limit,
       offset: offset,
+      status:status
     }).toPromise();
     return res.json();
   }

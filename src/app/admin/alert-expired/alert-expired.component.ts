@@ -159,65 +159,69 @@ export class AlertExpiredComponent implements OnInit {
   }
 
   setExpireCount() {
-    // try {
-    //   // clear old data
-    //   this.selectedGenericIds = [];
-    //   this.selectedGenerics.forEach((v: any) => {
-    //     this.selectedGenericIds.push(v.generic_id);
-    //   });
-    //   this.openSetSingleExpire = true;
-    // } catch (error) {
-    //   console.log(error);
-    //   this.alertService.error();
-    // }
+    try {
+      // clear old data
+      this.selectedGenericIds = [];
+      this.selectedGenerics.forEach((v: any) => {
+        this.selectedGenericIds.push(v.generic_id);
+      });
+      this.openSetSingleExpire = true;
+    } catch (error) {
+      console.log(error);
+      this.alertService.error();
+    }
   }
 
   setSingleExpire(product: any) {
     // clear old data
-    // this.selectedGenericIds = [];
-    // this.selectedGenericIds.push(product.generic_id);
-    // this.openSetSingleExpire = true;
+    this.selectedGenericIds = [];
+    this.selectedGenericIds.push(product.generic_id);
+    this.openSetSingleExpire = true;
   }
 
   saveExpireCount() {
-    // if (this.numDays >= 10) {
-    //   this.submitLoading = true;
-    //   this.alertExpiredService.saveExpiredCount(this.selectedGenericIds, this.numDays)
-    //     .then((result: any) => {
-    //       if (result.ok) {
-    //         this.openSetSingleExpire = false;
-    //         this.getAllProducts();
-    //       } else {
-    //         this.alertService.error('เกิดข้อผิดพลาด : ' + JSON.stringify(result.error));
-    //       }
-    //       this.submitLoading = false;
-    //     })
-    //     .catch(() => {
-    //       this.submitLoading = false;
-    //       this.alertService.serverError();
-    //     });
-    // } else {
-    //   this.submitLoading = false;
-    //   this.alertService.error('ควรกำหนดวันที่แจ้งเตือนอย่างน้อย 10 วันขึ้นไป');
-    // }
+    if (this.numDays >= 10) {
+      this.submitLoading = true;
+      this.alertExpiredService.saveExpiredCount(this.selectedGenericIds, this.numDays)
+        .then((result: any) => {
+          if (result.ok) {
+            this.openSetSingleExpire = false;
+            this.getAllProducts();
+            this.alertService.success()
+          } else {
+
+            this.alertService.error('เกิดข้อผิดพลาด : ' + JSON.stringify(result.error));
+          }
+          this.submitLoading = false;
+        })
+        .catch(() => {
+          this.submitLoading = false;
+          this.alertService.serverError();
+        });
+    } else {
+      this.submitLoading = false;
+      this.alertService.error('ควรกำหนดวันที่แจ้งเตือนอย่างน้อย 10 วันขึ้นไป');
+    }
   }
 
   getUnsetProducts() {
-  //   this.isAll = false;
-  //   this.modalLoading.show();
-  //   this.alertExpiredService.getUnsetProducts()
-  //     .then((result: any) => {
-  //       if (result.ok) {
-  //         this.allGenerics = result.rows;
-  //       } else {
-  //         this.alertService.error('เกิดข้อผิดพลาด : ' + JSON.stringify(result.error));
-  //       }
-  //       this.modalLoading.hide();
-  //       this.ref.detectChanges();
-  //     })
-  //     .catch(() => {
-  //       this.modalLoading.hide();
-  //       this.alertService.serverError();
-  //     });
+    this.isAll = false;
+    this.modalLoading.show();
+    this.alertExpiredService.getUnsetProducts()
+      .then((result: any) => {
+        if (result.ok) {
+          this.allGenerics = result.data;
+          console.log(result);
+          
+        } else {
+          this.alertService.error('เกิดข้อผิดพลาด : ' + JSON.stringify(result.error));
+        }
+        this.modalLoading.hide();
+        // this.ref.detectChanges();
+      })
+      .catch(() => {
+        this.modalLoading.hide();
+        this.alertService.serverError();
+      });
   }
 }
