@@ -1,0 +1,112 @@
+<nav class="breadcrumb">
+  <a class="breadcrumb-item" href="javascript://" routerLink="/equipment">หน้าหลัก</a>
+  <a class="breadcrumb-item" href="javascript://" routerLink="/equipment/transfer-dashboard">อุปกรณ์สำนักงานถึงจุดเบิก</a>
+  <span class="breadcrumb-item active">ประมาณการเบิก</span>
+</nav>
+
+
+<div class="card">
+  <div class="card-block" style="padding: 0px 0px 0px 10px;">
+    <form class="compact" style="padding-top: 0px;">
+      <section class="form-block">
+        <div class="form-group row wid99">
+          <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+            <label for="requisitionCode">รหัสใบประมาณการ</label>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <input type="text" name="requisitionCode" id="requisitionCode" placeholder="สร้างอัตโนมัติ" style="width: 100%;" disabled
+              [(ngModel)]="requisitionCode">
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+            <label for="requisitionDate" class="required">วันที่เบิก</label>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <my-date-picker-th name="mydate" [options]="myDatePickerOptions" [(ngModel)]="requisitionDate" required></my-date-picker-th>
+          </div>
+        </div>
+
+      </section>
+    </form>
+  </div>
+</div>
+
+
+<clr-datagrid class="order-form">
+  <clr-dg-column [style.width.px]="">ชื่ออุปกรณ์สำนักงาน</clr-dg-column>
+  <clr-dg-column [style.width.px]="200">คงเหลือ</clr-dg-column>
+  <clr-dg-column [style.width.px]="200">จำนวนเบิก</clr-dg-column>
+  <clr-dg-column [style.width.px]="150">หน่วย</clr-dg-column>
+  <clr-dg-column [style.width.px]="200"></clr-dg-column>
+
+
+  <clr-dg-row *ngFor="let product of products; let idx = index;">
+    <clr-dg-cell style="text-align: left; line-height: 25px;">
+      {{idx + 1}}. {{product.generic_name}}
+    </clr-dg-cell>
+    <clr-dg-cell style="line-height: 25px; text-align: right;">
+      {{product.remain_qty | number}}
+    </clr-dg-cell>
+    <clr-dg-cell>
+      <input type="text" #reqQty (keyup)="editChangereqQty(idx, reqQty)" class="wm-edit-box-number" style="width: 100%; background-color: #FFF9C4"
+        wmNumberOnly [value]="product.requisition_qty" />
+    </clr-dg-cell>
+    <clr-dg-cell style="text-align: right; line-height: 25px;">
+      {{product.small_unit_name}}
+    </clr-dg-cell>
+    <clr-dg-cell style="text-align: center;">
+      <div class="btn-group">
+        <button class="btn btn-sm btn-danger wm-small-btn" (click)="removeSelectedProduct(idx)">
+          <clr-icon shape="trash"></clr-icon>
+        </button>
+      </div>
+    </clr-dg-cell>
+  </clr-dg-row>
+
+
+  <clr-dg-row class="newLine">
+    <clr-dg-cell>
+      <app-search-equipments-box [setAll]="true" #productSearch (onSelect)="setSelectedEquipment($event)" (onChange)="changeSearchProduct($event)"></app-search-equipments-box>
+    </clr-dg-cell>
+    <clr-dg-cell style="text-align: right; line-height: 25px;">{{ remainQty | number }} </clr-dg-cell>
+    <clr-dg-cell>
+      <input type="text" class="wm-edit-box-number" style="width: 100px;" style="background-color: #FFF9C4" [disabled]="!selectedEquipmentId"
+        [(ngModel)]="reqQty" autocomplete="off" wmNumberWithOutDot placeholder="">
+    </clr-dg-cell>
+    <clr-dg-cell style="text-align: right; line-height: 25px;">
+      {{searchEquipment.small_unit_name}}
+    </clr-dg-cell>
+    <clr-dg-cell style="text-align: center;">
+      <div class="btn-group btn-primary">
+        <button class="btn btn-success btn-sm wm-small-btn" [disabled]="!selectedEquipmentId || !reqQty || reqQty == 0"
+          (click)="addProduct()">
+          เพิ่ม
+        </button>
+        <button class="btn btn-danger btn-sm wm-small-btn" (click)="clearForm()">
+          ยกเลิก
+        </button>
+      </div>
+    </clr-dg-cell>
+  </clr-dg-row>
+
+  <clr-dg-footer>
+    {{paginationSelected.firstItem + 1}} - {{paginationSelected.lastItem + 1}} จาก {{paginationSelected.totalItems}} รายการ
+    <clr-dg-pagination #paginationSelected ></clr-dg-pagination>
+  </clr-dg-footer>
+
+</clr-datagrid>
+
+<!-- <clr-checkbox name="isVerify" [(ngModel)]="isVerify">ตรวจสอบข้อมูลถูกต้อง</clr-checkbox> -->
+
+<button class="btn btn-success btn-sm" (click)="save()" [disabled]="!requisitionDate || products.length <= 0">
+  <clr-icon shape="floppy"></clr-icon>
+  บันทึกเบิกสินค้า
+</button>
+<button class="btn btn-danger btn-sm" [routerLink]="['/equipment/transfer-dashboard']">
+  <clr-icon shape="home"></clr-icon>
+  กลับหน้าหลัก
+</button>
+
+<!-- <wm-modal-search-requisition #modalRequisition [wmRequisition]="wmRequisition" (onSelect)="setSelectRequisition($event)"
+      (onClose)="closeRequisitionModal($event)"></wm-modal-search-requisition> -->
+
+<app-loading-modal #modalLoading></app-loading-modal>

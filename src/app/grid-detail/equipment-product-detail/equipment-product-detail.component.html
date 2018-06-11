@@ -1,0 +1,17 @@
+<div [clrLoading]="loading">
+  <clr-datagrid>
+    <clr-dg-column>ชื่อสินค้า</clr-dg-column>
+    <clr-dg-column>จำนวนรับ</clr-dg-column>
+    <clr-dg-column>Lot no.</clr-dg-column>
+    <clr-dg-column>Expired</clr-dg-column>
+
+    <clr-dg-row *ngFor="let r of products">
+      <clr-dg-cell> {{r.product_name}} </clr-dg-cell>
+      <clr-dg-cell style="text-align: right;">{{r.receive_qty | number}} {{r.from_unit_name}}  ({{r.conversion_qty | number}} {{r.base_unit_name}})</clr-dg-cell>
+      <!-- <clr-dg-cell style="text-align: right;">{{r.receive_qty * r.conversion_qty | number}} {{ r.base_unit_name }}</clr-dg-cell> -->
+      <clr-dg-cell>{{r.lot_no}}</clr-dg-cell>
+      <clr-dg-cell>{{r.expired_date | expiredDate}}</clr-dg-cell>
+    </clr-dg-row>
+    <clr-dg-footer>{{products.length}} รายการ</clr-dg-footer>
+  </clr-datagrid>
+</div>

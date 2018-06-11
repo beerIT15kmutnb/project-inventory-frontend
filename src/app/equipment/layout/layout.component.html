@@ -15,15 +15,15 @@
         <span class="tooltip-content">Home</span>
       </a>
       <!-- <a href="{{env.purchasingUrl}}" *ngIf="Purchasing" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip"aria-haspopup="true"> -->
-      <a href="" routerLink="/equipment" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip" aria-haspopup="true">
+      <a href="" routerLink="/equipment" routerLinkActive="active" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip" aria-haspopup="true">
         <clr-icon shape="shopping-cart"></clr-icon>
         <span class="tooltip-content">อุกปรณ์สำนักงาน</span>
       </a>
       <!-- <a href="{{env.inventoryUrl}}" routerLink="{{env.inventoryUrl}}" routerLinkActive="active" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right"role="tooltip" aria-haspopup="true"> -->
-      <a href="" routerLink="/admin" routerLinkActive="active" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip"
+      <a href="" routerLink="/admin"  class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip"
         aria-haspopup="true">
         <clr-icon shape="data-cluster"></clr-icon>
-        <span class="tooltip-content">ยา/เวชภัณฑ์</span>
+        <span class="tooltip-content">อุปกรณ์สำนักงาน</span>
       </a>
       <!-- <a href="{{env.umUrl}}" *ngIf="Administrator" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip"aria-haspopup="true"> -->
       <a routerLink="/admin-setting" routerLinkActive="active"
@@ -57,29 +57,29 @@
         <clr-icon clrVerticalNavIcon shape="note" class="has-badge is-solid"></clr-icon>
         บันทึกช่วยจำการยืมยา
       </a> -->
-      <a clrVerticalNavLink routerLink="/admin/transfer-dashboard" title="เวชภัณฑ์ที่ถึงจุดเบิก" routerLinkActive="active">
+      <a clrVerticalNavLink routerLink="/equipment/transfer-dashboard" title="อุปกรณ์สำนักงานที่ถึงจุดเบิก" routerLinkActive="active">
         <clr-icon clrVerticalNavIcon shape="alarm-clock" class="has-badge is-solid"></clr-icon>
-        เวชภัณฑ์ที่ถึงจุดเบิก
+        อุปกรณ์สำนักงานที่ถึงจุดเบิก
       </a>
-      <a clrVerticalNavLink routerLink="/admin/products" title="รายการยา/เวชภัณฑ์" routerLinkActive="active">
+      <a clrVerticalNavLink routerLink="/equipment/products" title="รายการอุปกรณ์สำนักงาน" routerLinkActive="active">
         <clr-icon clrVerticalNavIcon shape="folder"></clr-icon>
-        รายการยา/เวชภัณฑ์
+        รายการอุปกรณ์สำนักงาน
       </a>
-      <a clrVerticalNavLink routerLink="/admin/receives" title="รับยา/เวชภัณฑ์เข้าคลัง" routerLinkActive="active">
+      <a clrVerticalNavLink routerLink="/equipment/receives" title="รับอุปกรณ์สำนักงานเข้าคลัง" routerLinkActive="active">
         <clr-icon clrVerticalNavIcon shape="plus"></clr-icon>
-        รับยา/เวชภัณฑ์เข้าคลัง
+        รับอุปกรณ์สำนักงานเข้าคลัง
       </a>
-      <a clrVerticalNavLink routerLink="/admin/issues" title="ตัดจ่ายยา/เวชภัณฑ์" routerLinkActive="active">
+      <a clrVerticalNavLink routerLink="/equipment/issues" title="ตัดจ่ายอุปกรณ์สำนักงาน" routerLinkActive="active">
         <clr-icon clrVerticalNavIcon shape="scissors"></clr-icon>
-        ตัดจ่ายยา/เวชภัณฑ์
+        ตัดจ่ายอุปกรณ์สำนักงาน
       </a>
-      <a clrVerticalNavLink routerLink="/admin/requisition" title="เบิกยา/เวชภัณฑ์" routerLinkActive="active">
+      <a clrVerticalNavLink routerLink="/equipment/requisition" title="เบิกอุปกรณ์สำนักงาน" routerLinkActive="active">
         <clr-icon clrVerticalNavIcon shape="tools"></clr-icon>
-        เบิกยา/เวชภัณฑ์
+        เบิกอุปกรณ์สำนักงาน
       </a>
-      <a clrVerticalNavLink routerLink="/admin/alert-expired" title="แจ้งเตือนยาหมดอายุ" routerLinkActive="active">
+      <a clrVerticalNavLink routerLink="/equipment/alert-expired" title="แจ้งเตือนอุปกรณ์สำนักงานหมดอายุ" routerLinkActive="active">
         <clr-icon clrVerticalNavIcon shape="alarm-clock"></clr-icon>
-        แจ้งเตือนยาหมดอายุ
+        แจ้งเตือนอุปกรณ์สำนักงานหมดอายุ
       </a>
       <clr-vertical-nav-group routerLinkActive="active">
         <a clrVerticalNavLink href="javascript://" title="กำหนดข้อมูลพื้นฐาน">
@@ -87,15 +87,15 @@
           กำหนดข้อมูลพื้นฐาน
         </a>
         <clr-vertical-nav-group-children *clrIfExpanded="false">
-          <a clrVerticalNavLink routerLink="/admin/unit-management"  title="จัดการหน่วยนับ" routerLinkActive="active">
+          <a clrVerticalNavLink routerLink="/equipment/unit-management"  title="จัดการหน่วยนับ" routerLinkActive="active">
             <clr-icon shape="library"></clr-icon>
             จัดการหน่วยนับ
           </a>
-          <a clrVerticalNavLink routerLink="/admin/type-management" title="จัดการประเภทยา/เวชภัณฑ์" routerLinkActive="active">
+          <!-- <a clrVerticalNavLink routerLink="/equipment/type-management" title="จัดการประเภทอุปกรณ์สำนักงาน" routerLinkActive="active">
             <clr-icon shape="organization" ></clr-icon>
-            จัดการประเภทยา/เวชภัณฑ์
-          </a>
-          <a clrVerticalNavLink routerLink="/admin/type-issue" title="จัดการประเภทการตัดจ่าย" routerLinkActive="active">
+            จัดการประเภทอุปกรณ์สำนักงาน
+          </a> -->
+          <a clrVerticalNavLink routerLink="/equipment/type-issue" title="จัดการประเภทการตัดจ่าย" routerLinkActive="active">
             <clr-icon shape="organization" ></clr-icon>
             จัดการประเภทการตัดจ่าย
           </a>

@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SelectReceiveUnitComponent } from './select-receive-unit/select-receive-unit.component';
-import { SearchProductComponent } from './search-product/search-product.component';
 import { ClarityModule } from '@clr/angular';
 import { FormsModule } from '@angular/forms';
 import { HelperModule } from '../helper/helper.module';
@@ -10,8 +8,13 @@ import { ModalsModule } from '../modals/modals.module';
 import { AgxTypeaheadModule } from '@siteslave/agx-typeahead';
 import { TextMaskModule } from 'angular2-text-mask';
 import { UpperCaseDirective } from './upper-case.directive';
-import { SearchGenericsBoxComponent } from './search-generics-box/search-generics-box.component';
 
+import { SearchGenericsBoxComponent } from './search-generics-box/search-generics-box.component';
+import { SelectReceiveUnitComponent } from './select-receive-unit/select-receive-unit.component';
+import { SearchProductComponent } from './search-product/search-product.component';
+
+import { SearchEquipmentProductComponent } from './search-equipment-product/search-equipment-product.component';
+import { SearchEquipmentsBoxComponent } from './search-equipments-box/search-equipments-box.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -25,15 +28,19 @@ import { SearchGenericsBoxComponent } from './search-generics-box/search-generic
   ],
   declarations: [
     SelectReceiveUnitComponent,
-    SearchProductComponent,
     UpperCaseDirective,
-    SearchGenericsBoxComponent
+    SearchProductComponent,
+    SearchGenericsBoxComponent,
+    SearchEquipmentProductComponent,
+    SearchEquipmentsBoxComponent
   ],
   exports: [
     SelectReceiveUnitComponent,
-    SearchProductComponent,
     UpperCaseDirective,
-    SearchGenericsBoxComponent
+    SearchProductComponent,
+    SearchGenericsBoxComponent,
+    SearchEquipmentProductComponent,
+    SearchEquipmentsBoxComponent
   ]
 })
 export class DirectivesModule { }

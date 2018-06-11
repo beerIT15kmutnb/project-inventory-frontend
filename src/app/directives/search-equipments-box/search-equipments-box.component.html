@@ -1,0 +1,11 @@
+    <input type="text" [(ngModel)]="query" [value]="query" 
+    (keyup)="clearSelected($event)" style="width: 100%;" placeholder="ค้นหาอุปกรณ์สำนักงาน..." 
+    agxTypeahead 
+    [taUrl]="searchEquipmentUrl"
+    taApi="http" 
+    [taItemTpl]="itemTpl" 
+    (taSelected)="handleResultSelected($event)">
+    
+    <ng-template style="position: relative !important;"  #itemTpl let-result style="width: 100%">
+      <strong>{{ result.result.equipment_name }}</strong>
+    </ng-template>

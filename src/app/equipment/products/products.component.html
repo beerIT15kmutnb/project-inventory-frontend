@@ -1,0 +1,428 @@
+<nav class="breadcrumb">
+  <a class="breadcrumb-item" href="javascript://" routerLink="/equipment">หน้าหลัก</a>
+  <span class="breadcrumb-item active">รายการอุปกรณ์สำนักงานทั้งหมด</span>
+</nav>
+<div class="progress loop" *ngIf="loading">
+  <progress></progress>
+</div>
+
+<clr-tabs>
+  <clr-tab>
+    <button clrTabLink id="link1" (click)="setTapActive('product')">
+      <!--  -->
+      <clr-icon shape="file"></clr-icon>
+      สินค้า
+      <!-- <span class="badge badge-info">{{totalWaiting | number}}</span> -->
+    </button>
+    <clr-tab-content id="content1" *clrIfActive="selectedTab === 'product'">
+      <div class="card" style="margin-top: 0.3px">
+        <div class="card-block" style="padding: 0px 5px 5px 5px;">
+          <div class="row" style="padding-top: 5px;">
+            <div class="col-md-1">
+              <label for="">ค้นหา</label>
+            </div>
+            <div class="col-md-6">
+              <input type="text" (keyup)="search($event)" placeholder="พิมพ์แล้วกด Enter" name="query" style="width: 90%;" id="query" [(ngModel)]="query">
+            </div>
+            <div class="col-md-5" style="text-align: right;">
+              <button class="btn btn-sm btn-success" (click)="addProduct()">
+                <clr-icon shape="plus"></clr-icon>
+                &nbsp;เพิ่มสินค้า
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <clr-datagrid style="margin-top: -10px" (clrDgRefresh)="refresh($event)">
+        <clr-dg-column style="width: 150px;">
+          <ng-container *clrDgHideableColumn="{hidden: false}">
+            รหัสสินค้า
+          </ng-container>
+        </clr-dg-column>
+        <clr-dg-column>
+          <ng-container *clrDgHideableColumn="{hidden: false}">
+            ชื่อสินค้า
+          </ng-container>
+        </clr-dg-column>
+        <clr-dg-column style="width: 120px;">
+          <ng-container *clrDgHideableColumn="{hidden: false}">
+            คงเหลือ
+          </ng-container>
+        </clr-dg-column>
+        <clr-dg-column style="width: 170px;">
+          <ng-container *clrDgHideableColumn="{hidden: false}">
+            หน่วย
+          </ng-container>
+        </clr-dg-column>
+        <clr-dg-column style="width: 100px;">
+          <ng-container *clrDgHideableColumn="{hidden: false}">
+            จำนวน Lot.
+          </ng-container>
+        </clr-dg-column>
+        <clr-dg-column style="width: 100px;">
+          สถานะใช้งาน
+        </clr-dg-column>
+        <clr-dg-column style="width: 100px;">
+        </clr-dg-column>
+        <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
+        <clr-dg-row *ngFor="let p of products;let idx = index" [clrDgItem]="p">
+          <!-- <wm-product-stock-remain *clrIfExpanded ngProjectAs="clr-dg-row-detail" [productId]="p.product_id"></wm-product-stock-remain> -->
+          <clr-dg-cell style="text-align: left;">
+            <span class="p4">{{p.product_code}}</span>
+          </clr-dg-cell>
+          <clr-dg-cell>
+            <span class="p4">{{p.product_name}}</span>
+          </clr-dg-cell>
+          <clr-dg-cell style="text-align: right;">{{p.qty | number}}</clr-dg-cell>
+          <clr-dg-cell style="text-align: left;">{{p.large_unit}}({{p.small_qty | number}} {{p.small_unit}})</clr-dg-cell>
+          <clr-dg-cell>{{p.amLot}}</clr-dg-cell>
+          <clr-dg-cell>
+            <div class="toggle-switch">
+              <input type="checkbox" id="chk-{{idx}}" #active name="isActive" [checked]="p.is_active==='Y'" (change)="setisActive($event, p.product_id)">
+              <label for="chk-{{idx}}"></label>
+            </div>
+          </clr-dg-cell>
+          <clr-dg-cell style="text-align: right;">
+            <div class="btn-group">
+              <button class="btn btn-sm btn-primary" (click)="editProduct(p)">
+                <clr-icon shape="note"></clr-icon>
+              </button>
+            </div>
+          </clr-dg-cell>
+        </clr-dg-row>
+
+        <clr-dg-footer>
+          {{pagination.firstItem + 1}} - {{pagination.lastItem + 1 | number}} จาก {{pagination.totalItems | number}} รายการ
+          <clr-dg-pagination #pagination [clrDgPage]="1" [clrDgPageSize]="perPage" [clrDgTotalItems]="totalProducts"></clr-dg-pagination>
+        </clr-dg-footer>
+      </clr-datagrid>
+    </clr-tab-content>
+  </clr-tab>
+
+  <clr-tab>
+    <button clrTabLink id="link1" (click)="setTapActive('equipments')">
+      <!--  -->
+      <clr-icon shape="file"></clr-icon>
+      อุปกรณ์สำนักงาน
+      <!-- <span class="badge badge-info">{{totalWaiting | number}}</span> -->
+    </button>
+    <clr-tab-content id="content2" *clrIfActive="selectedTab === 'equipment'">
+      <div class="card" style="margin-top: 0.3px">
+        <div class="card-block" style="padding: 0px 5px 5px 5px;">
+          <div class="row" style="padding-top: 5px;">
+            <div class="col-md-1">
+              <label for="">ค้นหา</label>
+            </div>
+            <div class="col-md-6">
+              <input type="text" (keyup)="search($event)" placeholder="พิมพ์แล้วกด Enter" name="query" style="width: 90%;" id="query" [(ngModel)]="query">
+            </div>
+            <div class="col-md-5" style="text-align: right;">
+              <button class="btn btn-sm btn-success" (click)="addEquipments()">
+                <clr-icon shape="plus"></clr-icon>
+                &nbsp;เพิ่มอุปกรณ์สำนักงาน
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <clr-datagrid style="margin-top: -10px" (clrDgRefresh)="refreshEquipments($event)">
+        <clr-dg-column style="width: 150px;">
+          <ng-container *clrDgHideableColumn="{hidden: false}">
+            รหัสอุปกรณ์สำนักงาน
+          </ng-container>
+        </clr-dg-column>
+        <clr-dg-column>
+          <ng-container *clrDgHideableColumn="{hidden: false}">
+            ชื่ออุปกรณ์สำนักงาน
+          </ng-container>
+        </clr-dg-column>
+        <!-- <clr-dg-column>
+          <ng-container *clrDgHideableColumn="{hidden: false}">
+            ประเภท
+          </ng-container>
+        </clr-dg-column> -->
+        <clr-dg-column style="text-align: right;">
+          <ng-container *clrDgHideableColumn="{hidden: false}">
+            หน่วย
+          </ng-container>
+        </clr-dg-column>
+        <clr-dg-column>
+          <ng-container style="text-align: right;" *clrDgHideableColumn="{hidden: false}">
+            Min/Max
+          </ng-container>
+        </clr-dg-column>
+        <clr-dg-column style="width: 100px;">
+          <ng-container *clrDgHideableColumn="{hidden: false}">
+            จำนวนสินค้า
+          </ng-container>
+        </clr-dg-column>
+        <clr-dg-column style="width: 100px;">
+          สถานะใช้งาน
+        </clr-dg-column>
+        <clr-dg-column style="width: 100px;">
+        </clr-dg-column>
+        <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
+        <clr-dg-row *ngFor="let p of equipments;let idx = index"[clrDgItem]="p">
+          <!-- <wm-product-stock-remain *clrIfExpanded ngProjectAs="clr-dg-row-detail" [productId]="p.product_id"></wm-product-stock-remain> -->
+          <clr-dg-cell style="text-align: left;">
+            <span class="p4">{{p.equipment_code}}</span>
+          </clr-dg-cell>
+          <clr-dg-cell>
+            <span class="p4">{{p.equipment_name}}</span>
+          </clr-dg-cell>
+          <!-- <clr-dg-cell>
+            <span>{{p.equipment_type_name}}</span>
+          </clr-dg-cell> -->
+          <clr-dg-cell style="text-align: right;">
+            <span>{{p.small_unit}}</span>
+          </clr-dg-cell>
+          <clr-dg-cell style="text-align: right;">
+            <span>{{p.min_qty | number}}/{{p.max_qty | number}}</span>
+          </clr-dg-cell>
+          <clr-dg-cell style="text-align: right;">{{p.amLot}}</clr-dg-cell>
+          <clr-dg-cell>
+              <div class="toggle-switch">
+                <input type="checkbox" id="chki-{{idx}}" #active name="isActives" [checked]="p.is_active==='Y'" (change)="setisActiveGen($event, p.equipment_id)">
+                <label for="chki-{{idx}}"></label>
+              </div>
+            </clr-dg-cell>
+          <clr-dg-cell style="text-align: right;">
+            <div class="btn-group">
+              <button class="btn btn-sm btn-primary" (click)="editEquipment(p)">
+                <clr-icon shape="note"></clr-icon>
+              </button>
+            </div>
+          </clr-dg-cell>
+        </clr-dg-row>
+
+        <clr-dg-footer>
+          {{pagination2.firstItem + 1}} - {{pagination2.lastItem + 1 | number}} จาก {{pagination2.totalItems | number}} รายการ
+          <clr-dg-pagination #pagination2 [clrDgPage]="currentPage2" [clrDgPageSize]="perPage" [clrDgTotalItems]="totalEquipments"></clr-dg-pagination>
+        </clr-dg-footer>
+      </clr-datagrid>
+    </clr-tab-content>
+  </clr-tab>
+</clr-tabs>
+
+
+<clr-modal [(clrModalOpen)]="modalAddEquipments" [clrModalStaticBackdrop]="true" [clrModalSize]="'lg'" [clrModalClosable]="false">
+  <h3 class="modal-title" *ngIf="itemEquipments.equipment_id">แก้ไขอุปกรณ์สำนักงาน</h3>
+  <h3 class="modal-title" *ngIf="!itemEquipments.equipment_id">เพิ่มอุปกรณ์สำนักงาน</h3>
+  <div class="modal-body">
+
+    <div class="card">
+      <div class="card-block">
+
+        <form>
+          <section>
+            <div class="form-group row">
+              <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <label for="productId">Equipment Code</label>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <input class="form-control" type="text" name="workingCode" [(ngModel)]="itemEquipments.equipment_code">
+
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <label class="required" for="productName">ชื่ออุปกรณ์สำนักงาน</label>
+              </div>
+              <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                <input class="form-control" type="text" name="productName" placeholder="" [(ngModel)]="itemEquipments.equipment_name">
+
+              </div>
+            </div>
+            <!-- <div class="form-group row">
+              <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <label class="required" for="equipmentName">ประเภทอุปกรณ์สำนักงาน</label>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="select">
+                  <select id="selects_5" name="type" [(ngModel)]="itemEquipments.equipment_type_id">
+                    <option *ngFor="let u of equipmentTypes" [value]="u.equipment_type_id">
+                      {{u.equipment_type_name}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div> -->
+
+            <div class="form-group row">
+              <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <label class="required">หน่วยย่อย</label>
+              </div>
+
+              <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <div class="select">
+                  <select id="selects_6" name="UnitId" [(ngModel)]="itemEquipments.small_unit_id">
+                    <!--  > -->
+                    <option *ngFor="let u of units" [value]="u.unit_id">
+                      <!-- > -->
+                      {{u.unit_name}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <label class="required">จำนวนต่ำสุด</label>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <input class="form-control wm-edit-box-number" autocomplete="off" type="text" name="min" wmNumberWithOutDot placeholder="จำนวนต่ำสุด"
+                  [(ngModel)]="itemEquipments.min_qty">
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <label class="required">จำนวนมากสุด</label>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <input class="form-control wm-edit-box-number" autocomplete="off" type="text" name="unit" wmNumberWithOutDot placeholder="จำนวนมากสุด"
+                  [(ngModel)]="itemEquipments.max_qty">
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <label>รายละเอียด</label>
+              </div>
+              <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                <input type="text" name="description" style="width: 100%" [(ngModel)]="itemEquipments.comment">
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <label>Active</label>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <div class="toggle-switch">
+                  <input type="checkbox" id="toggle" #event [checked]="itemEquipments.is_active==='Y'" (change)="changActiveEquipment($event)">
+                  <label for="toggle"></label>
+                </div>
+              </div>
+            </div>
+          </section>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer" style="padding-top: 24px;">
+    <button [disabled]="itemEquipments.equipment_name == ''||itemEquipments.is_active == ''||itemEquipments.min_qty == ''||itemEquipments.max_qty == ''"
+      *ngIf="itemEquipments.equipment_id" type="button" class="btn btn-md btn-primary" (click)="saveEditEquipments()">บันทึก</button>
+    <button [disabled]="itemEquipments.equipment_name == ''||itemEquipments.is_active == ''||itemEquipments.min_qty == ''||itemEquipments.max_qty == ''"
+      *ngIf="!itemEquipments.equipment_id" type="button" class="btn btn-md btn-primary" (click)="saveAddEquipments()">บันทึก</button>
+    <button type="button" class="btn btn-md btn-danger-outline" (click)="close()">ปิด</button>
+  </div>
+</clr-modal>
+
+
+
+<clr-modal [(clrModalOpen)]="modalEditProduct" [clrModalStaticBackdrop]="true" [clrModalSize]="'lg'" [clrModalClosable]="false">
+  <h3 class="modal-title" *ngIf="items.product_id">แก้ไขสินค้า</h3>
+  <h3 class="modal-title" *ngIf="!items.product_id">เพิ่มสินค้า</h3>
+  <div class="modal-body">
+    <!--  -->
+    <div class="card">
+      <div class="card-block">
+        <!-- <div class="card-text"> -->
+        <!-- <div class="row">
+            <div class="col-md-12"> -->
+        <form>
+          <section>
+            <div class="form-group row">
+              <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <label for="productId">Trade Code</label>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <input class="form-control" type="text" name="workingCode" [(ngModel)]="items.product_code">
+                <!-- > -->
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <label class="required" for="productName">ชื่อทางการค้า</label>
+              </div>
+              <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                <input class="form-control" type="text" name="productName" placeholder="" [(ngModel)]="items.product_name">
+                <!-- > -->
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <label class="required" for="equipmentName">Equipment</label>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <input type="text" disabled [value]="items.equipment_code">
+              </div>
+              <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <app-search-equipments-box #equipmentSearch [setAll]="true" [setEquipment]="items.equipment_name" (onChange)="changeSearchEquipment($event)"
+                  (onSelect)="setSelectedEquipment($event)"></app-search-equipments-box>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <label class="required">หน่วยใหญ่</label>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <div class="select">
+                  <select id="selects_4" name="lagnUnitId" [(ngModel)]="items.large_unit_id">
+                    <!--  > -->
+                    <option *ngFor="let u of units" [value]="u.unit_id">
+                      <!-- > -->
+                      {{u.unit_name}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <label class="required">หน่วยย่อย</label>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <input class="form-control wm-edit-box-number" autocomplete="off" type="text" name="unit" wmNumberWithOutDot placeholder="จำนวน"
+                  [(ngModel)]="items.small_qty">
+                <!-- > -->
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <div class="select">
+                  <select disabled id="selects_6" name="UnitId" [(ngModel)]="items.small_unit_id">
+                    <!--  > -->
+                    <option *ngFor="let u of units" [value]="u.unit_id">
+                      <!-- > -->
+                      {{u.unit_name}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <label>รายละเอียด</label>
+              </div>
+              <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                <input type="text" name="description" style="width: 100%" [(ngModel)]="items.description">
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <label>Active</label>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <div class="toggle-switch">
+                  <input type="checkbox" id="toggle" #event [checked]="items.is_active==='Y'" (change)="changActive($event)">
+                  <label for="toggle"></label>
+                </div>
+              </div>
+            </div>
+          </section>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer" style="padding-top: 24px;">
+    <button [disabled]="items.product_name == ''||items.equipment_id == ''||items.is_active == ''||items.small_unit_id == ''||items.large_unit_id == ''||items.small_qty == ''"
+      *ngIf="items.product_id" type="button" class="btn btn-md btn-primary" (click)="saveEditProduct()">บันทึก</button>
+    <button [disabled]="items.product_name == ''||items.equipment_id == ''||items.is_active == ''||items.small_unit_id == ''||items.large_unit_id == ''||items.small_qty == ''"
+      *ngIf="!items.product_id" type="button" class="btn btn-md btn-primary" (click)="saveAddProduct()">บันทึก</button>
+    <button type="button" class="btn btn-md btn-danger-outline" (click)="close()">ปิด</button>
+  </div>
+</clr-modal>
+<app-html-preview #htmlPreview></app-html-preview>
+<app-loading-modal #modalLoading></app-loading-modal>

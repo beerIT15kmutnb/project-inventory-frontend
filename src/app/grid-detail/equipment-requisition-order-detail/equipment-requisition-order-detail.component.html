@@ -1,0 +1,19 @@
+<div [clrLoading]="loading">
+  <clr-datagrid>
+    <clr-dg-column>อุปกรณ์สำนักงาน</clr-dg-column>
+    <clr-dg-column>จำนวนเบิก</clr-dg-column>
+    <clr-dg-column>Package</clr-dg-column>
+    <clr-dg-row *ngFor="let product of products;let idx = index;">
+      <clr-dg-cell> {{idx + 1}}. {{product.equipment_name}}
+        <label style="font-size: 10px">({{product.product_name}})</label>
+      </clr-dg-cell>
+      <clr-dg-cell style="text-align: right;">
+        {{ product.requisition_qty | number }}
+      </clr-dg-cell>
+      <clr-dg-cell style="text-align: left;">
+        {{product.large_unit_name}}( {{product.small_qty | number}} {{product.small_unit_name}})
+      </clr-dg-cell>
+    </clr-dg-row>
+    <clr-dg-footer>{{products.length}} รายการ</clr-dg-footer>
+  </clr-datagrid>
+</div>

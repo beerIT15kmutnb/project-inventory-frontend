@@ -20,6 +20,8 @@ import { DirectivesModule } from './directives/directives.module';
 import { TextMaskModule } from 'angular2-text-mask';
 import { AdminSettingModule } from './admin-setting/admin-setting.module';
 import { StaffModule } from './staff/staff.module';
+import { EquipmentModule } from './equipment/equipment.module';
+import { EquipmentRoutingModule } from './equipment/equipment-routing.module';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,8 @@ import { StaffModule } from './staff/staff.module';
     LoginModule,
     AdminModule,
     AdminSettingModule,
+    EquipmentModule,
+    EquipmentRoutingModule,
     StaffModule,
     HelperModule,
     FormsModule,
