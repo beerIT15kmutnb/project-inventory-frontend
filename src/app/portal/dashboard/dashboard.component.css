@@ -1,0 +1,51 @@
+#container {
+    height:90%;
+    width:90%;
+    position: sticky;
+}
+.color_1{
+    color:#B71C1C;
+}
+.color_2{
+    color:#BF360C;
+}
+.color_3{
+    color:#EF6C00;
+}
+.color_4{
+    color:#FFA000;
+}
+.color_5{
+    color:#FDD835;
+}
+.color_6{
+    color:#CDDC39;
+}
+.color_7{
+    color:#9CCC65;
+}
+.color_8{
+    color:#81C784;
+}
+.color_9{
+    color:#80CBC4;
+}
+.color_10{
+    color:#B2EBF2;
+}
+
+.padding__1em{
+    padding:1em; 
+}
+.margin__lr__05em{
+    margin:0.5em; 
+}
+.padding__lr__05em{
+    padding:0.5em; 
+}
+.row {
+    margin-top:0px !important;
+    margin-bottom:0px !important;
+    padding-top:0px !important;
+    padding-bottom:0px !important;
+}

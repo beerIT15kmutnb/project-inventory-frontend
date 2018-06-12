@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LayoutComponent } from './layout/layout.component';
-import { AdminSettingRoutingModule } from './admin-setting-routing.module';
-import { PeopleComponent } from './people/people.component';
+import { PortalRoutingModule } from './portal-routing.module';
 import { AuthModule } from 'angular2-jwt';
 import { HelperModule } from '../helper/helper.module';
 import { ClarityModule } from '@clr/angular';
@@ -13,11 +12,12 @@ import { MyDatePickerTHModule } from 'mydatepicker-th';
 import { GridDetailModule } from '../grid-detail/grid-detail.module';
 import { DirectivesModule } from '../directives/directives.module';
 import { AgxTypeaheadModule } from '@siteslave/agx-typeahead';
-import { PeopleService } from './people.service';
-import { UserComponent } from './user/user.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardService } from './dashboard.service';
+import { ChartModule } from 'angular2-highcharts'
+import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
 @NgModule({
   imports: [
-
     CommonModule,
     AuthModule,
     HelperModule,
@@ -26,19 +26,29 @@ import { UserComponent } from './user/user.component';
     TextMaskModule,
     ModalsModule,
     MyDatePickerTHModule,
-    AdminSettingRoutingModule,
     GridDetailModule,
     DirectivesModule,
-    AgxTypeaheadModule
-    
+    AgxTypeaheadModule,
+    PortalRoutingModule,
+    ChartModule,
+    // HighchartsStatic
   ],
   declarations: [
     LayoutComponent,
-    PeopleComponent,
-    UserComponent
+    DashboardComponent,
+    
   ],
   providers:[
-    PeopleService
+    DashboardService,
+    { provide: HighchartsStatic, useFactory: highchartsFactory }
   ]
 })
-export class AdminSettingModule { }
+export class PortalModule { }
+export function highchartsFactory() {
+  return require('highcharts');
+}
+const Highcharts = require('highcharts');
+
+Highcharts.setOptions({
+  credits: false
+});

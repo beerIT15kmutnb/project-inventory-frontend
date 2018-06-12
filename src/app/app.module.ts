@@ -22,6 +22,8 @@ import { AdminSettingModule } from './admin-setting/admin-setting.module';
 import { StaffModule } from './staff/staff.module';
 import { EquipmentModule } from './equipment/equipment.module';
 import { EquipmentRoutingModule } from './equipment/equipment-routing.module';
+import { PortalModule } from './portal/portal.module';
+import { PortalRoutingModule } from './portal/portal-routing.module';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,8 @@ import { EquipmentRoutingModule } from './equipment/equipment-routing.module';
     AdminSettingModule,
     EquipmentModule,
     EquipmentRoutingModule,
+    PortalModule,
+    PortalRoutingModule,
     StaffModule,
     HelperModule,
     FormsModule,

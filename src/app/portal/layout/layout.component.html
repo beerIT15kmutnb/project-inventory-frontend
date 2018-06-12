@@ -10,7 +10,7 @@
       </a>
     </div>
     <div class="header-nav">
-      <a routerLink="/portal"  class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" href="javascript://" >
+      <a routerLink="/portal" routerLinkActive="active" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" href="javascript://" >
         <clr-icon shape="home"></clr-icon>
         <span class="tooltip-content">Home</span>
       </a>
@@ -20,13 +20,14 @@
         <span class="tooltip-content">อุกปรณ์สำนักงาน</span>
       </a>
       <!-- <a href="{{env.inventoryUrl}}" routerLink="{{env.inventoryUrl}}" routerLinkActive="active" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right"role="tooltip" aria-haspopup="true"> -->
-      <a href="" routerLink="/admin" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip" aria-haspopup="true">
+      <a href="" routerLink="/admin"  class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip"
+        aria-haspopup="true">
         <clr-icon shape="data-cluster"></clr-icon>
-        <span class="tooltip-content">ยา/เวชภัณฑ์</span>
+        <span class="tooltip-content">อุปกรณ์สำนักงาน</span>
       </a>
       <!-- <a href="{{env.umUrl}}" *ngIf="Administrator" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip"aria-haspopup="true"> -->
-      <a routerLink="" routerLinkActive="active" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right"
-        role="tooltip" aria-haspopup="true">
+      <a routerLink="/admin-setting" routerLinkActive="active"
+       class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip" aria-haspopup="true">
         <clr-icon shape="administrator"></clr-icon>
         <span class="tooltip-content">Administrator</span>
       </a>
@@ -45,25 +46,24 @@
       </clr-dropdown>
     </div>
   </clr-header>
+  <!-- <nav class="subnav">
+      <ul class="nav">
+          <li class="nav-item">
+              <a class="nav-link" href="javascript://" routerLink='/portal/index' routerLinkActive='active'>Portal</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="javascript://" routerLink='/portal/report' routerLinkActive='active'>Report</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="javascript://" routerLink='/portal/manual' routerLinkActive='active'>Document</a>
+          </li>
+      </ul>
+  </nav> -->
 
   <div class="content-container">
-    <div class="content-area">
-      <router-outlet></router-outlet>
-    </div>
-
-    <clr-vertical-nav class="is-collapsed" [clrVerticalNavCollapsible]="collapsible" [(clrVerticalNavCollapsed)]="collapse">
-      <a clrVerticalNavLink routerLink="/admin-setting/user" title="จัดการข้อมูลผู้ใช้งานระบบ" routerLinkActive="active">
-        <clr-icon clrVerticalNavIcon shape="administrator"></clr-icon>
-        จัดการข้อมูลผู้ใช้งานระบบ
-      </a>
-      <a clrVerticalNavLink routerLink="/admin-setting/people" title="จัดการข้อมูลบุคลากร" routerLinkActive="active">
-        <clr-icon clrVerticalNavIcon shape="user" class="is-solid"></clr-icon>
-        จัดการข้อมูลบุคลากร
-      </a>
-    </clr-vertical-nav>
-
+      <div class="content-area" style="padding-top:0;">
+          <router-outlet></router-outlet>
+      </div>
   </div>
 
 </clr-main-container>
-
-<!-- <wm-change-password-modal #modalChangePassword></wm-change-password-modal> -->
