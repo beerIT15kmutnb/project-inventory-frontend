@@ -17,5 +17,21 @@ export class PeopleService {
     const rs: any = await this.authHttp.get(`${this.url}/people/getPeople`).toPromise();
     return rs.json();
   }
-
+  async getTitles() {
+    const rs: any = await this.authHttp.get(`${this.url}/people/getTitles`).toPromise();
+    return rs.json();
+  }
+  async savePeople(item: any) {
+    console.log(item);
+    const rs: any = await this.authHttp.put(`${this.url}/people/savePeople`, {
+      items: item
+    }).toPromise();
+    return rs.json();
+  }
+  async editPeople(item: any) {
+    const rs: any = await this.authHttp.post(`${this.url}/people/editPeople`, {
+      items: item
+    }).toPromise();
+    return rs.json();
+  }
 }

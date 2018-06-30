@@ -1,0 +1,121 @@
+import { Injectable, Inject } from '@angular/core';
+import { AuthHttp } from 'angular2-jwt';
+import 'rxjs/add/operator/map';
+
+@Injectable()
+export class AlertExpiredService {
+
+  constructor(
+    @Inject('API_URL') private url: string,
+    private authHttp: AuthHttp
+  ) { }
+
+  getAllProducts() {
+    return new Promise((resolve, reject) => {
+      this.authHttp.get(`${this.url}/equipment-products/productsExpired`)
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  // getSelectEquipments(id:any) {
+  //   return new Promise((resolve, reject) => {
+  //     this.authHttp.get(`${this.url}/alert-expired/equipmentSelec?id=${id}`)
+  //       .map(res => res.json())
+  //       .subscribe(data => {
+  //         resolve(data);
+  //       }, error => {
+  //         reject(error);
+  //       });
+  //   });
+  // }
+
+  getUnsetProducts() {
+    return new Promise((resolve, reject) => {
+      this.authHttp.get(`${this.url}/equipment-products/productsExpired/unset`)
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  saveExpiredCount(ids: any[], numDays: number) {
+    return new Promise((resolve, reject) => {
+      this.authHttp.post(`${this.url}/equipment-products/alert-expired`, {
+        ids: ids,
+        numDays: +numDays
+      })
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  // saveStatus(status: string) {
+  //   return new Promise((resolve, reject) => {
+  //     this.authHttp.post(`${this.url}/alert-expired/save-status`, {
+  //       status: status
+  //     })
+  //       .map(res => res.json())
+  //       .subscribe(data => {
+  //         resolve(data);
+  //       }, error => {
+  //         reject(error);
+  //       });
+  //   });
+  // }
+
+  // getStatus() {
+  //   return new Promise((resolve, reject) => {
+  //     this.authHttp.get(`${this.url}/alert-expired/get-status`)
+  //       .map(res => res.json())
+  //       .subscribe(data => {
+  //         resolve(data);
+  //       }, error => {
+  //         reject(error);
+  //       });
+  //   });
+  // }
+
+  // validate(productId: string, lotId: string) {
+  //   return new Promise((resolve, reject) => {
+  //     this.authHttp.post(`${this.url}/alert-expired/validate`, {
+  //       productId: productId,
+  //       lotId: lotId
+  //     })
+  //       .map(res => res.json())
+  //       .subscribe(data => {
+  //         resolve(data);
+  //       }, error => {
+  //         reject(error);
+  //       });
+  //   });
+  // }
+
+  // async getEquipmentType() {
+  //   const resp = await this.authHttp.get(`${this.url}/equipments/types`).toPromise();
+  //   return resp.json();
+  // }
+
+  getProductExpired(){
+    return new Promise((resolve, reject) => {
+      this.authHttp.get(`${this.url}/equipment-products/expired`)
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+}

@@ -4,7 +4,7 @@
 </nav>
 
 
-<button style="margin-bottom: 10px" class="btn btn-sm btn-success" (click)="addProduct()">
+<button style="margin-bottom: 10px" class="btn btn-sm btn-success" (click)="addPeople()">
   <clr-icon shape="plus"></clr-icon>
   &nbsp;เพิ่มบุคลากร
 </button>
@@ -39,10 +39,10 @@
     </clr-dg-cell>
     <clr-dg-cell style="text-align: right;">
       <div class="btn-group">
-        <button class="btn btn-sm btn-primary" (click)="editProduct(p)">
+        <button class="btn btn-sm btn-primary" (click)="editItem(p)">
           <clr-icon shape="note"></clr-icon>
         </button>
-        <button class="btn btn-sm btn-danger " (click)="showStockCard(p)">
+        <button class="btn btn-sm btn-danger " (click)="delete(p)">
           <clr-icon shape="trash"></clr-icon>
         </button>
       </div>
@@ -55,5 +55,78 @@
   </clr-dg-footer>
 </clr-datagrid>
 
+
+<clr-modal [(clrModalOpen)]="openModal" [clrModalStaticBackdrop]="true" [clrModalSize]="'md'" [clrModalClosable]="false">
+  <h3 class="modal-title" *ngIf="items.people_id">แก้ไขข้อมูลเจ้าหน้าที่</h3>
+  <h3 class="modal-title" *ngIf="!items.people_id">เพิ่มเจ้าหน้าที่</h3>
+  <div class="modal-body">
+    <!--  -->
+    <div class="card">
+      <div class="card-block">
+        <form>
+          <section>
+            <!--  -->
+            <div class="form-group row">
+              <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <label class="required" for="title">คำนำหน้า</label>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="select">
+                  <select id="selects_4" name="lagnUnitId" [(ngModel)]="items.title_id">
+                    <!--  > -->
+                    <option *ngFor="let u of titles" [value]="u.title_id">
+                      <!-- > -->
+                      {{u.title_name}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <label class="required" for="productName">ชื่อ</label>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                <input class="form-control" type="text" name="fname" placeholder="" [(ngModel)]="items.fname">
+
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <label class="required" for="productName">นามสกุล</label>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                <input class="form-control" type="text" name="lname" placeholder="" [(ngModel)]="items.lname">
+
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <label>Active</label>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <div class="toggle-switch">
+                  <input type="checkbox" id="toggle" #event [checked]="items.is_active==='Y'" (change)="changActive($event)">
+                  <label for="toggle"></label>
+                </div>
+              </div>
+            </div>
+          </section>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer" style="padding-top: 24px;">
+    <button [disabled]="items.fname == '' && items.lname == '' && items.title_id == ''" *ngIf="items.people_id" type="button" class="btn btn-md btn-primary" (click)="editSaveItem()">บันทึก</button>
+    <button [disabled]="items.fname == '' && items.lname == '' && items.title_id == ''" *ngIf="!items.people_id" type="button" class="btn btn-md btn-primary" (click)="saveAdd()">บันทึก</button>
+    <button type="button" class="btn btn-md btn-danger-outline" (click)="close()">ปิด</button>
+  </div>
+</clr-modal>
 
 <app-loading-modal #modalLoading></app-loading-modal>

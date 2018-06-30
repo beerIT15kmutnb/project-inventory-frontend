@@ -10,7 +10,7 @@ export class ProductsService {
     private authHttp: AuthHttp
   ) { }
 
-  async getProductPackage(id:any){
+  async getProductPackage(id: any) {
     const rs = await this.authHttp.get(`${this.url}/products/getProductPackage/${id}`).toPromise();
     return rs.json();
   }
@@ -18,25 +18,25 @@ export class ProductsService {
     const rs = await this.authHttp.get(`${this.url}/products/getUnit`).toPromise();
     return rs.json();
   }
-  async saveAddProduct(items:any){
-    const rs = await this.authHttp.put(`${this.url}/products/saveAddProduct`,{
-      items:items
+  async saveAddProduct(items: any) {
+    const rs = await this.authHttp.put(`${this.url}/products/saveAddProduct`, {
+      items: items
     }).toPromise();
     return rs.json();
-  }async saveEditProduct(items:any){
-    const rs = await this.authHttp.put(`${this.url}/products/saveEditProduct`,{
-      items:items
+  } async saveEditProduct(items: any) {
+    const rs = await this.authHttp.put(`${this.url}/products/saveEditProduct`, {
+      items: items
     }).toPromise();
     return rs.json();
   }
-  async saveAddGenerics(items:any){
-    const rs = await this.authHttp.put(`${this.url}/products/saveAddGenerics`,{
-      items:items
+  async saveAddGenerics(items: any) {
+    const rs = await this.authHttp.put(`${this.url}/products/saveAddGenerics`, {
+      items: items
     }).toPromise();
     return rs.json();
-  }async saveEditGenerics(items:any){
-    const rs = await this.authHttp.put(`${this.url}/products/saveEditGenerics`,{
-      items:items
+  } async saveEditGenerics(items: any) {
+    const rs = await this.authHttp.put(`${this.url}/products/saveEditGenerics`, {
+      items: items
     }).toPromise();
     return rs.json();
   }
@@ -70,15 +70,15 @@ export class ProductsService {
     }).toPromise();
     return resp.json();
   }
-  async addUnit(items:any){
-    let rs:any =  await this.authHttp.put(`${this.url}/products/addUnit`,{
-      items:items
+  async addUnit(items: any) {
+    const rs: any = await this.authHttp.put(`${this.url}/products/addUnit`, {
+      items: items
     }).toPromise();
     return rs.json();
   }
-  async editUnit(items:any){
-    let rs:any =  await this.authHttp.put(`${this.url}/products/editUnit`,{
-      items:items
+  async editUnit(items: any) {
+    const rs: any = await this.authHttp.put(`${this.url}/products/editUnit`, {
+      items: items
     }).toPromise();
     return rs.json();
   }
@@ -114,7 +114,8 @@ export class ProductsService {
   // }
 
   // async getProductWarehouse(srcwarehouseId: any, dstwarehouseId) {
-  //   const resp = await this.authHttp.get(`${this.url}/products/getallproductinwarehouse/${srcwarehouseId}/${dstwarehouseId}`).toPromise();
+  //   const resp = await this.authHttp.get(`${this.url}/products/getallproductinwarehouse/${srcwarehouseId}/${dstwarehouseId}`)
+  // .toPromise();
   //   return resp.json();
   // }
 

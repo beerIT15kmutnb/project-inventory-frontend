@@ -26,18 +26,17 @@ export class AlertService {
       text: text,
       timer: 1000,
       type: 'success',
-      showConfirmButton : false,
+      showConfirmButton: false,
       confirmButtonText: 'ตกลง'
     };
     await swal(option)
       .then(
-      function () { },
-      // handling the promise rejection
-      function (dismiss) {
-        if (dismiss === 'timer') {}
-      }
-      )
-
+        function () { },
+        // handling the promise rejection
+        function (dismiss) {
+          if (dismiss === 'timer') { }
+        }
+      );
   }
 
   serverError() {

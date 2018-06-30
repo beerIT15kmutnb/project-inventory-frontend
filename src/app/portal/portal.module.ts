@@ -14,8 +14,9 @@ import { DirectivesModule } from '../directives/directives.module';
 import { AgxTypeaheadModule } from '@siteslave/agx-typeahead';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DashboardService } from './dashboard.service';
-import { ChartModule } from 'angular2-highcharts'
+import { ChartModule } from 'angular2-highcharts';
 import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
+declare var require: any;
 @NgModule({
   imports: [
     CommonModule,
@@ -36,19 +37,18 @@ import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
   declarations: [
     LayoutComponent,
     DashboardComponent,
-    
   ],
-  providers:[
-    DashboardService,
-    { provide: HighchartsStatic, useFactory: highchartsFactory }
-  ]
+  providers:
+    [
+      DashboardService,
+      { provide: HighchartsStatic, useFactory: highchartsFactory }
+    ]
 })
 export class PortalModule { }
+
 export function highchartsFactory() {
   return require('highcharts');
 }
 const Highcharts = require('highcharts');
 
-Highcharts.setOptions({
-  credits: false
-});
+Highcharts.setOptions({credits: false});

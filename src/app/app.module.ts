@@ -24,6 +24,7 @@ import { EquipmentModule } from './equipment/equipment.module';
 import { EquipmentRoutingModule } from './equipment/equipment-routing.module';
 import { PortalModule } from './portal/portal.module';
 import { PortalRoutingModule } from './portal/portal-routing.module';
+import { StaffEquipmentModule } from './staff-equipment/staff-equipment.module';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { PortalRoutingModule } from './portal/portal-routing.module';
     PortalModule,
     PortalRoutingModule,
     StaffModule,
+    StaffEquipmentModule,
     HelperModule,
     FormsModule,
     ClarityModule.forRoot(),

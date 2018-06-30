@@ -1,0 +1,102 @@
+<clr-main-container>
+  <clr-header class="header-4">
+    <div class="branding" style="padding-left: 0px;">
+      <a class="nav-link">
+        <div style="margin-left: 30px;margin-right: 10px;">
+          <img src="./assets/images/logo-icon.png" style="width: 40px; height: 40px;" alt="logo">
+        </div>
+        <span class="title">หน่วยบริการรักษาพยาบาล @ มจพ.ปจ.</span>
+        <br>
+      </a>
+    </div>
+    <div class="header-nav">
+      <!-- <a routerLink="/portal" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" href="javascript://" >
+        <clr-icon shape="home"></clr-icon>
+        <span class="tooltip-content">Home</span>
+      </a> -->
+      <!-- <a href="{{env.purchasingUrl}}" *ngIf="Purchasing" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip"aria-haspopup="true"> -->
+      <a href="" routerLink="/staff-equipment" routerLinkActive="active" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip" aria-haspopup="true">
+        <clr-icon shape="shopping-cart"></clr-icon>
+        <span class="tooltip-content">อุกปรณ์สำนักงาน</span>
+      </a>
+      <!-- <a href="{{env.inventoryUrl}}" routerLink="{{env.inventoryUrl}}" routerLinkActive="active" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right"role="tooltip" aria-haspopup="true"> -->
+      <a href="" routerLink="/staff"  class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip"
+        aria-haspopup="true">
+        <clr-icon shape="data-cluster"></clr-icon>
+        <span class="tooltip-content">อุปกรณ์สำนักงาน</span>
+      </a>
+      <!-- <a href="{{env.umUrl}}" *ngIf="Administrator" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip"aria-haspopup="true"> -->
+      
+    </div>
+    <div class="header-actions">
+      <clr-dropdown>
+        <button class="nav-text" clrDropdownTrigger>
+          {{fullname}} ({{ warehouseName }})
+          <clr-icon shape="caret down"></clr-icon>
+        </button>
+        <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+          <!-- <a href="javascript://" (click)="showManualStaff()" clrDropdownItem>คู่มือเจ้าหน้าที่หน่วยเบิก/รพ.สต.</a> -->
+          <a href="javascript://" (click)="openChangePasswordModal()" clrDropdownItem>เปลี่ยนรหัสผ่าน</a>
+          <a href="javascript://" (click)="logout()" clrDropdownItem>ออกจากระบบ</a>
+        </clr-dropdown-menu>
+      </clr-dropdown>
+    </div>
+  </clr-header>
+
+  <div class="content-container">
+    <div class="content-area">
+      <router-outlet></router-outlet>
+    </div>
+
+    <clr-vertical-nav class="is-collapsed" [clrVerticalNavCollapsible]="collapsible" [(clrVerticalNavCollapsed)]="collapse">
+      <!-- <a clrVerticalNavLink routerLink="/admin/borrow-notes" title="บันทึกช่วยจำการยืมยา" routerLinkActive="active">
+        <clr-icon clrVerticalNavIcon shape="note" class="has-badge is-solid"></clr-icon>
+        บันทึกช่วยจำการยืมยา
+      </a> -->
+      <!-- <a clrVerticalNavLink routerLink="/equipment/transfer-dashboard" title="อุปกรณ์สำนักงานที่ถึงจุดเบิก" routerLinkActive="active">
+        <clr-icon clrVerticalNavIcon shape="alarm-clock" class="has-badge is-solid"></clr-icon>
+        อุปกรณ์สำนักงานที่ถึงจุดเบิก
+      </a> -->
+      <a clrVerticalNavLink routerLink="/staff-equipment/products" title="รายการอุปกรณ์สำนักงาน" routerLinkActive="active">
+        <clr-icon clrVerticalNavIcon shape="folder"></clr-icon>
+        รายการอุปกรณ์สำนักงาน
+      </a>
+      <!-- <a clrVerticalNavLink routerLink="/equipment/receives" title="รับอุปกรณ์สำนักงานเข้าคลัง" routerLinkActive="active">
+        <clr-icon clrVerticalNavIcon shape="plus"></clr-icon>
+        รับอุปกรณ์สำนักงานเข้าคลัง
+      </a> -->
+      <!-- <a clrVerticalNavLink routerLink="/equipment/issues" title="ตัดจ่ายอุปกรณ์สำนักงาน" routerLinkActive="active">
+        <clr-icon clrVerticalNavIcon shape="scissors"></clr-icon>
+        ตัดจ่ายอุปกรณ์สำนักงาน
+      </a> -->
+      <a clrVerticalNavLink routerLink="/staff-equipment/requisition" title="เบิกอุปกรณ์สำนักงาน" routerLinkActive="active">
+        <clr-icon clrVerticalNavIcon shape="tools"></clr-icon>
+        เบิกอุปกรณ์สำนักงาน
+      </a>
+      <!-- <a clrVerticalNavLink routerLink="/equipment/alert-expired" title="แจ้งเตือนอุปกรณ์สำนักงานหมดอายุ" routerLinkActive="active">
+        <clr-icon clrVerticalNavIcon shape="alarm-clock"></clr-icon>
+        แจ้งเตือนอุปกรณ์สำนักงานหมดอายุ
+      </a> -->
+      <!-- <clr-vertical-nav-group routerLinkActive="active">
+        <a clrVerticalNavLink href="javascript://" title="กำหนดข้อมูลพื้นฐาน">
+          <clr-icon shape="settings" clrVerticalNavIcon></clr-icon>
+          กำหนดข้อมูลพื้นฐาน
+        </a>
+        <clr-vertical-nav-group-children *clrIfExpanded="false">
+          <a clrVerticalNavLink routerLink="/equipment/unit-management"  title="จัดการหน่วยนับ" routerLinkActive="active">
+            <clr-icon shape="library"></clr-icon>
+            จัดการหน่วยนับ
+          </a>
+          <a clrVerticalNavLink routerLink="/equipment/type-issue" title="จัดการประเภทการตัดจ่าย" routerLinkActive="active">
+            <clr-icon shape="organization" ></clr-icon>
+            จัดการประเภทการตัดจ่าย
+          </a>
+        </clr-vertical-nav-group-children>
+      </clr-vertical-nav-group> -->
+    </clr-vertical-nav>
+
+  </div>
+
+</clr-main-container>
+
+<!-- <wm-change-password-modal #modalChangePassword></wm-change-password-modal> -->

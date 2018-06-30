@@ -1,0 +1,98 @@
+<nav class="breadcrumb">
+  <a class="breadcrumb-item" href="javascript://" routerLink="/staff-equipment">หน้าหลัก</a>
+  <span class="breadcrumb-item active">เบิกอุปกรณ์สำนักงาน</span>
+</nav>
+
+<div class="row" style="padding-top: 5px; padding-bottom: 5px;">
+  <div class="col-md-6">
+    <button class="btn btn-sm btn-success" routerLink="/staff-equipment/requisition/new">
+      <clr-icon shape="plus"></clr-icon> เบิกอุปกรณ์สำนักงาน
+    </button>
+  </div>
+</div>
+<clr-tabs>
+  <clr-tab>
+    <button clrTabLink id="link1" (click)="setTapActive('waiting')">
+      <clr-icon shape="file"></clr-icon>
+      รายการขอเบิก
+      <!-- <span class="badge badge-info">{{totalWaiting | number}}</span> -->
+    </button>
+    <clr-tab-content id="content1" *clrIfActive="selectedTab === 'waiting'">
+      <clr-datagrid (clrDgRefresh)="refreshWaiting($event)" style="margin-top: -25px; height: 85%;">
+        <clr-dg-column style="width: 20%;">วันที่เบิก</clr-dg-column>
+        <clr-dg-column  [clrDgField]="'requisition_code'">เลขที่เบิก</clr-dg-column>
+        <clr-dg-column style="width: 30%;">ผู้เบิก</clr-dg-column>
+        <clr-dg-column style="width: 270px"></clr-dg-column>
+        <clr-dg-placeholder>ไม่พบรายการ!</clr-dg-placeholder>
+
+        <clr-dg-row *clrDgItems="let order of orders;let idx = index"  [clrDgItem]="order" [ngClass]="{'isError': order.is_cancel === 'Y'}">
+          <app-equipment-requisition-order-detail *clrIfExpanded [requisitionId]="order.requisition_order_id" ngProjectAs="clr-dg-row-detail"></app-equipment-requisition-order-detail>
+          <clr-dg-cell>{{order.requisition_date | toThaiDate}}</clr-dg-cell>
+          <clr-dg-cell>{{order.requisition_code}}</clr-dg-cell>
+          <clr-dg-cell>{{order.fullName}}</clr-dg-cell>
+          <clr-dg-cell style="text-align: center;">
+            <div class="btn-group">
+
+              <button class="btn btn-sm  btn-success" [disabled]="order.is_cancel === 'Y' || !order.total_remain || order.total_remain <= 0"
+                [routerLink]="['/staff-equipment/requisition/confirm']" [queryParams]="{requisitionId: order.requisition_order_id}" title="จ่ายอุปกรณ์สำนักงาน">
+                <clr-icon shape="success-standard"></clr-icon>
+              </button>
+              <button class="btn btn-sm  btn-primary" [disabled]="order.is_cancel === 'Y'" [routerLink]="['/staff-equipment/requisition/edit/', order.requisition_order_id]"
+                title="แก้ไขใบเบิก">
+                <clr-icon shape="note"></clr-icon>
+              </button>
+              <button class="btn btn-sm  btn-danger" [disabled]="order.is_cancel === 'Y'" (click)="removeOrder(order)"
+                title="ยกเลิกใบเบิก">
+                <clr-icon shape="trash"></clr-icon>
+              </button>
+            </div>
+          </clr-dg-cell>
+        </clr-dg-row>
+        <clr-dg-footer>
+          {{pageWorking.firstItem + 1}} - {{pageWorking.lastItem + 1}} จาก {{pageWorking.totalItems}} รายการ
+          <clr-dg-pagination #pageWorking [(clrDgPage)]="currentPage" [clrDgPageSize]="perPage" [clrDgTotalItems]="totalWaiting"></clr-dg-pagination>
+        </clr-dg-footer>
+      </clr-datagrid>
+    </clr-tab-content>
+  </clr-tab>
+
+  <clr-tab>
+    <button clrTabLink (click)="setTapActive('approved')">
+      <clr-icon shape="happy-face"></clr-icon>
+      รายการอนุมัติแล้ว
+      <!-- <span class="badge badge-warning">{{approved | number}}</span> -->
+    </button>
+
+    <clr-tab-content *clrIfActive="selectedTab === 'approved'">
+      <clr-datagrid (clrDgRefresh)="refreshApprove($event)" style="margin-top: -25px; height: 85%;">
+        <clr-dg-column style="width: 20%;">วันที่เบิก</clr-dg-column>
+        <clr-dg-column style="width: 50%;">เลขที่เบิก</clr-dg-column>
+        <clr-dg-column style="width: 30%;">ผู้เบิก</clr-dg-column>
+        <!-- <clr-dg-column>เบิกจาก</clr-dg-column> -->
+        <!-- <clr-dg-column>ประเภทการเบิก</clr-dg-column> -->
+        <clr-dg-placeholder>ไม่พบรายการ!</clr-dg-placeholder>
+        <clr-dg-row *ngFor="let order of approveds" [clrDgItem]="order" [ngClass]="{'isError': order.is_cancel === 'Y'}">
+          
+          <app-equipment-requisition-order-detail *clrIfExpanded [requisitionId]="order.requisition_order_id" ngProjectAs="clr-dg-row-detail"></app-equipment-requisition-order-detail>
+          <!-- <wm-requisition-order-items-pay *clrIfExpanded [confirmId]="order.confirm_id" [requisitionId]="order.requisition_order_id" ngProjectAs="clr-dg-row-detail"></wm-requisition-order-items-pay> -->
+          <clr-dg-cell>{{order.requisition_date | toThaiDate}}</clr-dg-cell>
+          <clr-dg-cell>{{order.requisition_code}}</clr-dg-cell>
+          <clr-dg-cell>{{order.fullName}}</clr-dg-cell>
+          <!-- <clr-dg-cell>{{order.withdraw_warehouse_name}}</clr-dg-cell> -->
+          <!-- <clr-dg-cell>{{order.requisition_type}}</clr-dg-cell> -->
+
+        </clr-dg-row>
+
+        <clr-dg-footer>
+          {{pageWorking.firstItem + 1}} - {{pageWorking.lastItem + 1}} จาก {{pageWorking.totalItems}} รายการ
+          <clr-dg-pagination #pageWorking [(clrDgPage)]="currentPage" [clrDgPageSize]="perPage" [clrDgTotalItems]="totalWaitingApprove"></clr-dg-pagination>
+        </clr-dg-footer>
+      </clr-datagrid>
+    </clr-tab-content>
+  </clr-tab>
+
+
+
+</clr-tabs>
+<app-html-preview #htmlPreview></app-html-preview>
+<app-loading-modal #modalLoading></app-loading-modal>
