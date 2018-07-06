@@ -22,7 +22,7 @@
         <clr-dg-column [style.width.px]="100">หน่วย</clr-dg-column>
         <clr-dg-placeholder>ไม่พบรายการ</clr-dg-placeholder>
         <clr-dg-row *clrDgItems="let g of products" [clrDgItem]="g">
-          <clr-dg-cell>{{g.equipment_name}}</clr-dg-cell>
+          <clr-dg-cell>{{g.product_name}}</clr-dg-cell>
           <clr-dg-cell style="text-align: right;">{{g.min_qty | number}}</clr-dg-cell>
           <clr-dg-cell style="text-align: right;">{{g.max_qty | number}}</clr-dg-cell>
           <clr-dg-cell style="text-align: right;">{{g.qty | number}}</clr-dg-cell>

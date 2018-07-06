@@ -10,8 +10,8 @@ import { ProductsService } from '../products.service';
   styleUrls: []
 })
 export class ProductsComponent implements OnInit {
- 
-  currentPage2:any = 1;
+
+  currentPage2: any = 1;
   totalEquipments = 0;
   equipments: any;
   selectedTab: any = 'product';
@@ -30,7 +30,7 @@ export class ProductsComponent implements OnInit {
   token: any;
   equipmentTypeIds = [];
   query: any = '';
-  currentPage:any = 1;
+  currentPage: any = 1;
   units: any
   selectedEquipmentName: any
   jwtHelper: JwtHelper = new JwtHelper();
@@ -67,52 +67,50 @@ export class ProductsComponent implements OnInit {
     console.log(event);
     if (this.selectedTab === 'product') {
       if (event.keyCode === 13) {
-        this.getAllProducts()
+        this.getAllProducts();
       } else if (event.keyCode === 8 && this.query == '') {
-        this.getAllProducts()
+        this.getAllProducts();
       }
     } else if (this.selectedTab === 'equipments') {
       if (event.keyCode === 13) {
-        this.getAllEquipments()
+        this.getAllEquipments();
       } else if (event.keyCode === 8 && this.query == '') {
-        this.getAllEquipments()
+        this.getAllEquipments();
       }
     }
   }
 
   async getUnit() {
-    this.modalLoading.show()
+    this.modalLoading.show();
     try {
-      const rs = await this.productService.getUnit()
+      const rs = await this.productService.getUnit();
       console.log(rs.row);
 
       if (rs.ok) {
-        this.units = rs.rows
+        this.units = rs.rows;
       }
     } catch (error) {
-      this.alertService.error(error)
+      this.alertService.error(error);
     }
-    this.modalLoading.hide()
+    this.modalLoading.hide();
   }
 
   async addEquipments() {
-    this.modalAddEquipments = true
+    this.modalAddEquipments = true;
     this.itemEquipments = {
       equipment_name: '',
       // equipment_type_id: '',
-      small_unit_id:'',
+      small_unit_id: '',
       is_active: 'Y',
-      min_qty: 0,
-      max_qty: 0,
       equipment_code: '',
-      comment:'' 
-    }
+      comment: ''
+    };
   }
 
   async addProduct() {
-    this.modalEditProduct = true
+    this.modalEditProduct = true;
     this.items = {
-      product_id:null,
+      product_id: null,
       product_name: '',
       equipment_id: '',
       equipment_code: '',
@@ -121,102 +119,107 @@ export class ProductsComponent implements OnInit {
       small_unit_id: '',
       large_unit_id: '',
       small_qty: 1,
-      description: ''
-    }
+      description: '',
+      min_qty: 0,
+      max_qty: 0
+    };
   }
   async saveAddProduct() {
     console.log(this.items);
 
-    this.modalLoading.show()
+    this.modalLoading.show();
     try {
-      const rs = await this.productService.saveAddProduct(this.items)
+      const rs = await this.productService.saveAddProduct(this.items);
       console.log(rs.row);
 
       if (rs.ok) {
-        this.alertService.success()
-        this.modalEditProduct = false
-        this.items = []
+        this.alertService.success();
+        this.getAllProducts();
+        this.modalEditProduct = false;
+        this.items = [];
       } else {
-        this.alertService.error(rs.error)
+        this.alertService.error(rs.error);
       }
     } catch (error) {
-      this.alertService.error(error)
+      this.alertService.error(error);
     }
-    this.modalLoading.hide()
+    this.modalLoading.hide();
   }
   async saveAddEquipments() {
     console.log(this.itemEquipments);
 
-    this.modalLoading.show()
+    this.modalLoading.show();
     try {
-      const rs = await this.productService.saveAddEquipments(this.itemEquipments)
+      const rs = await this.productService.saveAddEquipments(this.itemEquipments);
       console.log(rs.row);
 
       if (rs.ok) {
-        this.alertService.success()
-        this.modalAddEquipments = false
-        this.items = []
+        this.alertService.success();
+        this.getAllEquipments();
+        this.modalAddEquipments = false;
+        this.items = [];
       } else {
-        this.alertService.error(rs.error)
+        this.alertService.error(rs.error);
       }
     } catch (error) {
-      this.alertService.error(error)
+      this.alertService.error(error);
     }
-    this.modalLoading.hide()
+    this.modalLoading.hide();
   }
   async saveEditProduct() {
-    this.modalLoading.show()
+    this.modalLoading.show();
     try {
-      const rs = await this.productService.saveEditProduct(this.items)
+      const rs = await this.productService.saveEditProduct(this.items);
       console.log(rs.row);
 
       if (rs.ok) {
-        this.alertService.success()
-        this.modalEditProduct = false
-        this.items = []
+        this.alertService.success();
+        this.getAllProducts();
+        this.modalEditProduct = false;
+        this.items = [];
       } else {
-        this.alertService.error(rs.error)
+        this.alertService.error(rs.error);
       }
     } catch (error) {
-      this.alertService.error(error)
+      this.alertService.error(error);
     }
-    this.modalLoading.hide()
+    this.modalLoading.hide();
   }
   async saveEditEquipments() {
     console.log(this.itemEquipments);
-    
-    this.modalLoading.show()
+    this.modalLoading.show();
     try {
-      const rs = await this.productService.saveEditEquipments(this.itemEquipments)
+      const rs = await this.productService.saveEditEquipments(this.itemEquipments);
       console.log(rs.row);
 
       if (rs.ok) {
-        this.alertService.success()
-        this.modalAddEquipments = false
-        this.items = []
+        this.alertService.success();
+        this.getAllEquipments();
+        this.modalAddEquipments = false;
+        this.items = [];
       } else {
-        this.alertService.error(rs.error)
+        this.alertService.error(rs.error);
       }
     } catch (error) {
-      this.alertService.error(error)
+      this.alertService.error(error);
     }
-    this.modalLoading.hide()
+    this.modalLoading.hide();
   }
   editProduct(p: any) {
-    this.items = p
-    this.modalEditProduct = true
+    this.items = p;
+    this.modalEditProduct = true;
 
   }
   editEquipment(p: any) {
-    this.itemEquipments = p
-    this.modalAddEquipments = true
+    this.itemEquipments = p;
+    this.modalAddEquipments = true;
 
   }
   close() {
-    this.items = []
-    this.modalEditProduct = false
-    this.itemEquipments = []
-    this.modalAddEquipments = false
+    this.items = [];
+    this.modalEditProduct = false;
+    this.itemEquipments = [];
+    this.modalAddEquipments = false;
   }
   changActiveEquipment(event: any) {
     this.itemEquipments.is_active = event.target.checked ? 'Y' : 'N';
@@ -227,7 +230,7 @@ export class ProductsComponent implements OnInit {
   async doSearch() {
     try {
       this.modalLoading.show();
-      this.query = this.query ? this.query : ''
+      this.query = this.query ? this.query : '';
       const rs = await this.productService.allProducts(this.query, this.perPage, 0);
       if (rs.ok) {
         this.products = rs.rows[0];
@@ -304,7 +307,7 @@ export class ProductsComponent implements OnInit {
   async getAllProducts() {
     this.modalLoading.show();
     try {
-      this.query = this.query ? this.query : ''
+      this.query = this.query ? this.query : '';
       const rs = await this.productService.allProducts(this.query, this.perPage, 0);
       if (rs.ok) {
         this.products = rs.rows[0];
@@ -327,7 +330,7 @@ export class ProductsComponent implements OnInit {
   async getAllEquipments() {
     this.modalLoading.show();
     try {
-      this.query = this.query ? this.query : ''
+      this.query = this.query ? this.query : '';
       const rs = await this.productService.allEquipments(this.query, this.perPage, 0);
       if (rs.ok) {
         this.equipments = rs.rows[0];
@@ -356,8 +359,8 @@ export class ProductsComponent implements OnInit {
     // }
 
     try {
-      let rs: any
-      this.query = this.query ? this.query : ''
+      let rs: any;
+      this.query = this.query ? this.query : '';
       rs = await this.productService.allEquipments(this.query, limit, offset);
 
       this.modalLoading.hide();
@@ -386,8 +389,8 @@ export class ProductsComponent implements OnInit {
     //   this.currentPage = this.currentPage > this.pagination.lastPage ? this.pagination.currentPage : this.pagination.currentPage;
     // }
     try {
-      let rs: any
-      this.query = this.query ? this.query : ''
+      let rs: any;
+      this.query = this.query ? this.query : '';
       rs = await this.productService.allProducts(this.query, limit, offset);
 
       this.modalLoading.hide();

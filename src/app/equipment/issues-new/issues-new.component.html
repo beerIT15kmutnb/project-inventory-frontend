@@ -63,8 +63,8 @@
     <clr-dg-cell style="text-align: right; line-height: 25px;">
       {{product.large_unit_name}}( {{product.small_qty}} {{product.small_unit_name}})
     </clr-dg-cell>
-    <clr-dg-cell style="text-align: right; line-height: 25px;" [ngStyle]="{'color': (product.issueQty * product.small_qty) > product.remain_qty ? 'red' : 'green'}">{{ product.issue_qty*product.small_qty | number }} {{product.small_unit_name}}</clr-dg-cell>
-    <clr-dg-cell style="line-height: 25px; text-align: right;" [ngStyle]="{'color': (product.issue_qty * product.small_qty) > product.remain_qty ? 'red' : 'green'}">{{product.remain_qty - product.issue_qty | number}} {{product.large_unit_name}}</clr-dg-cell>
+    <clr-dg-cell style="text-align: right; line-height: 25px;" >{{ product.issue_qty*product.small_qty | number }} {{product.small_unit_name}}</clr-dg-cell>
+    <clr-dg-cell style="line-height: 25px; text-align: right;" [ngStyle]="{'color': (product.issue_qty ) > product.remain_qty ? 'red' : 'green'}">{{product.remain_qty - product.issue_qty | number}} {{product.large_unit_name}}</clr-dg-cell>
     <clr-dg-cell style="text-align: center;">
       <div class="btn-group btn-primary">
         <button class="btn btn-sm btn-danger wm-small-btn" (click)="removeSelectedProduct(idx)">
@@ -89,12 +89,12 @@
       </div>
 
     </clr-dg-cell>
-    <clr-dg-cell style="text-align: right; line-height: 25px;" [ngStyle]="{'color': (issueQty * searchProduct.small_qty) > remainQty ? 'red' : 'green'}">{{ issueQty*searchProduct.small_qty | number }} {{searchProduct.small_unit_name}}</clr-dg-cell>
+    <clr-dg-cell style="text-align: right; line-height: 25px;" [ngStyle]="{'color': (issueQty ) > remainQty ? 'red' : 'green'}">{{ issueQty*searchProduct.small_qty | number }} {{searchProduct.small_unit_name}}</clr-dg-cell>
     <clr-dg-cell style="text-align: right; line-height: 25px;">{{ remainQty | number }} {{searchProduct.large_unit_name}}</clr-dg-cell>
 
     <clr-dg-cell style="text-align: center;">
       <div class="btn-group btn-primary">
-        <button class="btn btn-success btn-sm wm-small-btn" [disabled]="!selectedProductId || !issueQty ||  ((issueQty * searchProduct.small_qty) > remainQty)"
+        <button class="btn btn-success btn-sm wm-small-btn" [disabled]="!selectedProductId || !issueQty ||  ((issueQty ) > remainQty)"
           (click)="addProduct()">
           เพิ่ม
         </button>

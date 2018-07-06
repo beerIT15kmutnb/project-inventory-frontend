@@ -20,12 +20,12 @@ export class TransferDashboardComponent implements OnInit {
   selectedApprove = [];
   generics: any = [];
   transections: any = [];
-  orders = []
+  orders = [];
   histories: any = [];
   warehouses: any = [];
   perPage = 50;
-  selectedAddition = []
-  products: any
+  selectedAddition = [];
+  products: any;
   constructor(
     private dashboardSevice: TransferDashboardService,
     private alertService: AlertService,
@@ -83,6 +83,13 @@ export class TransferDashboardComponent implements OnInit {
       this.modalLoading.hide();
       this.alertService.error(error.message);
     }
+  }
+
+  print(item: any) {
+       const url = `${this.apiUrl}/report/addGen/${item.addition_id}`;
+       // ?token=${this.token}`;
+       console.log(url);
+      this.htmlPreview.showReport(url, 'landscape');
   }
 
 }

@@ -11,6 +11,7 @@ export class RequisitionService {
     @Inject('API_URL') private url: string
   ) { }
   async getWating(limit: number, offset: number, query = '', fillterCancel = 'all') {
+    // tslint:disable-next-line:max-line-length
     const rs: any = await this.authHttp.get(`${this.url}/requisition/orders/waiting?limit=${limit}&offset=${offset}&query=${query}&fillterCancel=${fillterCancel}`)
       .toPromise();
     return rs.json();
@@ -52,7 +53,6 @@ export class RequisitionService {
     const rs: any = await this.authHttp.get(`${this.url}/requisition/orders/setReqsProductDetail/${id}`).toPromise();
     return rs.json();
   }
-  
   async removeRequisitionOrder(Id) {
     const res = await this.authHttp.delete(`${this.url}/requisition/remove?requisitionId=${Id}`).toPromise();
     return res.json();

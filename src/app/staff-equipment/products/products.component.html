@@ -176,9 +176,9 @@
           <clr-dg-cell style="text-align: right;">
             <span>{{p.small_unit}}</span>
           </clr-dg-cell>
-          <clr-dg-cell style="text-align: right;">
+          <!-- <clr-dg-cell style="text-align: right;">
             <span>{{p.min_qty | number}}/{{p.max_qty | number}}</span>
-          </clr-dg-cell>
+          </clr-dg-cell> -->
           <clr-dg-cell style="text-align: right;">{{p.amLot}}</clr-dg-cell>
           <clr-dg-cell>
               <div class="toggle-switch">
@@ -264,7 +264,7 @@
                   </select>
                 </div>
               </div>
-              <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+              <!-- <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                 <label class="required">จำนวนต่ำสุด</label>
               </div>
               <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
@@ -277,7 +277,7 @@
               <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                 <input class="form-control wm-edit-box-number" autocomplete="off" type="text" name="unit" wmNumberWithOutDot placeholder="จำนวนมากสุด"
                   [(ngModel)]="itemEquipments.max_qty">
-              </div>
+              </div> -->
             </div>
             <div class="form-group row">
               <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
@@ -304,9 +304,9 @@
     </div>
   </div>
   <div class="modal-footer" style="padding-top: 24px;">
-    <button [disabled]="itemEquipments.equipment_name == ''||itemEquipments.is_active == ''||itemEquipments.min_qty == ''||itemEquipments.max_qty == ''"
+    <button [disabled]="itemEquipments.equipment_name == ''||itemEquipments.is_active == ''"
       *ngIf="itemEquipments.equipment_id" type="button" class="btn btn-md btn-primary" (click)="saveEditEquipments()">บันทึก</button>
-    <button [disabled]="itemEquipments.equipment_name == ''||itemEquipments.is_active == ''||itemEquipments.min_qty == ''||itemEquipments.max_qty == ''"
+    <button [disabled]="itemEquipments.equipment_name == ''||itemEquipments.is_active == ''"
       *ngIf="!itemEquipments.equipment_id" type="button" class="btn btn-md btn-primary" (click)="saveAddEquipments()">บันทึก</button>
     <button type="button" class="btn btn-md btn-danger-outline" (click)="close()">ปิด</button>
   </div>

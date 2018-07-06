@@ -41,7 +41,7 @@
 
   <clr-dg-row *ngFor="let product of products; let idx = index;">
     <clr-dg-cell style="text-align: left; line-height: 25px;">
-      {{idx + 1}}. {{product.generic_name}}
+      {{idx + 1}}. {{product.product_name}}
     </clr-dg-cell>
     <clr-dg-cell style="line-height: 25px; text-align: right;">
       {{product.remain_qty | number}}
@@ -65,7 +65,7 @@
 
   <clr-dg-row class="newLine">
     <clr-dg-cell>
-      <app-search-equipments-box [setAll]="true" #productSearch (onSelect)="setSelectedEquipment($event)" (onChange)="changeSearchProduct($event)"></app-search-equipments-box>
+      <app-search-equipments-box2 [setAll]="true" #productSearch (onSelect)="setSelectedEquipment($event)" (onChange)="changeSearchProduct($event)"></app-search-equipments-box2>
     </clr-dg-cell>
     <clr-dg-cell style="text-align: right; line-height: 25px;">{{ remainQty | number }} </clr-dg-cell>
     <clr-dg-cell>

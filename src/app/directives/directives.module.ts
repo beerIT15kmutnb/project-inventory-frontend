@@ -15,6 +15,7 @@ import { SearchProductComponent } from './search-product/search-product.componen
 
 import { SearchEquipmentProductComponent } from './search-equipment-product/search-equipment-product.component';
 import { SearchEquipmentsBoxComponent } from './search-equipments-box/search-equipments-box.component';
+import { SearchEquipmentsBox2Component } from './search-equipments-box2/search-equipments-box2.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -32,7 +33,8 @@ import { SearchEquipmentsBoxComponent } from './search-equipments-box/search-equ
     SearchProductComponent,
     SearchGenericsBoxComponent,
     SearchEquipmentProductComponent,
-    SearchEquipmentsBoxComponent
+    SearchEquipmentsBoxComponent,
+    SearchEquipmentsBox2Component
   ],
   exports: [
     SelectReceiveUnitComponent,
@@ -40,7 +42,8 @@ import { SearchEquipmentsBoxComponent } from './search-equipments-box/search-equ
     SearchProductComponent,
     SearchGenericsBoxComponent,
     SearchEquipmentProductComponent,
-    SearchEquipmentsBoxComponent
+    SearchEquipmentsBoxComponent,
+    SearchEquipmentsBox2Component
   ]
 })
 export class DirectivesModule { }

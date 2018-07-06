@@ -4,7 +4,7 @@
       <clr-dg-column style="text-align: right;">จำนวนเบิก</clr-dg-column>
       <clr-dg-column style="text-align: right;">หน่วย</clr-dg-column>
       <clr-dg-row *ngFor="let product of products;let idx = index;">
-        <clr-dg-cell> {{idx + 1}}. {{product.equipment_name}}
+        <clr-dg-cell> {{idx + 1}}. {{product.product_name}}
         </clr-dg-cell>
         <clr-dg-cell style="text-align: right;">
           {{ product.requisition_qty | number }}

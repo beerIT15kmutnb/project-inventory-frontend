@@ -55,11 +55,11 @@ export class AdditionComponent implements OnInit {
   // @ViewChild('searchEquipmentCmp') public searchEquipmentCmp: SearchEquipmentAutocompleteComponent;
 
   // public mask = [/\d/, /\d/, /\d/];
-  selectedProduct: any = []
+  selectedProduct: any = [];
   selectedProductName: string;
   selectedProductId: any;
   products = [];
-  packageItems: any = []
+  packageItems: any = [];
   issueDate = null;
   transectionId: null;
   issues: any = [];
@@ -70,7 +70,7 @@ export class AdditionComponent implements OnInit {
   productName: any = null;
 
   reqQty: any = 0;
-  searchEquipment: any = []
+  searchEquipment: any = [];
   searchProduct: any = {
     small_qty: null,
     small_unit_name: null,
@@ -109,7 +109,7 @@ export class AdditionComponent implements OnInit {
   selectedRequisitionQty: any;
   selectedTotalSmallQty: any = 0;
   requisitionCode: any;
-  selectedRemainQty: number = 0;
+  selectedRemainQty = 0;
 
   isUpdate = false;
   isSave = false;
@@ -138,13 +138,13 @@ export class AdditionComponent implements OnInit {
     if (this.equipments) {
       this.products = _.map(this.equipments, (v: any) => {
         return {
-          equipment_id: v.equipment_id,
-          equipment_name: v.equipment_name,
+          product_id: v.product_id,
+          product_name: v.product_name,
           remain_qty: v.qty,
           requisition_qty: v.max_qty - v.qty,
           small_unit_name: v.unit_name
-        }
-      })
+        };
+      });
     }
 
     const date = new Date();
@@ -165,30 +165,30 @@ export class AdditionComponent implements OnInit {
   }
 
   async setSelectedEquipment(event: any) {
-    this.modalLoading.show()
+    this.modalLoading.show();
     try {
-      this.clearForm()
+      this.clearForm();
       this.searchEquipment = event;
       console.log(this.searchEquipment);
 
-      this.selectedEquipmentId = event ? event.equipment_id : null;
+      this.selectedEquipmentId = event ? event.product_id : null;
       if (this.selectedEquipmentId) {
-        const rs = await this.transferDashboardService.getEquipmentDetail(this.selectedEquipmentId)
+        const rs = await this.transferDashboardService.getEquipmentDetail(this.selectedEquipmentId);
         if (rs.ok) {
-          this.remainQty = rs.rows[0][0].qty
-          this.searchEquipment.small_unit_name = rs.rows[0][0].unit_name
+          this.remainQty = rs.rows[0][0].qty;
+          this.searchEquipment.small_unit_name = rs.rows[0][0].unit_name;
           console.log(rs.rows);
 
-          this.modalLoading.hide()
+          this.modalLoading.hide();
         } else {
-          this.alertService.error(rs.error)
-          this.modalLoading.hide()
+          this.alertService.error(rs.error);
+          this.modalLoading.hide();
         }
       }
       // this.selectedProductName = event ? `${event.product_name}` : null;
     } catch (error) {
       console.log(error.message);
-      this.modalLoading.hide()
+      this.modalLoading.hide();
     }
 
   }
@@ -200,7 +200,7 @@ export class AdditionComponent implements OnInit {
   async addProduct() {
     console.log(this.products);
 
-    const idx = _.findIndex(this.products, { equipment_id: this.selectedEquipmentId });
+    const idx = _.findIndex(this.products, { product_id: this.selectedEquipmentId });
     if (idx > -1) {
       this.alertService.success('รายการซ้ำ', 'จำนวนจะไปเพิ่มในรายการเดิม');
       const newQty = +this.products[idx].requisition_qty + +this.reqQty;
@@ -210,11 +210,11 @@ export class AdditionComponent implements OnInit {
     } else {
 
       const obj: any = {};
-      obj.equipment_id = this.searchEquipment.equipment_id
-      obj.equipment_name = this.searchEquipment.equipment_name
+      obj.product_id = this.searchEquipment.product_id;
+      obj.product_name = this.searchEquipment.product_name;
       obj.requisition_qty = +this.reqQty;
       obj.remain_qty = +this.remainQty;
-      obj.small_unit_name = this.searchEquipment.small_unit_name
+      obj.small_unit_name = this.searchEquipment.small_unit_name;
       this.products.push(obj);
       // await this.alowcate(this.selectedProductId);
 
@@ -231,14 +231,14 @@ export class AdditionComponent implements OnInit {
       }).catch(() => { });
   }
   clearForm() {
-    this.packageItems = []
+    this.packageItems = [];
     this.remainQty = 0;
     this.reqQty = '';
     this.selectedProductId = null;
     this.selectedProductName = null;
-    this.searchProduct = []
-    this.selectedProduct = []
-    this.searchEquipment = []
+    this.searchProduct = [];
+    this.selectedProduct = [];
+    this.searchEquipment = [];
     this.productSearch.clearProductSearch();
   }
   ///////////////////////////////
@@ -272,7 +272,7 @@ export class AdditionComponent implements OnInit {
             this.modalLoading.hide();
             this.isSave = false;
             if (rs.ok) {
-              this.alertService.success()
+              this.alertService.success();
               this.router.navigate(['/equipment/transfer-dashboard']);
             } else {
               this.alertService.error(rs.error);
@@ -287,7 +287,7 @@ export class AdditionComponent implements OnInit {
       .catch(() => {
         this.isSave = false;
         this.modalLoading.hide();
-      })
+      });
 
   }
 }

@@ -7,12 +7,12 @@ import {
 } from '@angular/core';
 // import { Router } from '@angular/router';
 // import { WarehouseService } from "../warehouse.service";
-import { ReceiveService } from "../receive.service";
+import { ReceiveService } from '../receive.service';
 // import { RequisitionTypeService } from "../requisition-type.service";
-import { RequisitionService } from "../requisition.service";
+import { RequisitionService } from '../requisition.service';
 // import { UnitissueService } from "../unitissue.service";
 // import { LabelerService } from "../labeler.service";
-import { AlertService } from "../../alert.service";
+import { AlertService } from '../../alert.service';
 // import { ProductlotsService } from "../productlots.service";
 import { IMyOptions } from 'mydatepicker-th';
 import { ActivatedRoute, Router, Params } from '@angular/router';
@@ -35,7 +35,7 @@ import { JwtHelper } from 'angular2-jwt';
 
 import { AlertExpiredService } from './../alert-expired.service';
 import { ToThaiDatePipe } from './../../helper/to-thai-date.pipe';
-import { AdditionService } from "./../addition.service";
+import { AdditionService } from './../addition.service';
 // import { SearchGenericAutocompleteComponent } from 'app/directives/search-generic-autocomplete/search-generic-autocomplete.component';
 // import { IGeneric, IUnit, IRequisitionOrderItem, IRequisitionOrder } from 'app/shared';
 // import { SelectReceiveUnitComponent } from 'app/directives/select-receive-unit/select-receive-unit.component';
@@ -55,11 +55,11 @@ export class AdditionComponent implements OnInit {
   // @ViewChild('searchGenericCmp') public searchGenericCmp: SearchGenericAutocompleteComponent;
 
   // public mask = [/\d/, /\d/, /\d/];
-  selectedProduct: any = []
+  selectedProduct: any = [];
   selectedProductName: string;
   selectedProductId: any;
   products = [];
-  packageItems: any = []
+  packageItems: any = [];
   issueDate = null;
   transectionId: null;
   issues: any = [];
@@ -70,7 +70,7 @@ export class AdditionComponent implements OnInit {
   productName: any = null;
 
   reqQty: any = 0;
-  searchGeneric: any = []
+  searchGeneric: any = [];
   searchProduct: any = {
     small_qty: null,
     small_unit_name: null,
@@ -109,7 +109,7 @@ export class AdditionComponent implements OnInit {
   selectedRequisitionQty: any;
   selectedTotalSmallQty: any = 0;
   requisitionCode: any;
-  selectedRemainQty: number = 0;
+  selectedRemainQty = 0;
 
   isUpdate = false;
   isSave = false;
@@ -143,8 +143,8 @@ export class AdditionComponent implements OnInit {
           remain_qty: v.qty,
           requisition_qty: v.max_qty - v.qty,
           small_unit_name: v.unit_name
-        }
-      })
+        };
+      });
     }
 
     const date = new Date();
@@ -165,30 +165,30 @@ export class AdditionComponent implements OnInit {
   }
 
   async setSelectedGeneric(event: any) {
-    this.modalLoading.show()
+    this.modalLoading.show();
     try {
-      this.clearForm()
+      this.clearForm();
       this.searchGeneric = event;
       console.log(this.searchGeneric);
 
       this.selectedGenericId = event ? event.generic_id : null;
       if (this.selectedGenericId) {
-        const rs = await this.transferDashboardService.getGenericDetail(this.selectedGenericId)
+        const rs = await this.transferDashboardService.getGenericDetail(this.selectedGenericId);
         if (rs.ok) {
-          this.remainQty = rs.rows[0][0].qty
-          this.searchGeneric.small_unit_name = rs.rows[0][0].unit_name
+          this.remainQty = rs.rows[0][0].qty;
+          this.searchGeneric.small_unit_name = rs.rows[0][0].unit_name;
           console.log(rs.rows);
 
-          this.modalLoading.hide()
+          this.modalLoading.hide();
         } else {
-          this.alertService.error(rs.error)
-          this.modalLoading.hide()
+          this.alertService.error(rs.error);
+          this.modalLoading.hide();
         }
       }
       // this.selectedProductName = event ? `${event.product_name}` : null;
     } catch (error) {
       console.log(error.message);
-      this.modalLoading.hide()
+      this.modalLoading.hide();
     }
 
   }
@@ -210,11 +210,11 @@ export class AdditionComponent implements OnInit {
     } else {
 
       const obj: any = {};
-      obj.generic_id = this.searchGeneric.generic_id
-      obj.generic_name = this.searchGeneric.generic_name
+      obj.generic_id = this.searchGeneric.generic_id;
+      obj.generic_name = this.searchGeneric.generic_name;
       obj.requisition_qty = +this.reqQty;
       obj.remain_qty = +this.remainQty;
-      obj.small_unit_name = this.searchGeneric.small_unit_name
+      obj.small_unit_name = this.searchGeneric.small_unit_name;
       this.products.push(obj);
       // await this.alowcate(this.selectedProductId);
 
@@ -231,14 +231,14 @@ export class AdditionComponent implements OnInit {
       }).catch(() => { });
   }
   clearForm() {
-    this.packageItems = []
+    this.packageItems = [];
     this.remainQty = 0;
     this.reqQty = '';
     this.selectedProductId = null;
     this.selectedProductName = null;
-    this.searchProduct = []
-    this.selectedProduct = []
-    this.searchGeneric = []
+    this.searchProduct = [];
+    this.selectedProduct = [];
+    this.searchGeneric = [];
     this.productSearch.clearProductSearch();
   }
   ///////////////////////////////
@@ -249,6 +249,7 @@ export class AdditionComponent implements OnInit {
 
   async save() {
     // this.isSave = true;
+    // tslint:disable-next-line:max-line-length
     const reqDate = this.requisitionDate.date ? `${this.requisitionDate.date.year}-${this.requisitionDate.date.month}-${this.requisitionDate.date.day}` : null;
     this.alertService.confirm('ต้องการบันทึกข้อมูล ใช่หรือไม่?')
       .then(async () => {
@@ -272,7 +273,7 @@ export class AdditionComponent implements OnInit {
             this.modalLoading.hide();
             this.isSave = false;
             if (rs.ok) {
-              this.alertService.success()
+              this.alertService.success();
               this.router.navigate(['/admin/transfer-dashboard']);
             } else {
               this.alertService.error(rs.error);
@@ -287,7 +288,7 @@ export class AdditionComponent implements OnInit {
       .catch(() => {
         this.isSave = false;
         this.modalLoading.hide();
-      })
+      });
 
   }
 }
