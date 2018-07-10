@@ -3,10 +3,15 @@
   <span class="breadcrumb-item active">เบิกยา/เวชภัณฑ์</span>
 </nav>
 
-<div class="row" style="padding-top: 5px; padding-bottom: 5px;">
+<div class="row wid99" style="padding-top: 5px; padding-bottom: 5px;width: 100%">
   <div class="col-md-6">
     <button class="btn btn-sm btn-success" routerLink="/admin/requisition/new">
       <clr-icon shape="plus"></clr-icon> เบิกยา/เวชภัณฑ์
+    </button>
+  </div>
+  <div style="text-align: right;" class="col-md-6">
+    <button class="btn btn-sm btn-primary" (click)="report()" >
+      พิมพ์รายงานการเบิก
     </button>
   </div>
 </div>

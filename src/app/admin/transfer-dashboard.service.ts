@@ -56,7 +56,11 @@ export class TransferDashboardService {
     }).toPromise();
     return resp.json();
   }
-
+  async exportExcel(id:any) {
+    const resp = await this.authHttp.get(`${this.url}/report/addGen2/${id}`).toPromise();
+    return resp.json();
+  }
+  
   async gettransectionHistory(limit: number = 10, offset: number = 0) {
     const resp = await this.authHttp.post(`${this.url}/transfer-dashboard/transection/history`, {
       limit: limit,

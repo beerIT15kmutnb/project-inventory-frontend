@@ -58,7 +58,10 @@
           </clr-dg-cell>
           <clr-dg-cell>{{order.addition_code}}</clr-dg-cell>
           <clr-dg-cell style="text-align: center">
-            <button class="btn btn-sm btn-success wm-small-btn"  title="ส่งออก Excel">
+            <button class="btn btn-sm btn-success wm-small-btn" title="ส่งออก csv" (click)="print2(order)">
+              <clr-icon shape="note"></clr-icon>
+            </button>
+            <button class="btn btn-sm btn-summit wm-small-btn" title="พิมพ์" (click)="print(order)">
               <clr-icon shape="printer"></clr-icon>
             </button>
           </clr-dg-cell>
@@ -71,5 +74,49 @@
     </clr-tab-content>
   </clr-tab>
 </clr-tabs>
+
+<clr-modal [(clrModalOpen)]="openModal" [clrModalStaticBackdrop]="true" height="100px" [clrModalSize]="'md'" [clrModalClosable]="true">
+  <div class="modal-body">
+
+    <p>
+      <button class="btn btn-sm btn-success wm-small-btn" id="btnExport" (click)="toCSV('testTable');"> Export to CSV</button>
+    </p>
+    <!-- <p>
+          <button class="btn btn-sm btn-success wm-small-btn" id="btnExport" (click)="toXLS('testTable');"> Export to xls</button>
+        </p> -->
+    <table id="testTable" border="1">
+      <thead>
+        <tr>
+          <td></td>
+          <td>ประมาณการวัสดุสำนักงาน ปราจีนบุรี งบ {{exportExcel.printMount}}</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>ลำดับที่</td>
+          <td>รายการ (ลักษณะและขนาด)</td>
+          <td>จำนวนที่เบิก</td>
+          <td></td>
+        </tr>
+    </thead>
+    <tbody *ngFor="let items of exportExcel._rs;let idx = index">
+      <tr>
+          <td>{{idx+1}}</td>
+          <td>{{items.equipment_name}}</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr *ngFor="let item of items.detail;let idxs = index">
+        <td></td>
+        <td>{{item.product_name}} </td>
+        <td>{{item.req_qty}} </td>
+        <td>{{item.unit_name}}</td>
+      </tr>
+    </tbody>
+
+    </table>
+  </div>
+
+</clr-modal>
 <app-loading-modal #modalLoading></app-loading-modal>
 <app-html-preview #htmlPreview></app-html-preview>

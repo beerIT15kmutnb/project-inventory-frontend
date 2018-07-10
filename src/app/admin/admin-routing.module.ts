@@ -17,6 +17,7 @@ import { UnitManagementComponent } from './unit-management/unit-management.compo
 import { TypeManagementComponent } from './type-management/type-management.component';
 import { TypeIssueComponent } from './type-issue/type-issue.component';
 import { AdditionComponent } from './addition/addition.component';
+import { ProductsNewComponent } from './products-new/products-new.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'products', pathMatch: 'full' },
       { path: 'products', component: ProductsComponent },
+      { path: 'products-new', component: ProductsNewComponent },
       { path: 'receives', component: ReceiveComponent },
       { path: 'receives/purchase', component: ReceivePurchaseComponent },
       { path: 'receives/edit', component: ReceiveEditComponent },

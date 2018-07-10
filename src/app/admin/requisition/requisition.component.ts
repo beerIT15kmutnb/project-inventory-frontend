@@ -72,7 +72,7 @@ export class RequisitionComponent implements OnInit {
     private requisitionService: RequisitionService,
     // private accessCheck: AccessCheck,
     private router: Router,
-    @Inject('API_URL') private url: string,
+    @Inject('API_URL') private apiUrl: string
   ) {
     this.token = sessionStorage.getItem('token');
     this.currentPage = +sessionStorage.getItem('currentPageRequisition') ? +sessionStorage.getItem('currentPageRequisition') : 1;
@@ -174,6 +174,11 @@ export class RequisitionComponent implements OnInit {
       }).catch(() => {
         this.modalLoading.hide();
       });
+  }
+  report() {
+    const url = `${this.apiUrl}/report/generics/requisition?token=${this.token}`;
+    console.log(url);
+    this.htmlPreview.showReport(url, 'landscape');
   }
 
 

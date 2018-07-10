@@ -24,12 +24,12 @@
             <div class="col-md-6">
               <input type="text" (keyup)="search($event)" placeholder="พิมพ์แล้วกด Enter" name="query" style="width: 90%;" id="query" [(ngModel)]="query">
             </div>
-            <div class="col-md-5" style="text-align: right;">
+            <!-- <div class="col-md-5" style="text-align: right;">
               <button class="btn btn-sm btn-success" (click)="addProduct()">
                 <clr-icon shape="plus"></clr-icon>
                 &nbsp;เพิ่มสินค้า
               </button>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -54,16 +54,21 @@
             หน่วย
           </ng-container>
         </clr-dg-column>
+        <clr-dg-column>
+          <ng-container style="text-align: right;" *clrDgHideableColumn="{hidden: false}">
+            Min/Max
+          </ng-container>
+        </clr-dg-column>
         <clr-dg-column style="width: 100px;">
           <ng-container *clrDgHideableColumn="{hidden: false}">
             จำนวน Lot.
           </ng-container>
         </clr-dg-column>
-        <clr-dg-column style="width: 100px;">
+        <!-- <clr-dg-column style="width: 100px;">
           สถานะใช้งาน
-        </clr-dg-column>
-        <clr-dg-column style="width: 100px;">
-        </clr-dg-column>
+        </clr-dg-column> -->
+        <!-- <clr-dg-column style="width: 100px;">
+        </clr-dg-column> -->
         <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
         <clr-dg-row *ngFor="let p of products;let idx = index" [clrDgItem]="p">
           <!-- <wm-product-stock-remain *clrIfExpanded ngProjectAs="clr-dg-row-detail" [productId]="p.product_id"></wm-product-stock-remain> -->
@@ -75,20 +80,23 @@
           </clr-dg-cell>
           <clr-dg-cell style="text-align: right;">{{p.qty | number}}</clr-dg-cell>
           <clr-dg-cell style="text-align: left;">{{p.large_unit}}({{p.small_qty | number}} {{p.small_unit}})</clr-dg-cell>
+          <clr-dg-cell style="text-align: right;">
+            <span>{{p.min_qty | number}}/{{p.max_qty | number}}</span>
+          </clr-dg-cell>
           <clr-dg-cell>{{p.amLot}}</clr-dg-cell>
-          <clr-dg-cell>
+          <!-- <clr-dg-cell>
             <div class="toggle-switch">
               <input type="checkbox" id="chk-{{idx}}" #active name="isActive" [checked]="p.is_active==='Y'" (change)="setisActive($event, p.product_id)">
               <label for="chk-{{idx}}"></label>
             </div>
-          </clr-dg-cell>
-          <clr-dg-cell style="text-align: right;">
+          </clr-dg-cell> -->
+          <!-- <clr-dg-cell style="text-align: right;">
             <div class="btn-group">
               <button class="btn btn-sm btn-primary" (click)="editProduct(p)">
                 <clr-icon shape="note"></clr-icon>
               </button>
             </div>
-          </clr-dg-cell>
+          </clr-dg-cell> -->
         </clr-dg-row>
 
         <clr-dg-footer>
@@ -116,12 +124,12 @@
             <div class="col-md-6">
               <input type="text" (keyup)="search($event)" placeholder="พิมพ์แล้วกด Enter" name="query" style="width: 90%;" id="query" [(ngModel)]="query">
             </div>
-            <div class="col-md-5" style="text-align: right;">
+            <!-- <div class="col-md-5" style="text-align: right;">
               <button class="btn btn-sm btn-success" (click)="addEquipments()">
                 <clr-icon shape="plus"></clr-icon>
                 &nbsp;เพิ่มอุปกรณ์สำนักงาน
               </button>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -146,21 +154,21 @@
             หน่วย
           </ng-container>
         </clr-dg-column>
-        <clr-dg-column>
+        <!-- <clr-dg-column>
           <ng-container style="text-align: right;" *clrDgHideableColumn="{hidden: false}">
             Min/Max
           </ng-container>
-        </clr-dg-column>
+        </clr-dg-column> -->
         <clr-dg-column style="width: 100px;">
           <ng-container *clrDgHideableColumn="{hidden: false}">
             จำนวนสินค้า
           </ng-container>
         </clr-dg-column>
-        <clr-dg-column style="width: 100px;">
+        <!-- <clr-dg-column style="width: 100px;">
           สถานะใช้งาน
-        </clr-dg-column>
-        <clr-dg-column style="width: 100px;">
-        </clr-dg-column>
+        </clr-dg-column> -->
+        <!-- <clr-dg-column style="width: 100px;">
+        </clr-dg-column> -->
         <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
         <clr-dg-row *ngFor="let p of equipments;let idx = index"[clrDgItem]="p">
           <!-- <wm-product-stock-remain *clrIfExpanded ngProjectAs="clr-dg-row-detail" [productId]="p.product_id"></wm-product-stock-remain> -->
@@ -180,19 +188,19 @@
             <span>{{p.min_qty | number}}/{{p.max_qty | number}}</span>
           </clr-dg-cell> -->
           <clr-dg-cell style="text-align: right;">{{p.amLot}}</clr-dg-cell>
-          <clr-dg-cell>
+          <!-- <clr-dg-cell>
               <div class="toggle-switch">
                 <input type="checkbox" id="chki-{{idx}}" #active name="isActives" [checked]="p.is_active==='Y'" (change)="setisActiveGen($event, p.equipment_id)">
                 <label for="chki-{{idx}}"></label>
               </div>
-            </clr-dg-cell>
-          <clr-dg-cell style="text-align: right;">
+            </clr-dg-cell> -->
+          <!-- <clr-dg-cell style="text-align: right;">
             <div class="btn-group">
               <button class="btn btn-sm btn-primary" (click)="editEquipment(p)">
                 <clr-icon shape="note"></clr-icon>
               </button>
             </div>
-          </clr-dg-cell>
+          </clr-dg-cell> -->
         </clr-dg-row>
 
         <clr-dg-footer>

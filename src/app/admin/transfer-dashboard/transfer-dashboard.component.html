@@ -44,7 +44,7 @@
       <!-- <span class="badge badge-info">{{totalWaiting | number}}</span> -->
     </button>
     <clr-tab-content>
-      <clr-datagrid (clrDgRefresh)="refreshList($event)" style="margin-top: -24px;" [(clrDgSelected)]="selectedAddition">
+      <clr-datagrid (clrDgRefresh)="refreshList($event)" style="margin-top: -24px;" >
 
         <clr-dg-column [style.width.px]="200">วันที่เบิก</clr-dg-column>
         <clr-dg-column>เลขที่เบิก</clr-dg-column>
@@ -58,9 +58,12 @@
           </clr-dg-cell>
           <clr-dg-cell>{{order.addition_code}}</clr-dg-cell>
           <clr-dg-cell style="text-align: center">
-            <button class="btn btn-sm btn-success wm-small-btn"  title="ส่งออก Excel" (click)="print(order)">
-              <clr-icon shape="printer"></clr-icon>
+            <button class="btn btn-sm btn-success wm-small-btn" title="ส่งออก csv" (click)="print(order)">
+              <clr-icon shape="note"></clr-icon>
             </button>
+            <button class="btn btn-sm btn-summit wm-small-btn" title="ส่งออก pdf" (click)="print2(order)">
+                <clr-icon shape="printer"></clr-icon>
+              </button>
           </clr-dg-cell>
         </clr-dg-row>
         <clr-dg-footer>
@@ -71,5 +74,91 @@
     </clr-tab-content>
   </clr-tab>
 </clr-tabs>
+
+
+<clr-modal [(clrModalOpen)]="openModal" [clrModalStaticBackdrop]="true" height="100px" [clrModalSize]="'md'" [clrModalClosable]="true">
+  <div class="modal-body" >
+
+    <p>
+      <button class="btn btn-sm btn-success wm-small-btn" id="btnExport" (click)="toCSV('testTable');"> Export to CSV</button>
+    </p>
+    <!-- <p>
+        <button class="btn btn-sm btn-success wm-small-btn" id="btnExport" (click)="toXLS('testTable');"> Export to xls</button>
+      </p> -->
+    <table  id="testTable" border="1">
+        <tbody *ngFor="let items of _rs;let idx = index">
+          <tr>
+            <td></td>
+            <td>แบบฟอร์มใบขอสั่งซื้อยาและเวชภัณฑ์</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าพระนครเหนือ (ปราจีนบุรี)</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>ประจำเดือน {{exportExcel.printMount}}</td>
+            <td></td> 
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>ประเภท {{items.generic_type_name}}</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>ลำดับที่</td>
+            <td>รายการ (ลักษณะและขนาด)</td>
+            <td>จำนวนที่เบิก</td>
+            <td></td>
+          </tr>
+        
+            <tr *ngFor="let item of items.detail;let idxs = index">
+              <td>{{idxs+1}}</td>
+              <td>{{item.generic_name}} </td>
+              <td>{{item.req_qty}}  </td>
+              <td>{{item.unit_name}}</td>
+            </tr>
+          </tbody>
+          <tr>
+              <td></td>
+              <td>…………………………………………ผู้ขอสั่งซื้อ</td>
+              <td></td>
+              <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>พยาบาล ประจำมจพ.ปราจีนบุรี</td>
+              <td></td>
+              <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>……………………………………………ผู้อนุมัติ</td>
+              <td></td>
+              <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>(นางพัทยา  หวานแก้ว)</td>
+              <td></td>
+              <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>หัวหน้างานบริการสุขภาพ</td>
+              <td></td>
+              <td></td>
+          </tr>
+    </table>
+  </div>
+
+</clr-modal>
+
 <app-loading-modal #modalLoading></app-loading-modal>
 <app-html-preview #htmlPreview></app-html-preview>
