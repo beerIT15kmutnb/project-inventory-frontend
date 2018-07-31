@@ -15,6 +15,8 @@ import { DirectivesModule } from '../directives/directives.module';
 import { AgxTypeaheadModule } from '@siteslave/agx-typeahead';
 import { PeopleService } from './people.service';
 import { UserComponent } from './user/user.component';
+import { BackupComponent } from './backup/backup.component';
+import { SettingService } from './setting.service';
 @NgModule({
   imports: [
 
@@ -35,10 +37,12 @@ import { UserComponent } from './user/user.component';
   declarations: [
     LayoutComponent,
     PeopleComponent,
-    UserComponent
+    UserComponent,
+    BackupComponent
   ],
   providers:[
-    PeopleService
+    PeopleService,
+    SettingService
   ]
 })
 export class AdminSettingModule { }
