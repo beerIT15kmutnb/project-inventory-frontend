@@ -35,7 +35,7 @@
   <clr-dg-column>เลขที่ใบประมาณการ</clr-dg-column>
   <clr-dg-column style="width: 200px;"></clr-dg-column>
   <clr-dg-placeholder>ไม่พบรายการ!</clr-dg-placeholder>
-  <clr-dg-row *clrDgItems="let w of waitings;let idx = index" [clrDgItem]="w" [ngClass]="{'approve-status': w.is_approve === 'Y', 'isError': w.is_cancel === 'Y'}">
+  <clr-dg-row *ngFor="let w of waitings;let idx = index" [clrDgItem]="w" [ngClass]="{'approve-status': w.is_approve === 'Y', 'isError': w.is_cancel === 'Y'}">
     <wm-product-detail *clrIfExpanded [receiveId]="w.receive_id" ngProjectAs="clr-dg-row-detail"></wm-product-detail>
     <clr-dg-cell style="text-align: center;">{{w.receive_date | toThaiDate}}</clr-dg-cell>
     <clr-dg-cell>{{w.receive_code || w.receive_tmp_code}}</clr-dg-cell>

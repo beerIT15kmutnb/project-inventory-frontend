@@ -81,10 +81,10 @@
       <!-- <wm-select-receive-unit #unit (onSelect)="editChangeUnit(idx, $event, unit)" [selectedUnitEquipmentId]="product.unit_equipment_id"
         [equipmentId]="product.equipment_id"></wm-select-receive-unit> -->
     </clr-dg-cell>
-    <clr-dg-cell style="text-align: right; line-height: 25px;" [ngStyle]="{'color': (product.issueQty * product.small_qty) > product.remain_qty ? 'red' : 'green'}">{{ product.issue_qty*product.small_qty | number }} {{product.small_unit_name}}</clr-dg-cell>
+    <clr-dg-cell style="text-align: right; line-height: 25px;" [ngStyle]="{'color': (product.issueQty ) > product.remain_qty ? 'red' : 'green'}">{{ product.issue_qty*product.small_qty | number }} {{product.small_unit_name}}</clr-dg-cell>
     <!-- <clr-dg-cell style="text-align: right; line-height: 25px;">{{product.issue_qty | number}} {{product.large_unit_name}}</clr-dg-cell> -->
     <!-- <clr-dg-cell style="line-height: 25px;text-align: right;">{{product.reserve_qty | number}} {{product.unit_name}}</clr-dg-cell> -->
-    <clr-dg-cell style="line-height: 25px; text-align: right;" [ngStyle]="{'color': (product.issue_qty * product.small_qty) > product.remain_qty ? 'red' : 'green'}">{{product.remain_qty - product.issue_qty | number}} {{product.large_unit_name}}</clr-dg-cell>
+    <clr-dg-cell style="line-height: 25px; text-align: right;" [ngStyle]="{'color': (product.issue_qty ) > product.remain_qty ? 'red' : 'green'}">{{product.remain_qty - product.issue_qty | number}} {{product.large_unit_name}}</clr-dg-cell>
     <clr-dg-cell style="text-align: center;">
       <div class="btn-group btn-primary">
         <button class="btn btn-sm btn-danger wm-small-btn" (click)="removeSelectedProduct(idx)">

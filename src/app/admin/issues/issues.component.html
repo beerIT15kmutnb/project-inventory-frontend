@@ -11,7 +11,7 @@
         <!-- <button type="button" class="btn btn-sm btn-primary" (click)="showReport('')" [disabled]="!selectedApprove.length">
           <clr-icon shape="printer"></clr-icon> พิมรายงานตัดจ่าย
         </button> -->
-        <button type="button" class="btn btn-sm btn-success" (click)="approveIssue()" [disabled]="!selectedApprove.length">
+        <button type="button" class="btn btn-sm btn-primary" (click)="approveIssue()" [disabled]="!selectedApprove.length">
           <clr-icon shape="note"></clr-icon> อนุมัติตัดจ่าย
         </button>
       <!-- </div> -->
@@ -41,7 +41,7 @@
   <clr-dg-column>หมายเหตุ</clr-dg-column>
   <clr-dg-column style="width: 200px;"></clr-dg-column>
   <clr-dg-placeholder>ไม่พบรายการ!</clr-dg-placeholder>
-  <clr-dg-row *clrDgItems="let s of issues;let idx = index" [clrDgItem]="s" [ngClass]="{'isSuccess': s.is_approve === 'Y', 'isError': s.is_cancel === 'Y'}">
+  <clr-dg-row *ngFor="let s of issues;let idx = index" [clrDgItem]="s" [ngClass]="{'isSuccess': s.is_approve === 'Y', 'isError': s.is_cancel === 'Y'}">
     <wm-transection-issue-detail *clrIfExpanded [issueId]="s.issue_id" ngProjectAs="clr-dg-row-detail"></wm-transection-issue-detail>
     <clr-dg-cell style="text-align: center;">{{s.issue_date | toThaiDate}}</clr-dg-cell>
     <clr-dg-cell style="text-align: center;">{{s.issue_code}}</clr-dg-cell>

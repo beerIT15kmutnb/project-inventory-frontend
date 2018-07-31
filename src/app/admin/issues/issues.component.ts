@@ -55,13 +55,17 @@ export class IssuesComponent implements OnInit {
 
   async refresh(state: State) {
     this.offset = +state.page.from;
+    console.log(this.offset);
+    
     sessionStorage.setItem('currentPageIssue', this.currentPage.toString());
     this.modalLoading.show();
     try {
       const rs = await this.issueService.list(this.perPage, this.offset, this.status);
       if (rs.ok) {
         this.issues = rs.rows;
-        this.total = rs.total;
+        this.total = +rs.total;
+        console.log(this.total);
+        
         this.selectedApprove = []
         this.modalLoading.hide();
       } else {

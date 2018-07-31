@@ -38,7 +38,7 @@ export class ReceiveComponent implements OnInit {
   purchases: any = [];
   totalReceive = 0;
   totalReceiveOther = 0;
-  perPage = 20;
+  perPage = 10;
   query: string;
   queryOther: string;
   isSearching = false;
@@ -121,7 +121,7 @@ export class ReceiveComponent implements OnInit {
     this.modalLoading.show();
     if (!this.query) {
       try {
-        const rs = await this.receiveService.getReceiveStatus(limit, this.offset);
+        const rs = await this.receiveService.getReceiveStatus(this.perPage, this.offset);
         this.waitings = rs.rows;
         this.totalReceive = rs.total;
         // await this.getReceiveExpired();
@@ -131,7 +131,7 @@ export class ReceiveComponent implements OnInit {
         this.alertService.error(error.message);
       }
     } else {
-      const rs = await this.receiveService.getReceiveStatusSearch(limit, this.offset, this.query);
+      const rs = await this.receiveService.getReceiveStatusSearch(this.perPage, this.offset, this.query);
       this.waitings = rs.rows;
       this.totalReceive = rs.total;
       // await this.getReceiveExpiredSearch(this.query);

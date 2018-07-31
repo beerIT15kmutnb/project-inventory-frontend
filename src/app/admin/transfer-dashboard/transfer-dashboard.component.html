@@ -47,7 +47,7 @@
       <clr-datagrid (clrDgRefresh)="refreshList($event)" style="margin-top: -24px;" >
 
         <clr-dg-column [style.width.px]="200">วันที่เบิก</clr-dg-column>
-        <clr-dg-column>เลขที่เบิก</clr-dg-column>
+        <clr-dg-column [clrDgField]="'addition_code'">เลขที่เบิก</clr-dg-column>
         <clr-dg-column [style.width.px]="200"></clr-dg-column>
         <clr-dg-placeholder>ไม่พบรายการ!</clr-dg-placeholder>
 

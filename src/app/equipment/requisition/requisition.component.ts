@@ -52,9 +52,10 @@ export class RequisitionComponent implements OnInit {
   page: any;
   selectedCancel: any[] = [];
 
-  perPage = 20;
+  perPage = 10;
   currentPage = 1;
   offset = 0;
+  offset1 = 0;
   totalWaiting = 0;
   totalUnPaid = 0;
   totalWaitingApprove = 0;
@@ -132,7 +133,7 @@ export class RequisitionComponent implements OnInit {
 
 
   refreshApprove(state: State) {
-    this.offset = +state.page.from;
+    this.offset1 = +state.page.from;
     sessionStorage.setItem('currentPageRequisition', this.currentPage.toString());
     this.getApproved();
   }
@@ -141,11 +142,12 @@ export class RequisitionComponent implements OnInit {
     this.requisitionSelected = []
     this.modalLoading.show();
     try {
-      const rs: any = await this.requisitionService.getApproved(this.perPage, this.offset, this.query);
+      const rs: any = await this.requisitionService.getApproved(this.perPage, this.offset1, this.query);
       this.modalLoading.hide();
       if (rs.ok) {
         this.approveds = rs.rows;
-        // this.tabApprove = rs.total[0].total;
+        
+        this.tabApprove = rs.total[0].total;
       } else {
         this.alertService.error(rs.error);
       }
