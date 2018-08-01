@@ -71,6 +71,12 @@ export class PeopleComponent implements OnInit {
   }
   addPeople() {
     this.openModal = true;
+    this.items ={
+      title_id: '', 
+      fname: '', 
+      lname: '',
+      is_active :'Y'
+    }
   }
   close() {
     this.openModal = false;
@@ -82,9 +88,9 @@ export class PeopleComponent implements OnInit {
   async saveAdd() {
     this.modalLoading.show();
     try {
-      console.log(this.items);
+      console.log(this.items.title_id);
       const rs = await this.peopleServicc.savePeople(this.items);
-      console.log(rs.row);
+      console.log(rs.rows);
       if (rs.ok) {
         this.alertService.success();
         this.getPeoples();
@@ -101,8 +107,10 @@ export class PeopleComponent implements OnInit {
  async editSaveItem() {
     this.modalLoading.show();
     try {
+      console.log(this.items);
+      
       const rs = await this.peopleServicc.editPeople(this.items);
-      console.log(rs.row);
+      console.log(rs.rows);
 
       if (rs.ok) {
         this.alertService.success();
@@ -119,6 +127,8 @@ export class PeopleComponent implements OnInit {
   }
   async editItem(item: any) {
     this.items = item;
+    console.log(this.items);
+    
   this.openModal = true;
   }
 }

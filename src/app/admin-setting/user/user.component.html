@@ -4,7 +4,7 @@
   </nav>
   
   
-  <button style="margin-bottom: 10px" class="btn btn-sm btn-success" (click)="addProduct()">
+  <button style="margin-bottom: 10px" class="btn btn-sm btn-success" (click)="addUser()">
     <clr-icon shape="plus"></clr-icon>
     &nbsp;เพิ่มผู้ใช้งานระบบ
   </button>
@@ -39,12 +39,12 @@
       </clr-dg-cell>
       <clr-dg-cell style="text-align: right;">
         <div class="btn-group">
-          <button class="btn btn-sm btn-primary" (click)="editProduct(p)">
+          <button class="btn btn-sm btn-primary" (click)="editItem(u)">
             <clr-icon shape="note"></clr-icon>
           </button>
-          <button class="btn btn-sm btn-danger " (click)="showStockCard(p)">
+          <!-- <button class="btn btn-sm btn-danger " (click)="showStockCard(p)">
             <clr-icon shape="trash"></clr-icon>
-          </button>
+          </button> -->
         </div>
       </clr-dg-cell>
     </clr-dg-row>
@@ -55,6 +55,144 @@
     </clr-dg-footer>
   </clr-datagrid>
   
+  <clr-modal [(clrModalOpen)]="openModal" [clrModalStaticBackdrop]="true" [clrModalSize]="'md'" [clrModalClosable]="false">
+    <h3 class="modal-title" *ngIf="items.people_user_id">แก้ไขข้อมูลผู้ใช้งาน</h3>
+    <h3 class="modal-title" *ngIf="!items.people_user_id">เพิ่มผู้ใช้งาน</h3>
+    <div class="modal-body">
+      <!--  -->
+      <div class="card">
+        <div class="card-block">
+          <form>
+            <section>
+              <!--  -->
+              <div class="form-group row">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                  <label class="required" for="title">สิทธิ์การใช้งาน</label>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                  <div class="select">
+                    <select id="lagnUnitId" name="lagnUnitId" [(ngModel)]="items.access_right">
+                      <!--  > -->
+                      <option value="staff">staff</option>
+                      <option value="admin">admin</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                  <label class="required" for="title">ชื่อผู้ใช้งาน</label>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                  <div class="select">
+                    <select id="lagnUnitId" name="lagnUnitId" [(ngModel)]="items.people_id">
+                      <!--  > -->
+                      <option *ngFor="let u of people" [value]="u.people_id">
+                        <!-- > -->
+                        {{u.title_name}} {{u.fname}} {{u.lname}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                  <label class="required" for="productName">username</label>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                  <input class="form-control" type="text" name="fname" id="fname" placeholder="" [(ngModel)]="items.username">
+  
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                  <label class="required" for="productName">password</label>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                  <input class="form-control" type="password" name="password" id="password"placeholder="" [(ngModel)]="items.password">
+  
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                  <label class="required" for="productName" [ngStyle]="{'color': items.password !== items.password2 ? 'red' : 'green'}">ยืนยัน password</label>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                  <input class="form-control" type="password" name="password1" id="password1"placeholder="" [(ngModel)]="items.password2">
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                  <label>Active</label>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                  <div class="toggle-switch">
+                    <input type="checkbox" id="toggle" #event [checked]="items.is_active==='Y'" (change)="changActive($event)">
+                    <label for="toggle"></label>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer" style="padding-top: 24px;">
+      <button [disabled]="(items.password !== items.password2) || items.username == '' || items.password == ''" type="button" class="btn btn-md btn-primary" (click)="saveAdd()">บันทึก</button>
+      <button type="button" class="btn btn-md btn-danger-outline" (click)="close()">ปิด</button>
+    </div>
+  </clr-modal>
+
+  <clr-modal [(clrModalOpen)]="openModalPass" [clrModalStaticBackdrop]="true" [clrModalSize]="'md'" [clrModalClosable]="false">
+    <h3 class="modal-title" *ngIf="items.people_user_id">แก้ไขข้อมูลผู้ใช้งาน</h3>
+    <div class="modal-body">
+      <!--  -->
+      <div class="card">
+        <div class="card-block">
+          <form>
+            <section>
+              <!--  -->
+              <div class="form-group row">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                  <label class="required" for="productName">password</label>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                  <input class="form-control" type="password" name="password" id="password"placeholder="" [(ngModel)]="items.password">
+  
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                  <label class="required" for="productName" [ngStyle]="{'color': items.password !== items.password2 ? 'red' : 'green'}">ยืนยัน password</label>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                  <input class="form-control" type="password" name="password1" id="password1"placeholder="" [(ngModel)]="items.password2">
+                </div>
+              </div>
+            </section>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer" style="padding-top: 24px;">
+      <button [disabled]="(items.password !== items.password2 )|| items.password == ''" type="button" class="btn btn-md btn-primary" (click)="editSaveItem()">บันทึกแก้ไข</button>
+      <button type="button" class="btn btn-md btn-danger-outline" (click)="close2()">ปิด</button>
+    </div>
+  </clr-modal>
   
   <app-loading-modal #modalLoading></app-loading-modal>
   

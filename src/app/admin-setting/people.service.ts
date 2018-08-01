@@ -21,14 +21,41 @@ export class PeopleService {
     const rs: any = await this.authHttp.get(`${this.url}/people/getTitles`).toPromise();
     return rs.json();
   }
+  // async savePeople(item: any) {
+  //   console.log(item);
+  //   const rs: any = await this.authHttp.post(`${this.url}/people/savePeople`, {
+  //     items: item
+  //   }).toPromise();
+  //   return rs.json();
+  // }
   async savePeople(item: any) {
+    console.log(item + 1);
     console.log(item);
-    const rs: any = await this.authHttp.put(`${this.url}/people/savePeople`, {
+    const rs: any = await this.authHttp.post(`${this.url}/people/savePeople`, {
+      items: item
+    }).toPromise();
+    return rs.json();
+  }
+  async saveUser(item: any) {
+    console.log(item + 1);
+    console.log(item);
+    const rs: any = await this.authHttp.post(`${this.url}/people/saveUser`, {
+      items: item
+    }).toPromise();
+    return rs.json();
+  }
+  
+  async editUser(item: any) {
+    console.log(item);
+    
+    const rs: any = await this.authHttp.post(`${this.url}/people/editUser`, {
       items: item
     }).toPromise();
     return rs.json();
   }
   async editPeople(item: any) {
+    console.log(item);
+    
     const rs: any = await this.authHttp.post(`${this.url}/people/editPeople`, {
       items: item
     }).toPromise();
